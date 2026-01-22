@@ -45,17 +45,26 @@
       el.innerHTML = '<p class="small">No announcements yet.</p>';
       return;
     }
-    el.innerHTML = data.items
+    const autoLink = (text) => {
+      if (!text) return "";
+      const url = /(https?:\/\/[^\s]+)/g;
+      return text.replace(url, (m) => `<a href="${m}">${m}</a>`);
+    };
+    const items = (data.items || [])
+      .slice()
+      .sort((a, b) => {
+        const da = new Date(a.date);
+        const db = new Date(b.date);
+        if (!isNaN(db) && !isNaN(da)) return db - da; // newest first
+        // Fallback: reverse lexicographic if date parse fails
+        return String(b.date).localeCompare(String(a.date));
+      })
       .map(
-        (a) => `
-      <div class="card">
-        <div class="kicker">${a.date}</div>
-        <h3>${a.title}</h3>
-        <p class="small">${a.body}</p>
-      </div>
-    `,
+        (a) =>
+          `<li><span class="kicker">${a.date}</span> — <strong>${a.title}</strong>: <span class="small">${autoLink(a.body)}</span></li>`,
       )
       .join("");
+    el.innerHTML = `<ul class="list">${items}</ul>`;
   }
 
   async function renderStaff() {
@@ -191,6 +200,7 @@
     "syllabus",
     "staff",
     "contact",
+    "misc",
     "home",
   ];
   function showSection(id) {
