@@ -1,0 +1,318 @@
+%==============================
+% main.tex
+%==============================
+\documentclass[11pt,oneside]{book}
+
+%------------------------------
+% Packages
+%------------------------------
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{csquotes}
+
+%------------------------------
+% Formatting
+%------------------------------
+\onehalfspacing
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  urlcolor=blue
+}
+
+%------------------------------
+% Title Information
+%------------------------------
+\title{Algorithms\\[0.5em]
+\large Lecture Notes for CS310 / CS5102}
+\author{Dr.\ Mudassir Shabbir}
+\date{\today}
+
+%==============================
+\begin{document}
+%==============================
+
+\frontmatter
+\maketitle
+\tableofcontents
+
+\mainmatter
+
+%========================================================
+\chapter{Introduction to Algorithms and Runtime Analysis}
+%========================================================
+
+\section{Overview and Philosophy}
+
+Algorithms are at the heart of computer science. An algorithm is not merely a piece of code—it is a \emph{recipe or blueprint} for solving a computational problem. This course focuses on both the design and analysis of algorithms. By the end, you should be able to:
+\begin{itemize}
+    \item identify appropriate algorithmic strategies for a problem,
+    \item reason about their correctness, and
+    \item predict and compare their efficiency rigorously.
+\end{itemize}
+
+The study of algorithms separates the \emph{idea} of a solution from any particular implementation. 
+This abstraction allows us to analyze the scalability of a method independently of programming language, 
+hardware, or system-specific factors.  
+
+\paragraph{Key Questions in Algorithmic Thinking:}
+\begin{enumerate}[label=\arabic*.]
+    \item How do we systematically design algorithms for new problems?
+    \item How do we prove that an algorithm is correct?
+    \item How do we measure and compare algorithmic efficiency?
+\end{enumerate}
+
+\section{Instructor, Teaching Team, and Learning Environment}
+
+The course is taught by \textbf{Dr.\ Mudassir Shabbir}, with co-instructor \textbf{Aamina Jamal Khan} 
+and a team of TAs.  
+
+The teaching team spans academic research and industrial experience. Students are encouraged to engage 
+actively, ask questions freely, and collaborate with peers. The course uses a mixture of lectures, 
+in-class worksheets, homework assignments, and online participation.
+
+\section{Communication and Professional Conduct}
+
+\subsection{Communication Channels}
+
+Communication occurs primarily through the LMS and Slack. Students are expected to:
+\begin{itemize}
+    \item check announcements regularly,
+    \item participate in discussion threads, and
+    \item help peers when possible.
+\end{itemize}
+
+\subsection{Email Etiquette}
+
+Professional communication is an essential skill. Always:
+\begin{itemize}
+    \item include ``CS310'' in the subject line,
+    \item clearly state your name, student ID, and section,
+    \item ask specific and focused questions.
+\end{itemize}
+
+\paragraph{Example:} Instead of writing ``I don’t understand HW3,'' write:  
+``I am confused about why the loop invariant in Algorithm 2 guarantees correctness after iteration 3.
+ I tried X and Y, but I am unsure if my reasoning is correct.''
+
+\section{Course Policies and Evaluation}
+
+\subsection{Classroom Expectations}
+
+The classroom is a shared intellectual space. Students are expected to:
+\begin{itemize}
+    \item arrive on time,
+    \item silence electronic devices,
+    \item avoid side conversations, and
+    \item participate actively.
+\end{itemize}
+
+Confusion is normal; silence is not a virtue. Curiosity is.
+
+\subsection{Grading Philosophy}
+
+Assessment consists of exams, homework, worksheets, and participation. While approximate grade ranges 
+are provided, final grades are determined \emph{relatively}. The purpose of grading is to measure 
+understanding, not to rank students.
+
+\subsection{Recommended References}
+
+Primary textbooks:
+\begin{itemize}
+    \item \textbf{Cormen, Leiserson, Rivest, Stein}, \emph{Introduction to Algorithms}, MIT Press, 
+    4th edition.
+    \item \textbf{Kleinberg and Tardos}, \emph{Algorithm Design}, Pearson.
+\end{itemize}
+
+CLRS emphasizes formal proofs, rigorous analysis, and comprehensive coverage. Kleinberg-Tardos 
+emphasizes design paradigms and problem-solving intuition.  
+Supplementary reading for intuition: \emph{Grokking Algorithms} by Bhargava.
+
+\section{What Is an Algorithm?}
+
+An algorithm is more than just a piece of code; it is a precise {\bf step-by-step procedure} to 
+solve a computational problem. The instructions must be {\bf unambiguous}, {\bf finite}, and 
+guaranteed to {\bf terminate} with a correct solution for all valid inputs. 
+
+\textbf{Formal Definition (CLRS, Ch.~1).}  
+An \emph{algorithm} is a finite sequence of well-defined instructions, each of which can be executed 
+in a finite amount of time, that transforms input into a desired output.
+
+\paragraph{Key Properties of Algorithms}
+\begin{itemize}
+    \item \textbf{Input:} An algorithm has zero or more inputs, taken from a specified domain.
+    \item \textbf{Output:} It produces at least one output—a solution or a result.
+    \item \textbf{Definiteness:} Each step is clearly and unambiguously defined.
+    \item \textbf{Finiteness:} It must terminate after a finite number of steps.
+    \item \textbf{Effectiveness:} Every step can be carried out in a finite amount of time using 
+    basic operations.
+\end{itemize}
+
+\paragraph{Example: Sorting vs Selection}  
+Understanding the distinction between a problem statement and an algorithm is crucial:
+\begin{itemize}
+    \item \textbf{Problem statement:} ``Sort the array.''  
+    This specifies the goal, but it gives no clue about how to achieve it.
+    \item \textbf{Algorithm:} ``Repeatedly select the smallest element in the unsorted portion of 
+    the array and move it to the front.''  
+    This is concrete, step-by-step, and can be executed on a machine.
+\end{itemize}
+
+\paragraph{Another Example: Maximum of a List}  
+Problem: Find the largest number in a list of $n$ numbers.  
+Algorithm:
+\begin{enumerate}
+    \item Initialize \texttt{largest} to the first element.
+    \item For each remaining element, compare it with \texttt{largest}.
+    \item If the current element is larger, update \texttt{largest}.
+    \item After scanning all elements, return \texttt{largest}.
+\end{enumerate}
+This algorithm is finite, unambiguous, and terminates with the correct output.  
+
+\paragraph{Remark}  
+Notice that the algorithm is independent of the programming language used to implement it. This 
+abstraction allows us to reason mathematically about its efficiency and correctness.
+
+\section{Why Do We Analyze Algorithms?}
+
+Even if two implementations solve the same problem correctly, their efficiency may vary dramatically.
+For example:
+\begin{itemize}
+    \item Alice writes a Python program to compute the sum of all elements in a list.
+    \item Bob writes the same algorithm in C++.
+\end{itemize}
+
+Although both programs compute the correct sum, Bob's implementation may run faster because C++ 
+executes more efficiently at the machine level. Conversely, an inefficient algorithm in Python 
+could outperform a clever C++ implementation for very small inputs.  
+
+This demonstrates that {\bf implementation details and hardware differences can obscure the true 
+efficiency of an algorithm}. To make meaningful comparisons, we abstract away these differences 
+and focus on the {\bf algorithm itself}.
+
+\subsection{Goals of Algorithm Analysis}
+
+Algorithm analysis helps answer:
+\begin{itemize}
+    \item How does runtime grow with input size $n$? (scalability)
+    \item Which algorithm is asymptotically faster for large $n$?
+    \item How do time and space requirements trade off?
+    \item How much memory does an algorithm require in addition to input storage?
+\end{itemize}
+
+By formalizing runtime analysis, we can identify the \textbf{dominant operations} and predict 
+performance for very large inputs without running experiments.
+
+\subsection{Historical Note: Knuth and the RAM Model}
+
+Donald Knuth, in his seminal work \emph{The Art of Computer Programming}, introduced a rigorous 
+approach to analyzing algorithms. Key ideas include:
+
+\begin{itemize}
+    \item Counting \textbf{primitive operations} instead of measuring wall-clock time.
+    \item Using the \textbf{Random Access Machine (RAM) model}:
+    \begin{itemize}
+        \item Each basic arithmetic or comparison operation takes exactly one unit of time.
+        \item Accessing any memory location takes one unit of time.
+        \item There are no hidden delays from caches, pipelines, or hardware specifics.
+    \end{itemize}
+    \item This abstraction allows {\bf language-independent} analysis and {\bf mathematical reasoning}
+    about algorithm efficiency.
+\end{itemize}
+
+\paragraph{Intuition}
+Under the RAM model, an algorithm’s runtime is essentially a function of input size $n$ and the number
+of primitive steps it executes. This leads naturally to {\bf asymptotic notation}, which describes
+growth rates while ignoring constants and lower-order terms.
+
+\paragraph{Example (CLRS 1.2)}  
+The linear scan algorithm for finding the maximum in a list of $n$ elements:
+\[
+T(n) = n-1
+\]
+primitive comparisons.  
+Even if implemented in Python, C++, or pseudocode, the {\bf asymptotic behavior} remains $O(n)$.  
+
+\paragraph{Historical Context}  
+Knuth's focus on rigorous analysis led to:
+\begin{itemize}
+    \item the development of precise asymptotic notation (Big-O, Big-$\Omega$, Big-$\Theta$),
+    \item a framework for comparing algorithms independently of hardware, and
+    \item a methodology for understanding scalability of algorithms that is still standard in modern
+    textbooks, including CLRS and Kleinberg-Tardos.
+\end{itemize}
+
+This abstraction enables rigorous, machine-independent reasoning about efficiency.
+
+\section{Primitive Operations}
+
+Primitive operations are the basic steps whose number dominates runtime for large inputs. Examples:
+\begin{itemize}
+    \item finding the maximum: comparisons,
+    \item sorting: comparisons,
+    \item matrix multiplication: additions and multiplications.
+\end{itemize}
+
+\begin{quote}
+\emph{We abstract away machine-dependent details to reveal the algorithm's intrinsic complexity.}
+\end{quote}
+
+\section{Example: Finding the Maximum Element}
+
+\subsection{Problem Statement}
+
+Given a list of $n$ distinct numbers, find the largest.
+
+\subsection{Algorithm (Linear Scan)}
+
+\begin{enumerate}
+    \item Initialize \texttt{largest} to the first element.
+    \item For each remaining element, compare with \texttt{largest} and update if larger.
+\end{enumerate}
+
+\subsection{Analysis}
+
+Number of comparisons = $n-1$ (exact).  
+This is independent of language or hardware.
+
+\paragraph{Alternative Approach:} Sort the list and pick the last element.  
+Sorting takes $O(n \log n)$ comparisons. Linear scan is faster asymptotically.
+
+\section{Asymptotic Notation}
+
+We formalize growth of runtime using:
+\begin{itemize}
+    \item Big-O: upper bounds
+    \item Big-$\Omega$: lower bounds
+    \item Big-$\Theta$: tight bounds
+\end{itemize}
+
+\paragraph{Example:}  
+Finding the maximum: $T(n) = O(n)$,  
+Sorting first: $T(n) = O(n \log n)$.
+
+\section{Concluding Remarks}
+
+Chapter 1 establishes the algorithmic mindset:
+\begin{itemize}
+    \item think abstractly,
+    \item reason mathematically,
+    \item separate ideas from implementation.
+\end{itemize}
+
+\begin{quote}
+\emph{Algorithms are not about code—they are about ideas.}
+\end{quote}
+
+This foundation will support the rigorous analysis and design of algorithms in subsequent chapters.
+
+\end{document}

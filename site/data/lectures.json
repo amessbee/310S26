@@ -1,0 +1,99 @@
+{
+  "plans": [
+    {
+      "week": "Week 1",
+      "title": "Introduction + Asymptotic Notation + Selection",
+      "summary": "Course overview, big-O/Theta/Omega, growth rates, Selection Problem."
+    },
+    {
+      "week": "Week 2",
+      "title": "Order Statistics + Randomized Analysis + Prune-and-Search",
+      "summary": "Selection algorithms, randomized techniques, pruning strategies."
+    },
+    {
+      "week": "Week 3",
+      "title": "Sorting + Divide-and-Conquer",
+      "summary": "Mergesort, quicksort, recursion, design paradigms."
+    },
+    {
+      "week": "Week 4",
+      "title": "Sorting Lower Bounds + Basic Graphs & Greedy",
+      "summary": "Comparison model bounds, graph basics, greedy correctness."
+    },
+    {
+      "week": "Week 5",
+      "title": "Minimum Spanning Trees + Exam 1",
+      "summary": "Kruskal/Prim, cut/cycle properties, review."
+    },
+    {
+      "week": "Week 6",
+      "title": "MST + Shortest Paths",
+      "summary": "Wrap-up MST, shortest path algorithms."
+    },
+    {
+      "week": "Week 7",
+      "title": "Shortest Paths",
+      "summary": "Dijkstra, Bellman-Ford, path properties."
+    },
+    {
+      "week": "Week 8",
+      "title": "Dynamic Programming",
+      "summary": "Optimal substructure, overlapping subproblems, classic examples."
+    },
+    {
+      "week": "Week 9",
+      "title": "Dynamic Programming",
+      "summary": "Advanced DP patterns and optimization."
+    },
+    {
+      "week": "Week 10",
+      "title": "Flows + Exam 2",
+      "summary": "Max-flow algorithms, applications, review."
+    },
+    {
+      "week": "Week 11",
+      "title": "Flows + Cuts (cont.)",
+      "summary": "Min-cuts, max-flow min-cut theorem, reductions."
+    },
+    {
+      "week": "Week 12",
+      "title": "NP-completeness",
+      "summary": "Decision problems, reductions, complexity classes."
+    },
+    {
+      "week": "Week 13",
+      "title": "NP-completeness (cont.)",
+      "summary": "More reductions, implications, approximability."
+    },
+    {
+      "week": "Week 14",
+      "title": "Approximation Algorithms",
+      "summary": "Approximation ratios, greedy approximations, LP rounding."
+    }
+  ],
+  "notes": [
+    {
+      "date": "2026-01-19",
+      "title": "Lecture 1 Notes",
+      "link": "resources/notes/l1.pdf"
+    },
+    { "date": "2026-01-21", "title": "Lecture 2 Notes", "link": null }
+  ],
+  "slides": [
+    {
+      "date": "2026-01-19",
+      "title": "Lecture 1 Slides",
+      "link": "resources/slides/l1.pdf"
+    },
+    {
+      "date": "2026-01-21",
+      "title": "Lecture 2 Slides A",
+      "link": "resources/slides/l2a.pdf"
+    },
+    {
+      "date": "2026-01-21",
+      "title": "Lecture 2 Slides B",
+      "link": "resources/slides/l2b.pdf"
+    }
+  ]
+}

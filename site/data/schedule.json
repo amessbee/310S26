@@ -1,0 +1,29 @@
+{
+  "rows": [
+    {
+      "left": "Week 1: Introduction + Asymptotic Notation",
+      "right": "Week 8: Dynamic Programming"
+    },
+    {
+      "left": "Week 2: Order Statistics + Randomized Analysis + Prune-and-Search",
+      "right": "Week 9: Dynamic Programming"
+    },
+    {
+      "left": "Week 3: Sorting + Divide-and-Conquer",
+      "right": "Week 10: Flows + Exam 2"
+    },
+    {
+      "left": "Week 4: Sorting Lower Bounds + Basic Graphs & Greedy Algorithms",
+      "right": "Week 11: Flows + Cuts (cont.)"
+    },
+    { "left": "Week 5: MST + Exam 1", "right": "Week 12: NP-completeness" },
+    {
+      "left": "Week 6: MST + Shortest Paths",
+      "right": "Week 13: NP-completeness (cont.)"
+    },
+    {
+      "left": "Week 7: Shortest Paths",
+      "right": "Week 14: Approximation Algorithms"
+    }
+  ]
+}

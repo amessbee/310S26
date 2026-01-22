@@ -1,0 +1,20 @@
+{
+  "instructor": {
+    "name": "Dr. Mudassir Shabbir",
+    "affiliation": "Associate Professor at CS"
+  },
+  "coInstructor": "Aamina Jamal Khan",
+  "tas": [
+    "Abdullah Mushtaq",
+    "Monish Kumar",
+    "Mir Huzaifa",
+    "Zain Ahmed",
+    "Hafiz Muhammad Ahmad",
+    "Meesum Ali",
+    "Manaal Malik",
+    "Saif Shakir",
+    "Muhammad Ali Shah",
+    "Zainab Usman",
+    "Muhammad Reyyan Asad"
+  ]
+}
