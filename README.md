@@ -30,6 +30,20 @@ Then open: http://localhost:5500
   - Notes entries: set `link` to path like `resources/notes/week1-notes.pdf`
   - Slides entries: set `link` to path like `resources/slides/week1-slides.pdf`
 
+## Publish on GitHub Pages (main branch)
+
+- Push changes to the `main` branch of your GitHub repository.
+- In GitHub: Settings → Pages → Build and deployment
+  - Source: "Deploy from a branch"
+  - Branch: `main`
+  - Folder: `/` (root)
+- Wait ~1–2 minutes for deployment. Your site will be available at:
+  - `https://<username>.github.io/310S26` (replace `<username>`)
+- Optional:
+  - Add a custom domain under Settings → Pages → Custom domain.
+  - Ensure HTTPS is enabled.
+  - `.nojekyll` is included to prevent Jekyll processing.
+
 ## Images
 
 Place any staff/TA or course images under `assets/img/` and reference them in pages as needed. Ensure you have rights to use any image you add.
