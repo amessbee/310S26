@@ -2,24 +2,18 @@
 
 A lightweight static website to share lecture notes, plans, announcements, syllabus, office hours, staff info, and resources.
 
-## Structure
+## Structure (Single Page)
 
-- `index.html` — Home and overview
-- `syllabus.html` — Grading, scale, policies
-- `schedule.html` — Weekly breakdown + review topics
-- `lectures.html` — Plans + student-created notes
-- `announcements.html` — Dynamic announcements from `data/announcements.json`
-- `staff.html` — Instructor, co-instructor, TAs (from `data/staff.json`)
-- `contact.html` — Slack, office hours, email guidance
-- `assets/css/style.css` — Shared styling
-- `assets/js/main.js` — Renders data-driven sections
+- `index.html` — Single-page site with sections: Home, Syllabus, Schedule, Lectures, Announcements, Staff, Contact (navigate via hash tabs)
+- `assets/css/style.css` — Shared styling (dark/light themes, layout)
+- `assets/js/main.js` — Hash router, smooth scrolling, data rendering
 - `data/` — JSON data for announcements, staff, schedule, lectures
-- `resources/notes/` — Place PDFs or links for lecture notes
+- `resources/notes/` — Place PDFs for lecture notes
 - `resources/slides/` — Place PDFs for slides
 
 ## Run locally (macOS)
 
-From the `site` folder:
+From the workspace root:
 
 ```bash
 python3 -m http.server 5500

@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CS310/5102 — Spring 2026</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <nav class="nav container">
+        <div class="brand">CS310/5102 • Spring 2026</div>
+        <div style="display: flex; align-items: center; gap: 0.5rem">
+          <button
+            id="theme-toggle"
+            class="theme-toggle"
+            aria-label="Toggle theme"
+          >
+            ☀️ Light
+          </button>
+          <button id="nav-toggle" class="toggle" aria-label="Toggle navigation">
+            Menu ▾
+          </button>
+        </div>
+        <ul>
+          <li><a href="#announcements">Announcements</a></li>
+          <li><a href="#lectures">Lectures</a></li>
+          <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#syllabus">Syllabus</a></li>
+          <li><a href="#staff">Teaching Staff</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#misc">Misc</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="container">
+        <h1>Algorithms</h1>
+        <p class="small">
+          Instructor: Dr. Mudassir Shabbir • Office Hours: MW 12:00–1:00 •
+          Office: SSE 9-G47A
+        </p>
+        <p class="small">
+          Slack: http://tiny.cc/slack310 • LMS: Check announcements regularly
+        </p>
+      </div>
+    </section>
+
+    <main class="main container">
+      <section id="announcements" class="view">
+        <h2 class="section-title">Announcements</h2>
+        <p class="small">
+          Stay current via LMS and <a href="http://tiny.cc/slack310">Slack</a>.
+        </p>
+        <div id="announcements-list" class="card-grid"></div>
+      </section>
+
+      <section id="lectures" class="view">
+        <h2 class="section-title">Lecture Materials</h2>
+        <p class="small">
+          Lecture notes are mostly scribed by students and may contain errors or
+          omissions. Please verify with official materials.
+        </p>
+        <div class="notice">
+          <ul class="list">
+            <li>
+              Clone:
+              <a href="https://github.com/amessbee/310S26"
+                >https://github.com/amessbee/310S26</a
+              >
+            </li>
+            <li>
+              Create a branch from <span class="badge">main</span> named with
+              your student ID for your lecture notes.
+            </li>
+            <li>Email (and tag) TF/TAs; post announcement to Slack channel.</li>
+          </ul>
+        </div>
+        <div
+          id="lecture-materials"
+          class="card-grid"
+          style="margin-top: 1rem"
+        ></div>
+        <h2 class="section-title">Lecture Plans</h2>
+        <p class="small">Weekly lecture themes and focus areas.</p>
+        <div id="lecture-plans" class="card-grid"></div>
+      </section>
+
+      <section id="schedule" class="view">
+        <h2 class="section-title">Lecture Breakdown (Tentative)</h2>
+        <div id="schedule-table"></div>
+        <h2 class="section-title">Review Sessions (Tentative)</h2>
+        <ul class="list">
+          <li>Solving Recurrences</li>
+          <li>Sorting Algorithms</li>
+          <li>Graph Basics</li>
+          <li>Minimum Spanning Trees</li>
+        </ul>
+      </section>
+
+      <section id="syllabus" class="view">
+        <h2 class="section-title">Grading</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Weight</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Exams</td>
+              <td>20% + 25% + 30% = 75%</td>
+            </tr>
+            <tr>
+              <td>Homework Assignments</td>
+              <td>10%</td>
+            </tr>
+            <tr>
+              <td>Classroom Worksheets</td>
+              <td>10%</td>
+            </tr>
+            <tr>
+              <td>Slack/GitHub Participation</td>
+              <td>5% (2+2+1)</td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td>100%</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2 class="section-title">Grading Scale</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Average</th>
+              <th>Assigned Grade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>≥ 90</td>
+              <td>A category</td>
+            </tr>
+            <tr>
+              <td>80 — 89.9</td>
+              <td>B category</td>
+            </tr>
+            <tr>
+              <td>70 — 79.9</td>
+              <td>C category</td>
+            </tr>
+            <tr>
+              <td>60 — 69.9</td>
+              <td>D category</td>
+            </tr>
+            <tr>
+              <td>&lt; 60</td>
+              <td>F</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="small notice">
+          Final cutoffs determined via relative grading at semester end.
+        </p>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Exams</h3>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>Midterm I</td>
+                  <td>20%</td>
+                </tr>
+                <tr>
+                  <td>Midterm II</td>
+                  <td>25%</td>
+                </tr>
+                <tr>
+                  <td>Final Exam</td>
+                  <td>30%</td>
+                </tr>
+              </tbody>
+            </table>
+            <ul class="list">
+              <li>Midterms held in-person during regular class hours.</li>
+              <li>
+                <span class="badge" style="background: var(--danger)"
+                  >No make-up exams</span
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Homework</h3>
+            <ul class="list">
+              <li>Use LaTeX for submissions.</li>
+              <li>Discuss freely but write your own solutions.</li>
+              <li>No late submissions.</li>
+              <li>LUMS academic honesty policy strictly enforced.</li>
+              <li>Cite all resources used.</li>
+              <li>Be able to defend your solutions orally or in writing.</li>
+              <li>Homework questions may appear in exams.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Classroom Worksheets</h3>
+            <ul class="list">
+              <li>Short exercises during lectures — participation matters.</li>
+              <li>Almost weekly; can be done in pairs.</li>
+              <li>No make-up for missed worksheets.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Slack/GitHub Participation</h3>
+            <p class="small">
+              Online engagement: questions, helping peers, live commentary of
+              work, fixing/improving lecture notes.
+            </p>
+            <p class="small">Weight: 2% + 2% + 1%.</p>
+          </div>
+          <div class="card">
+            <h3>Lecture Notes (0%)</h3>
+            <p class="small">
+              Student-created notes for shared learning and clarity.
+            </p>
+            <ul class="list">
+              <li>
+                Clone repo:
+                <a href="https://github.com/amessbee/310S26"
+                  >https://github.com/amessbee/310S26</a
+                >
+              </li>
+              <li>
+                Create a branch from <span class="badge">main</span> named with
+                your student ID.
+              </li>
+              <li>Email and tag TF/TAs; post announcement to Slack channel.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Rules of the Game</h3>
+            <ul class="list">
+              <li>Turn off phones and electronics; be on time.</li>
+              <li>
+                No whispering — talk to the instructor instead; be honest.
+              </li>
+              <li>
+                Register for PollEv:
+                <a href="https://www.polleverywhere.com/">PollEv.com/cs310</a>.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="staff" class="view">
+        <h2 class="section-title">About Your Instructor</h2>
+        <div class="card">
+          <ul class="list">
+            <li>Hi there! I'm <strong>Dr. Mudassir Shabbir</strong>.</li>
+            <li>Associate Professor at CS.</li>
+            <li>
+              Background includes Rutgers, Vanderbilt, Los Alamos National
+              Laboratory, ITU, Bloomberg, Punjab University.
+            </li>
+          </ul>
+          <p class="small">
+            Interests: Combinatorics, Graph Neural Networks, Discrete Geometry.
+          </p>
+        </div>
+        <h2 class="section-title">Teaching Team</h2>
+        <div id="staff-list"></div>
+        <p class="small">
+          CS310/5102 Teaching Club — images can be added under
+          <span class="badge">assets/img/ta/</span> and referenced as needed.
+        </p>
+      </section>
+
+      <section id="contact" class="view">
+        <h2 class="section-title">Reaching Out</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Communication</h3>
+            <ul class="list">
+              <li>
+                Keep up with course announcements on LMS and
+                <strong>Slack</strong>.
+              </li>
+              <li>
+                Join Slack:
+                <a href="http://tiny.cc/slack310">http://tiny.cc/slack310</a>
+              </li>
+              <li>Office Hours: <strong>MW 12:00pm – 1:00pm</strong></li>
+              <li>Office Location: <strong>SSE 9-G47A</strong></li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Email</h3>
+            <ul class="list">
+              <li>Email: <strong>mudassir.shabbir@lums.edu.pk</strong></li>
+              <li>
+                Always write <strong>CS310</strong> in the subject line along
+                with topic.
+              </li>
+              <li>
+                Always CC:
+                <strong
+                  >“Aamina Jamal Khan” &lt;aamina.khan@lums.edu.pk&gt;</strong
+                >
+                and <strong>TA team</strong>.
+              </li>
+            </ul>
+            <h4 class="subtitle">Suggested format</h4>
+            <blockquote class="sample">
+              Subject: Question Regarding HW 3 Problem 1 | Discrete
+              Structures<br /><br />
+              Dear Dr. Mudassir,<br /><br />
+              My name is Sophie (ID: BSCS23439), and I am student in your
+              Discrete class section A. I am writing to ask for your guidance on
+              a problem I encountered while working on the homework 3 Problem
+              1.<br /><br />
+              Specifically, I am having difficulty with [briefly describe the
+              problem or the specific part of the problem you're struggling
+              with]. I have reviewed the course materials and attempted to
+              approach the problem in various ways, but I am still uncertain
+              about [what exactly you are unsure about—e.g., the method, the
+              concept, or the solution].<br /><br />
+              Could you please provide some clarification or suggest any
+              resources that might help me better understand this issue? I would
+              greatly appreciate any advice or direction you could offer.<br /><br />
+              Thank you for your time and assistance.
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section id="misc" class="view">
+        <h2 class="section-title">Course Overview</h2>
+        <div class="card-grid">
+          <div class="card">
+            <h3>Rules of the Game</h3>
+            <ul class="list">
+              <li>Turn off phones and electronics.</li>
+              <li>Be on time; engage by asking questions.</li>
+              <li>Register for PollEv: PollEv.com/cs310.</li>
+              <li>Be honest and courteous.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Grading Components</h3>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>Exams</td>
+                  <td>20% + 25% + 30% = 75%</td>
+                </tr>
+                <tr>
+                  <td>Homework</td>
+                  <td>10%</td>
+                </tr>
+                <tr>
+                  <td>Classroom Worksheets</td>
+                  <td>10%</td>
+                </tr>
+                <tr>
+                  <td>Slack/GitHub Participation</td>
+                  <td>5% (2+2+1)</td>
+                </tr>
+                <tr>
+                  <td>Total</td>
+                  <td>100%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <h3>Outcomes</h3>
+            <ul class="list">
+              <li>Apply appropriate algorithmic approaches to problems.</li>
+              <li>Analyze running time using asymptotic notation.</li>
+              <li>Appreciate CS theory; prepare for technical interviews.</li>
+              <li>
+                Give/receive constructive critiques; collaborate with modern
+                tools.
+              </li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Study Tips</h3>
+            <ul class="list">
+              <li>Mile wide, foot deep — do not fall behind.</li>
+              <li>Ask questions; be active.</li>
+              <li>Practice consistently to master problem solving.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 class="section-title">Recommended Books</h2>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Introduction to Algorithms (CLRS)</h3>
+            <p class="small">
+              Cormen, Leiserson, Rivest, Stein — 4th Edition, MIT Press.
+              Rigorous and comprehensive.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Algorithm Design</h3>
+            <p class="small">
+              Jon Kleinberg, Éva Tardos — 1st Edition, Pearson. Design paradigms
+              and intuition.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Grokking Algorithms</h3>
+            <p class="small">
+              Aditya Bhargava — 1st Edition, Manning. Visual and
+              beginner-friendly.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer container">
+      © 2026 CS310/5102 • LUMS • Built for course sharing
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>

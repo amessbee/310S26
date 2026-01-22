@@ -18,7 +18,7 @@
       themeBtn.textContent = theme === "light" ? "🌙 Dark" : "☀️ Light";
   };
   const storedTheme = localStorage.getItem("theme");
-  applyTheme(storedTheme || "dark");
+  applyTheme(storedTheme || "light");
   if (themeBtn)
     themeBtn.addEventListener("click", () => {
       const next =
@@ -38,9 +38,9 @@
   }
 
   async function renderAnnouncements() {
-    const el = document.getElementById("announcements");
+    const el = document.getElementById("announcements-list");
     if (!el) return;
-    const data = await loadJSON("../data/announcements.json");
+    const data = await loadJSON("data/announcements.json");
     if (!data || !data.items || !data.items.length) {
       el.innerHTML = '<p class="small">No announcements yet.</p>';
       return;
@@ -61,7 +61,7 @@
   async function renderStaff() {
     const el = document.getElementById("staff-list");
     if (!el) return;
-    const data = await loadJSON("../data/staff.json");
+    const data = await loadJSON("data/staff.json");
     if (!data) return;
     const mk = (role, items) => `
       <div class="card">
@@ -81,7 +81,7 @@
   async function renderSchedule() {
     const el = document.getElementById("schedule-table");
     if (!el) return;
-    const data = await loadJSON("../data/schedule.json");
+    const data = await loadJSON("data/schedule.json");
     if (!data) return;
     el.innerHTML = `
       <table class="table">
@@ -97,7 +97,7 @@
     const materialsEl = document.getElementById("lecture-materials");
     const plansEl = document.getElementById("lecture-plans");
     if (!materialsEl && !plansEl) return;
-    const data = await loadJSON("../data/lectures.json");
+    const data = await loadJSON("data/lectures.json");
     if (!data) return;
     if (materialsEl) {
       const notes = (data.notes || []).map((n) => ({
@@ -182,4 +182,55 @@
   renderStaff();
   renderSchedule();
   renderLectures();
+
+  // Simple hash-based router for single-page tabs
+  const sections = [
+    "announcements",
+    "lectures",
+    "schedule",
+    "syllabus",
+    "staff",
+    "contact",
+    "home",
+  ];
+  function showSection(id) {
+    const target = id && sections.includes(id) ? id : "home";
+    // Update active nav state only; do not hide sections to allow free scrolling
+    const navLinks = document.querySelectorAll(".nav ul li a");
+    navLinks.forEach((a) => {
+      const href = a.getAttribute("href") || "";
+      const hash = href.startsWith("#") ? href.slice(1) : "";
+      if (hash === target) a.classList.add("active");
+      else a.classList.remove("active");
+    });
+    const targetEl = document.getElementById(target);
+    if (targetEl) {
+      const header = document.querySelector(".header");
+      const headerHeight = header ? header.offsetHeight : 80;
+      const y =
+        targetEl.getBoundingClientRect().top +
+        window.pageYOffset -
+        headerHeight;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  }
+
+  // Intercept nav link clicks for consistent smooth scrolling
+  document.querySelectorAll(".nav ul li a").forEach((a) => {
+    const href = a.getAttribute("href") || "";
+    if (href.startsWith("#")) {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        const id = href.slice(1);
+        // Update URL without triggering default jump
+        if (history.pushState) history.pushState(null, "", "#" + id);
+        else location.hash = id;
+        showSection(id);
+      });
+    }
+  });
+  window.addEventListener("hashchange", () =>
+    showSection(location.hash.slice(1)),
+  );
+  showSection(location.hash.slice(1));
 })();
