@@ -1,6 +1,6 @@
 # CS310/5102 Course Website
 
-A lightweight static website to share lecture notes, plans, announcements, syllabus, office hours, staff info, and resources.
+A lightweight static website to share lecture notes, plans, announcements, syllabus, office hours, staff info, and resources. The site is published via GitHub Pages here: [https://amessbee.github.io/310S26](https://amessbee.github.io/310S26)
 
 ## Structure (Single Page)
 
