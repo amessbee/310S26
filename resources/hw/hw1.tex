@@ -1,0 +1,398 @@
+\documentclass[9pt]{book}
+\setlength{\oddsidemargin}{-.5 in}
+\setlength{\evensidemargin}{-.5 in}
+% \setlength{\evensidemargin}{.0 in}
+\addtolength{\topmargin}{-1in}
+\setlength{\textwidth}{7.5in}
+\setlength{\textheight}{9in}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+%\usepackage[utf8x]{inputenc}
+\usepackage{amsmath, amssymb}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+%\usepackage[normalem]{ulem}
+%\usepackage[switch, mathlines, displaymath]{lineno}
+%\linenumbers
+\usepackage{algorithm}
+\usepackage{url, color, epsfig, amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb, nicefrac}
+%\usepackage{algorithmic}
+\usepackage{algpseudocode}
+
+% \usepackage{times}
+\usepackage{algorithm}
+\usepackage{url, color, epsfig, amsmath, amsthm, amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+%
+% this command enables to remove a whole part of the text
+% from the printout
+% to use it just enter
+% \remove{
+% before the text to be excluded and
+% }
+% after the text
+\newcommand{\remove}[1]{}
+
+%
+% The following macros are used to generate nice code for programs.
+% See example on how to use it below
+%
+
+%%%%%%%%%%%%%%%%%%%%% program macros %%%%%%%%%%%%%%%%%
+
+\newcommand{\Do}{{\small\bf do}\ }
+\newcommand{\Proc}[1]{#1\+}
+\newcommand{\Returns}{{\small\bf returns}}
+\newcommand{\Procbegin}{{\small\bf begin}}
+\newcommand{\Then}{{\small\bf then}\ \=\+}
+\newcommand{\Elseif}{\<{\small\bf elseif}\ }
+\newcommand{\Endif}{\<{\small\bf end\ if\ }\-\-}
+\newcommand{\Endproc}[1]{{\small\bf end} #1\-}
+\newcommand{\Endfor}{{\small\bf end\ for}\ \-}
+\newcommand{\Endloop}{{\bf end\ loop}\ \-}
+\newenvironment{program}{
+	\begin{minipage}{\textwidth}
+		\begin{tabbing}
+			\ \ \ \ \=\kill
+		}{
+	\end{tabbing}
+\end{minipage}
+}
+
+% a blank line
+\def\blankline{\hbox{}}
+
+%%%%%%%%%%%%%%%%%%%%% End of PROGRAM macros %%%%%%%%%%%%%%%%%
+
+
+%
+% The following macro is used to generate the header.
+%
+%
+
+\newcommand{\lecture}[5]{
+	\pagestyle{headings}
+	\thispagestyle{plain}
+	\newpage
+	\setcounter{chapter}{#1}
+	\setcounter{page}{#2}
+	%  \set\thechapter{#3}
+	\noindent
+	\begin{center}
+		\framebox{
+			\vbox{
+				\hbox to 6.28in { {\bf Algorithms 
+						\hfill Spring Semester, 2026} }
+				\vspace{4mm}
+				\hbox to 6.28in { {\Large \hfill Homework 1 \hfill} }
+				\vspace{2mm}
+				\hbox to 6.28in { {\it Professor: #4 \hfill Deadline: Feb 02, 2026.} }
+			}
+		}
+
+
+	\end{center}
+	% \markboth{Lecture #1: #3}{Lecture #1: #3}
+	\vspace*{4mm}
+}
+
+%
+% Use these macros for organizing sections of your notes.
+% Each command takes two arguments: (1) the title of the section and and
+% (2) a keyword for that section to appear in the index.  (See examples.)
+% Please don't use \section, \subsection, and \subsubsection directly!
+%
+
+\newcommand{\topic}[2]{\section{#1} \index{#2} \markright{#1}}
+\newcommand{\subtopic}[2]{\subsection{#1} \index{#2}}
+\newcommand{\subsubtopic}[2]{\subsubsection{#1} \index{#2}}
+
+%
+% Convention for citations is first author's last name followed by other
+% authors' last initials, followed by the year.  For example, to cite the
+% seventh entry in the course bibliography, you would type: \cite{BurnsL80}
+% (To avoid bibliography problems, for now we redefine the \cite command.)
+%
+
+\renewcommand{\cite}[1]{[#1]}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+%
+% These are just to make things a little easier:
+%
+\newcommand{\bi}{\begin{itemize}}
+	\newcommand{\ei}{\end{itemize}}
+\newcommand{\be}{\begin{enumerate}}
+	\newcommand{\ee}{\end{enumerate}}
+\newcommand{\blank}{\vspace{1ex}}   % generates a blank line in the output
+
+%
+% Use these for theorems, lemmas, proofs, etc.
+%
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{digress}[theorem]{Digression}
+\newtheorem{corollary}[theorem]{Corollary}
+%\newcommand{\qed}{\hfill $\Box$}
+%\newenvironment{proof}{\par{\bf Proof:}}{\qed \par}
+%\newenvironment{proof}{{\em Proof:}}{\hfill\rule{2mm}{2mm}}
+
+%
+% Use the following for definitions.
+% \bigdef is for definitions to be set off by themselves; \smalldef is for
+% definitions given in the middle of a paragraph.
+%
+\newenvironment{dfn}{{\vspace*{1ex} \noindent \bf Definition }}{\vspace*{1ex}}
+\newcommand{\bigdef}[2]{\index{#1}\begin{dfn} {\rm #2} \end{dfn}}
+\newcommand{\smalldef}[1]{\index{#1} {\em #1}}
+
+\begin{document}
+	%\lecture{**LECTURE-NUMBER**}{**1ST-PAGE**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+	\input{prefix}
+
+\section*{Asymptotic Analysis}
+\subsection*{Question 1: \hfill[5]}
+Prove or Disprove the following statements\footnote{Note that we say $f(n) = o(g(n))$ if
+\[
+\lim_{n \to \infty} \frac{f(n)}{g(n)} = 0.
+\]
+Equivalently, for every constant $c > 0$, there exists $n_0$ such that
+$f(n) \le c\, g(n)$ for all $n \ge n_0$. Informally: \textit{$f$ grows strictly slower than $g$}.}:
+\begin{enumerate}
+\item $f(n) + g(n) = \Theta(\min(f(n),g(n)))$
+\item $f(n) = O(g(n)) \rightarrow \log(f(n)) = O(\log(g(n)))$
+\item $f(n) = O(g(n)) \rightarrow g(n) = \Omega(f(n))$
+\item $f(n) = o(g(n)) \rightarrow \log(f(n)) = o(\log(g(n)))$
+
+
+\end{enumerate}
+
+
+
+% \subsection*{Question 2: \hfill[5]}
+% Prove the following relationships by giving the appropriate $c$ and $n_0$, or disprove:
+% \begin{enumerate}
+% \item $3\log(n) \in O(\log(n^2))$
+% \item $\log^2n \in O(\log(n^2))$
+% \item $\frac{1}{\sqrt[3][n]} \in \Omega(\frac{1}{\sqrt[2][n]})$
+% \item $2^n \in \Theta(2^{2n})$
+% \item $5^n \in \Omega(5^{n+50})$
+% \end{enumerate}
+
+\subsection*{Question 2: \hfill[5]}
+Choose whether $f(n)$ belongs to one or more of the following: {$O(g(n)), \Theta(g(n)),\Omega(g(n))$} \\ %\quad o(g(n)) \quad \omega(g(n))$} \\
+
+% \textcolor{red}{
+% \begin{itemize}
+% \item a function $f(n)$ belongs to little o $o(g(n))$ if $f(n)$ is strictly upper bounded by $g(n)$, never equal. For example, $n \in o(n^2)$.
+% \item a function $f(n)$ belongs to little omega $\omega(g(n))$ if $f(n)$ is strictly lower bounded by $g(n)$, never equal. For example, $n^2 \in \omega(n)$.
+% \end{itemize}
+% }
+\renewcommand{\arraystretch}{2} 
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{\#} & $f(n)$ & $g(n)$ & $O$ & $\Omega$ & $\Theta$ \\ \hline
+1 & $n^{-2}$ & $\frac{1}{\sqrt[2]{n}}$ & \quad & \quad & \quad \\ \hline
+2 & $2^n$ & $n^{n/2}$ & \quad & \quad & \quad \\ \hline
+3 & $\sqrt[3]{n^n}$ & $n^{n/3}$ & \quad & \quad & \quad \\ \hline
+4 & $\log(2n^2)$ & $\log(4n^3) - \log(2n)$ & \quad & \quad & \quad \\ \hline
+5 & $n^{-3}$ & $2^{50}$ & \quad & \quad & \quad \\ \hline
+6 & $\log(n)$ & $\sqrt{n}$ & \quad & \quad & \quad \\ \hline
+7 & $n!$ & $n^n$ & \quad & \quad & \quad \\ \hline
+8 & $n\log(n!)$ & $\log(n!)$ & \quad & \quad & \quad \\ \hline
+\end{tabular}
+\end{table}
+
+
+% \subsection*{Question 4: \hfill[10]}
+% Order the following run-time complexities from slowest to fastest growth. Any functions with the same run-time complexity should be grouped together on the same line. \\
+
+% \centerline{$n^{2n^3} \quad n! \quad n\log(n^2) \quad 2n^3 \quad 100 \quad n^{50} \quad 50^n \quad \log(n!) \quad \sqrt[3]{n} \quad n^{2n} $} \\ 
+% \centerline{$\log^2(n) \quad 3\log(n) \quad n^{-3/2} \quad 3^n \quad 100^{-n} \quad n\log(n) \quad \frac{1}{\log(n)} \quad 2^{n^2} \quad \sqrt[2]{n^2}$} \\
+
+% \section*{Recurrence Relations} 
+% \subsection*{Question 5: \hfill[4]}
+% Use the Master Theorem to find the closed form of the following recurrence relation: \\
+% \centerline{$T(n) = 3T(n/5) + 2n$}
+
+\newpage 
+\section*{Order Statistics}
+The selection problem is to find the $ith$ order statistic of a list. In class, we studied the deterministic linear-time selection algorithm SELECT (also known as Median of Medians).
+
+\subsection*{Question 3: \hfill[5]}
+Show how to use SELECT as a subroutine to make Quicksort run in $O(n\log(n))$ time in the worst case, assuming that all elements are distinct. \\
+(* Refer to relevant parts of CLRS book for a description of Quicksort).
+
+% \subsection*{Question 7:}
+% In the algorithm SELECT, the input elements are divided into groups of 5. Show that the algorithm works in linear time if the input elements are divided into groups of 7 instead of 5. \\
+% (* Page 241 of Introduction to Algorithms, Thomas H. Cormen).
+
+\subsection*{Question 4: \hfill[5]}
+The SELECT algorithm divides the list into subgroups of size $c$, where $c$ is typically set to $5$. What effect would there be on the algorithm's worst-case run-time if is chosen to be a) less than $5$, b) more than $5$, and c) if $c$ becomes a function of $n$, i.e., $\log n, \sqrt{n}, n/2, n$?
+
+
+\subsection*{Question 5: \hfill [5]}
+Design a linear time algorithm to find all of the $\log n$ smallest integers, {\color{blue} in sorted order}, using the SELECT problem as a subroutine. For example, if we have a list of $n=2^{100}$ integers, then we are interested in the $100$ smallest integers in the given list.
+
+% \subsection*{Question 6:}
+% Suppose you have a list $X$ with elements $x_i$, and another list $W$ with weights $w_i$ for each element in $x_i$ in $X$. 
+% Design a linear-time algorithm to find an element $x$ with weight $w$ such that the sum of weights of elements less than x is at most 1/2 the total weights, and the sum of weights of elements greater than x is at most 1/2 the total weights. 
+
+% \subsection*{Question 7:}
+% Prove that any comparison-based algorithm that finds the median must perform $\Omega(n)$ comparisons in the worst case.
+% \\
+\section*{Randomized Algorithms}
+RANDOMIZED-SELECT is a selection algorithm where pivots are chosen {\em uniformly} at random, unlike the Median of Medians problem which is a deterministic-linear algorithm.
+\subsection*{Question 6: \hfill[5]}
+Show an example where RANDOMIZED-SELECT has a worst-case run-time of $O(n^2)$
+
+\subsection*{Question 7: \hfill[5]}
+Compute the probability that a randomly chosen pivot splits the array into two parts each of size at least $\frac{3n}{10}$. Use this to show that the expected run-time of RANDOMIZED-SELECT is $\Theta(n)$.
+
+\subsection*{Question 8: \hfill[5]}
+Suppose we want RANDOMIZED-SELECT to succeed in finding the $k$-th smallest element \emph{without hitting a worst-case path}. If the probability of a good split is $p$, what is the probability that after $t$ independent pivot choices, we always hit good splits?
+  
+
+
+
+% \section*{Question 3: Dynamic Programming -- Inventory Management (20 marks)}
+% A store sells a product over $n$ days. The demand for day $i$ is $d_i$ units. The store can produce up to $P$ units per day. Producing more than $P$ units on any day incurs a penalty of $c$ per extra unit. Additionally, storing inventory costs $h$ per unit per day.
+
+% \begin{itemize}
+%     \item Formulate a DP solution to minimize the \textbf{total cost} over $n$ days.
+%     \item Define your state, transitions, and base cases clearly.
+%     \item Analyze the time complexity of your algorithm.
+% \end{itemize}
+
+% \section*{Question 4: Graphs -- Unusual Shortest Paths (15 marks)}
+% Given a directed graph with \textbf{non-negative edge weights}, and two nodes $s$ and $t$, find the shortest path from $s$ to $t$ that uses \textbf{exactly $k$ edges}.
+
+% \begin{itemize}
+%     \item Explain why Dijkstra's algorithm doesn't work here.
+%     \item Devise an algorithm (preferably DP-based or graph transformation-based) to solve the problem.
+%     \item Analyze its correctness and complexity.
+% \end{itemize}
+
+
+
+% \section*{Question 1: Greedy Algorithm -- Network Coverage (15 marks)}
+% You are tasked with placing Wi-Fi routers in a linear corridor consisting of $n$ rooms. Each router can cover a continuous segment of $r$ rooms. Each room $i$ has an associated value $v_i$ representing its importance. 
+
+% \begin{itemize}
+%     \item Design a greedy algorithm to place at most $k$ routers to maximize the total value of covered rooms.
+%     \item Prove or disprove the optimality of your greedy approach.
+%     \item If not optimal, explain with a counterexample and suggest a better method.
+% \end{itemize}
+
+% \section*{Question 2: Constrained Huffman Coding (15 marks)}
+% You are given a set of symbols with frequencies. One of the symbols, say $x$, must be assigned a binary code of length exactly 3. 
+
+% \begin{itemize}
+%     \item Can the standard Huffman algorithm accommodate this constraint? Explain.
+%     \item If yes, show how to modify the algorithm accordingly.
+%     \item If no, justify why and describe an alternative encoding strategy.
+% \end{itemize}
+
+% \section*{Question 3: Dynamic Programming -- Staircase Variants (20 marks)}
+% A robot is climbing a staircase with $n$ steps. At each step, it can hop 1, 2, or 3 stairs. Some steps are broken and cannot be stepped on. Let $B$ be the set of broken steps.
+
+% \begin{itemize}
+%     \item Formulate a dynamic programming solution to count the number of distinct valid ways to reach the top.
+%     \item Analyze the time and space complexity.
+% \end{itemize}
+
+% \section*{Question 3: Dynamic Programming -- Grid Path with Turns (20 marks)}
+% Write a dynamic programming algorithm to answer the (decision version of) the Partition Problem. Analyze the time complexity. Make observations about the cases where the problem is in P and where it is NP-complete.
+
+
+% \section*{Question 4: Shortest Path with Fuel Stops (15 marks)}
+% You are given a graph where each edge has a distance. A vehicle can travel at most $d$ distance units on a full tank and can refuel at specific nodes only. Design an algorithm to find the shortest path from node $s$ to node $t$ considering fuel constraints.
+
+% \begin{itemize}
+%     \item Describe how to model this problem using graph transformation or state expansion.
+%     \item Provide an efficient algorithm.
+%     \item Analyze the correctness and complexity.
+% \end{itemize}
+
+% \section*{Question 5: NP-Completeness -- Set Packing (15 marks)}
+% The \textbf{Set Packing problem} is defined as follows: Given a universe $U$ and a collection of subsets $S_1, S_2, \dots, S_m$ of $U$, and an integer $k$, is there a collection of $k$ pairwise disjoint sets?
+
+% \begin{itemize}
+%     \item Prove that Set Packing is in NP.
+%     \item Reduce from 3-SAT to Set Packing to show NP-completeness.
+%     \item Justify each step of your reduction.
+% \end{itemize}
+
+% \section*{Question 6: NP-Hardness -- 3-Partition Problem (20 marks)}
+% The \textbf{3-Partition problem} is defined as follows: Given a multiset $A$ of $3m$ positive integers and a bound $B$, can $A$ be partitioned into $m$ disjoint sets $A_1, A_2, ..., A_m$ such that the sum of numbers in each set is exactly $B$ and each set contains exactly 3 elements?
+
+% \begin{itemize}
+%     \item Define the decision version of the problem.
+%     \item Show that 3-Partition is in NP.
+%     \item Prove that 3-Partition is strongly NP-complete by reduction from Partition or another appropriate problem.
+% \end{itemize}
+
+% \section*{Question 1: Greedy Algorithm -- Activity Selection with Constraints (15 marks)}
+% You are given a list of $n$ activities with start and end times. You may select non-overlapping activities to perform. Additionally, you are not allowed to select two consecutive activities (i.e., no back-to-back scheduling).
+
+% \begin{itemize}
+%     \item Modify the standard greedy approach to handle this new constraint.
+%     \item Prove whether the modified greedy solution is optimal.
+%     \item Provide an example input and show the selected activities.
+% \end{itemize}
+
+% \section*{Question 2: Huffman Tree with Prefix Constraint (15 marks)}
+% Construct a Huffman tree for a set of characters with frequencies, under the constraint that one symbol must be assigned a binary code that starts with `01`.
+
+% \begin{itemize}
+%     \item Discuss how this prefix constraint alters the tree construction process.
+%     \item Propose an algorithm to modify Huffman coding accordingly.
+%     \item Justify if the result is optimal or not.
+% \end{itemize}
+
+% \section*{Question 3: Dynamic Programming -- Grid Path with Turns (20 marks)}
+% Given an $n \times m$ grid, find the minimum-cost path from the top-left to the bottom-right cell. You may move only right or down. Each move has a cost, and changing direction (e.g., from right to down) adds an extra cost $c$.
+
+% \begin{itemize}
+%     \item Formulate a DP algorithm to solve this.
+%     \item Clearly define the states and transitions.
+%     \item Analyze the time complexity.
+% \end{itemize}
+
+% \section*{Question 4: Shortest Path -- Max Bandwidth Path (15 marks)}
+% In a graph where each edge has a bandwidth value, design an algorithm to find a path from source $s$ to destination $t$ such that the \textbf{minimum bandwidth} among all edges on the path is maximized (known as the widest path problem).
+
+% \begin{itemize}
+%     \item Present an efficient algorithm.
+%     \item Discuss the data structures used.
+%     \item Analyze the time complexity.
+% \end{itemize}
+
+% \section*{Question 5: NP-Completeness -- Hamiltonian Path (15 marks)}
+% A \textbf{Hamiltonian path} in a graph is a path that visits each vertex exactly once. 
+
+% \begin{itemize}
+%     \item Define the decision version of the Hamiltonian Path problem.
+%     \item Show it is in NP.
+%     \item Reduce from 3-SAT or another NP-complete problem to prove NP-completeness.
+% \end{itemize}
+
+% \section*{Question 6: NP-Hardness -- Job Scheduling on Two Machines (20 marks)}
+% You are given a list of $n$ jobs, each with a processing time. Can you assign the jobs to two machines such that the maximum load on any machine is minimized? 
+
+% \begin{itemize}
+%     \item Formulate the decision problem.
+%     \item Show that this problem is NP-hard.
+%     \item Provide a reduction from Partition to support your claim.
+% \end{itemize}
+
+\end{document}
