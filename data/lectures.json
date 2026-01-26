@@ -77,7 +77,10 @@
       "title": "Lecture 1 Notes",
       "link": "resources/notes/l1.pdf"
     },
-    { "date": "2026-01-21", "title": "Lecture 2 Notes", "link": null }
+    { "date": "2026-01-21", 
+      "title": "Lecture 2 Notes", 
+      "link": "resources/notes/l2.pdf"
+    }
   ],
   "slides": [
     {
