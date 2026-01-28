@@ -77,9 +77,15 @@
       "title": "Lecture 1 Notes",
       "link": "resources/notes/l1.pdf"
     },
-    { "date": "2026-01-21", 
-      "title": "Lecture 2 Notes", 
+    {
+      "date": "2026-01-21",
+      "title": "Lecture 2 Notes",
       "link": "resources/notes/l2.pdf"
+    },
+    {
+      "date": "2026-01-26",
+      "title": "Lecture 3 Notes",
+      "link": "resources/slides/l3.pdf"
     }
   ],
   "slides": [
@@ -97,6 +103,11 @@
       "date": "2026-01-21",
       "title": "Lecture 2 Slides B",
       "link": "resources/slides/l2b.pdf"
+    },
+    {
+      "date": "2026-01-26",
+      "title": "Lecture 3 Slides",
+      "link": "resources/slides/l3.pdf"
     }
   ]
 }
