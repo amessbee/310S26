@@ -1,23 +1,221 @@
 \documentclass[11pt]{article}
-\usepackage[a4paper,margin=1in]{geometry}
-\usepackage{amsmath,amssymb}
-\usepackage{graphicx}
-\usepackage{setspace}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{booktabs}
 \usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
 
-\title{\textbf{Algorithms Lecture Notes: Lecture 3}}
-\author{Dr. Mudassir Shabbir}
-\date{2026-01-28}
+\geometry{margin=1in}
+
+\title{Notes (Lecture 3)}
+\author{}
+\date{}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  frame=single,
+  breaklines=true
+}
 
 \begin{document}
+
 \maketitle
-\onehalfspacing
 
-\section*{Slides}
-The slides for Lecture 3 are available here: 
-\href{../slides/l3.pdf}{Lecture 3 Slides (PDF)}.
+\section{The Selection Problem \& Prune-and-Search}
 
-\section*{Overview}
-This document is a placeholder for Lecture 3 notes. Student-scribed notes will be linked here when available.
+\subsection{Problem Statement}
+
+You are given an array $A$ of $n$ \textbf{distinct} elements. 
+
+Your goal is to find the \textbf{$k^{th}$ smallest element} efficiently.
+
+\textbf{Example:}
+
+If  
+\[
+A = [7, 2, 1, 6, 8, 5, 3, 4]
+\]
+and $k = 3$, then the answer is $\mathbf{3}$.
+
+\subsection{Looking at the Naive Approach}
+
+Sort the array and return the $k^{th}$ element.
+
+\begin{itemize}
+  \item Sorting takes $O(n \log n)$.
+  \item But we do not need the full order, only one element.
+\end{itemize}
+
+So we want something faster.
+
+\subsection{Idea: Prune and Search}
+
+Instead of sorting everything, we:
+
+\begin{quote}
+Guess, partition, and discard the part that cannot contain the answer.
+\end{quote}
+
+This is known as the \textbf{Prune-and-Search paradigm}.  
+Each step removes many unnecessary elements.
+
+\section{General Select Algorithm (Prune \& Search)}
+
+\subsection{Step 1: Pick a Guess $g$}
+
+Choose an element from the array as a \textbf{pivot}.
+
+\begin{itemize}
+  \item Deterministic: Median of Medians.
+  \item Randomized: Pick uniformly at random.
+\end{itemize}
+
+\subsection{Step 2: Partition}
+
+Split the array into:
+
+\[
+L = \{x \mid x < g\}, \quad R = \{x \mid x > g\}
+\]
+
+Everything smaller goes left and everything larger goes right.
+
+This takes:
+\[
+O(n)
+\]
+
+\subsection{Step 3: Decide}
+
+Let $|L|$ be the size of $L$.
+
+\begin{itemize}
+  \item If $|L| = k-1$, then $g$ is the answer.
+  \item If $|L| \ge k$, search in $L$ for the $k^{th}$ smallest.
+  \item If $|L| < k-1$, search in $R$ for the $(k-|L|-1)^{th}$ smallest.
+\end{itemize}
+
+Each round throws away part of the array.
+
+\subsection{Pseudocode}
+
+\begin{lstlisting}
+Select(A, k):
+    choose pivot g from A
+    partition A into L and R
+
+    if |L| == k-1:
+        return g
+    else if |L| >= k:
+        return Select(L, k)
+    else:
+        return Select(R, k - |L| - 1)
+\end{lstlisting}
+
+\section{Dry Run Example}
+
+Given:
+\[
+A = [7, 2, 1, 6, 8, 5, 3, 4], \quad k = 3
+\]
+
+\subsection*{Step 1}
+
+Pick $g = 5$.
+
+\subsection*{Step 2}
+
+\[
+L = [2,1,3,4], \quad R = [7,6,8]
+\]
+\[
+|L| = 4
+\]
+
+\subsection*{Step 3}
+
+Since $|L| \ge k$, we recurse:
+
+\[
+Select([2,1,3,4], 3)
+\]
+
+\subsection*{Next Round}
+
+Pick $g = 2$.
+
+\[
+L = [1], \quad R = [3,4]
+\]
+\[
+|L| = 1
+\]
+
+Since $|L| < k-1$, compute:
+
+\[
+k' = 3 - 1 - 1 = 1
+\]
+
+Recurse:
+
+\[
+Select([3,4], 1)
+\]
+
+\subsection*{Next Round}
+
+Pick $g = 3$.
+
+\[
+L = []
+\]
+\[
+|L| = 0 = k-1
+\]
+
+Thus the answer is:
+
+\[
+\boxed{3}
+\]
+
+Each step shrinks the problem size.
+
+\section{Deterministic vs Randomized Selection}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Feature & Deterministic & Randomized \\
+\midrule
+Pivot Choice & Median of Medians & Random \\
+Worst Case & $O(n)$ & $O(n^2)$ \\
+Expected & $O(n)$ & $\Theta(n)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Deterministic (Median of Medians)}
+
+Median of Medians guarantees a good pivot so that a constant fraction is discarded each step.
+
+The standard recurrence is:
+
+\[
+T(n) \le T(n/5) + T(7n/10) + cn
+\]
+
+which solves to:
+
+\[
+T(n) = O(n).
+\]
+
+
+\section{Why Randomize?}
+
+Even though the worst case is $O(n^2)$, it is extremely unlikely. The probability of picking a bad pivot at every step is roughly $(1/n)^n$, which is effectively zero for large $n$. Hence, although the worst case exists, the expected running time remains linear in practice.
 
 \end{document}
