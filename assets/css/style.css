@@ -91,3 +91,18 @@ blockquote.sample { border-left: 4px solid var(--accent); margin: 0; padding-lef
   .nav ul { display: none; }
   .nav.open ul { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.75rem; }
 }
+
+/* Stats layout: left/right zones to pin buttons */
+.stats { display: flex; gap: 1rem; align-items: center; color: var(--muted); margin-top: 0.5rem; }
+.stats-left { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.stats-right { display: flex; gap: 0.5rem; align-items: center; margin-left: auto; }
+
+/* Stabilize stats counters to prevent button shifts */
+#inv-count, #step-count, #res-out {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+#inv-count, #step-count { min-width: 6ch; }
+#res-out { min-width: 24ch; }
+.stats .btn { flex-shrink: 0; }

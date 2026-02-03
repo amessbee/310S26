@@ -92,6 +92,12 @@
       "title": "Lecture 3 Notes",
       "link": "resources/slides/l3.pdf"
     }
+    ,
+    {
+      "date": "2026-02-03",
+      "title": "Lecture 6",
+      "link": null
+    }
   ],
   "slides": [
     {
@@ -130,6 +136,16 @@
       "date": "2026-01-28",
       "title": "Illustration: Inversion Visualizer",
       "link": "illustrations/inversions.html"
+    },
+    {
+      "date": "2026-02-03",
+      "title": "Illustration: Karatsuba Visualizer",
+      "link": "illustrations/karatsuba.html"
+    },
+    {
+      "date": "2026-02-03",
+      "title": "Illustration: Closest Pair Visualizer",
+      "link": "illustrations/closest-pair.html"
     }
   ]
 }

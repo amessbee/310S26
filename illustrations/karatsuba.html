@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Karatsuba Multiplication Visualizer — CS310/5102</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .viz-wrap { max-width: 1080px; margin: 0 auto; padding: 1.25rem; }
+      .viz-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: var(--header-height); }
+      .controls { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+      .controls .group { display: inline-flex; gap: 0.5rem; align-items: center; background: var(--panel); border: 1px solid var(--border); padding: 0.5rem 0.7rem; border-radius: 8px; }
+      .controls label { color: var(--muted); font-size: 0.9rem; }
+      .controls input[type="number"], .controls input[type="range"] { accent-color: var(--accent); }
+      .btn { background: #1f2937; color: var(--text); border: 1px solid var(--border); padding: 0.45rem 0.7rem; border-radius: 8px; cursor: pointer; }
+      :root[data-theme="light"] .btn { background: #e5e7eb; }
+      .btn.primary { background: var(--accent); border-color: transparent; color: #03131f; }
+      .stats { display: flex; gap: 1rem; align-items: center; color: var(--muted); margin-top: 0.5rem; }
+      .board { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; margin-top: 1rem; padding: 1rem; }
+      .bars { position: relative; min-height: 280px; display: grid; grid-template-rows: 1fr 1fr; gap: 10px; padding: 0.5rem; }
+      .row { position: relative; height: 100%; display: flex; align-items: flex-end; gap: 6px; }
+      .bar { flex: 1 1 auto; position: relative; background: linear-gradient(180deg, var(--accent), #2563eb); border-radius: 6px 6px 0 0; transition: height 220ms ease, transform 200ms ease, background 200ms ease; min-width: 18px; }
+      .bar .label { position: absolute; bottom: 100%; left: 50%; transform: translate(-50%, -6px); font-size: 0.8rem; color: var(--text); opacity: 0.8; }
+      .segment { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; pointer-events: none; }
+      .segment .range { position: absolute; bottom: 0; height: 100%; border: 2px dashed var(--accent-2); border-radius: 10px; opacity: 0.35; }
+      .legend { display: flex; gap: 1rem; color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
+      .legend span { display: inline-flex; align-items: center; gap: 0.35rem; }
+      .dot { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+      .dot.cmp { background: var(--accent-2); }
+      .dot.call { background: #22c55e; }
+      .dot.combine { background: var(--danger); }
+      .pseudocode { margin: 0; padding-left: 0; counter-reset: step; font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; white-space: normal; }
+      .pseudocode .line { display: block; margin: 0; padding: 0; line-height: 1; border-radius: 0; }
+      .pseudocode .line::before { counter-increment: step; content: counter(step) "."; color: var(--muted); display: inline-block; vertical-align: top; width: 3ch; text-align: right; margin-right: 0.5ch; }
+      .pseudocode .line.active { background: rgba(56, 189, 248, 0.15); outline: 1px solid rgba(56, 189, 248, 0.35); }
+      .locals { margin-top: 0.5rem; font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.9rem; color: var(--muted); }
+      .locals .kv { display: inline-block; margin-right: 0.75rem; }
+      .locals .kv strong { color: var(--text); }
+      .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .grid-2.full { grid-template-columns: 1fr; }
+      /* accents */
+      .pseudocode .line[data-line="4"] { color: var(--danger); box-shadow: inset 2px 0 0 var(--danger); }
+      .pseudocode .line[data-line="6"] { color: var(--accent); box-shadow: inset 2px 0 0 var(--accent); }
+      .pseudocode .line[data-line="9"] { color: var(--accent-2); box-shadow: inset 2px 0 0 var(--accent-2); }
+      .pseudocode .line[data-line="13"] { color: var(--danger); font-weight: 600; box-shadow: inset 3px 0 0 var(--danger); }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <nav class="nav container">
+        <div class="brand">CS310/5102 • Visualizer</div>
+        <div style="display: flex; gap: 0.5rem; align-items: center">
+          <a class="btn" href="../index.html#lectures">← Back to Lectures</a>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">☀️ Light</button>
+        </div>
+        <ul></ul>
+      </nav>
+    </header>
+
+    <main class="viz-wrap">
+      <div class="viz-header">
+        <div>
+          <h1 style="margin: 0">Karatsuba Integer Multiplication</h1>
+          <p class="small">Visualize recursive splits and combination (z0, z1, z2).</p>
+        </div>
+        <div class="controls">
+          <div class="group">
+            <label for="digits">Digits</label>
+            <input id="digits" type="range" min="1" max="12" value="6" />
+            <input id="digitsNum" type="number" min="1" max="12" value="6" style="width: 64px" />
+          </div>
+          <div class="group">
+            <label for="xInput">X</label>
+            <input id="xInput" type="number" min="0" step="1" value="123456" style="width: 140px" />
+          </div>
+          <div class="group">
+            <label for="yInput">Y</label>
+            <input id="yInput" type="number" min="0" step="1" value="654321" style="width: 140px" />
+          </div>
+          <button id="randomK" class="btn">🎲 Random</button>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stats-left">
+          <span><strong>Result:</strong> <span id="res-out">0</span></span>
+          <span>•</span>
+          <span><strong>Steps:</strong> <span id="step-count">0</span></span>
+          <span>•</span>
+          <div class="group">
+            <label for="speed">Speed</label>
+            <input id="speed" type="range" min="100" max="1500" step="50" value="500" />
+          </div>
+        </div>
+        <div class="stats-right">
+          <button id="pcToggle" class="btn" title="Toggle pseudo-code" aria-label="Toggle pseudo-code">📜 Show Code</button>
+          <button id="resetK" class="btn">↺ Reset</button>
+          <button id="autoK" class="btn">▶ Auto</button>
+          <button id="stepOverK" class="btn">Step Over</button>
+          <button id="stepK" class="btn primary">Step</button>
+        </div>
+      </div>
+
+      <div id="grid" class="grid-2 full">
+        <div class="board">
+          <div id="bars" class="bars">
+            <div class="row" id="rowX"></div>
+            <div class="row" id="rowY"></div>
+          </div>
+          <div class="legend">
+            <span><span class="dot call"></span> recursive call</span>
+            <span><span class="dot cmp"></span> split point</span>
+            <span><span class="dot combine"></span> combine</span>
+          </div>
+        </div>
+        <div id="pcPanel" class="board" style="display: none;">
+          <div class="legend">Pseudo-code (Karatsuba)</div>
+          <div id="pcK" class="pseudocode">
+            <div class="line" data-line="1">function karatsuba(x, y):</div>
+            <div class="line" data-line="2">n = max(len(x), len(y))</div>
+            <div class="line" data-line="3">if n == 1: return x*y</div>
+            <div class="line" data-line="4">m = floor(n/2)</div>
+            <div class="line" data-line="5">xL, xR = split(x, m)</div>
+            <div class="line" data-line="6">yL, yR = split(y, m)</div>
+            <div class="line" data-line="7">z0 = karatsuba(xR, yR)</div>
+            <div class="line" data-line="8">z2 = karatsuba(xL, yL)</div>
+            <div class="line" data-line="9">z1 = karatsuba(xL+xR, yL+yR) - z0 - z2</div>
+            <div class="line" data-line="10">return (z2 &lt;&lt; 2*m) + (z1 &lt;&lt; m) + z0</div>
+          </div>
+          <div id="locals" class="locals"></div>
+        </div>
+      </div>
+    </main>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/karatsuba.clean.js"></script>
+  </body>
+</html>

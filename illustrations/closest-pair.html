@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Closest Pair of Points — CS310/5102</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+      .viz-wrap { max-width: 1080px; margin: 0 auto; padding: 1.25rem; }
+      .viz-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: var(--header-height); }
+      .controls { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+      .controls .group { display: inline-flex; gap: 0.5rem; align-items: center; background: var(--panel); border: 1px solid var(--border); padding: 0.5rem 0.7rem; border-radius: 8px; }
+      .controls label { color: var(--muted); font-size: 0.9rem; }
+      .btn { background: #1f2937; color: var(--text); border: 1px solid var(--border); padding: 0.45rem 0.7rem; border-radius: 8px; cursor: pointer; }
+      :root[data-theme="light"] .btn { background: #e5e7eb; }
+      .btn.primary { background: var(--accent); border-color: transparent; color: #03131f; }
+      .board { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; margin-top: 1rem; padding: 1rem; }
+      .plane { position: relative; width: 100%; height: 360px; background: rgba(3, 19, 31, 0.25); border: 1px dashed var(--border); border-radius: 12px; overflow: hidden; }
+      :root[data-theme="light"] .plane { background: rgba(229, 231, 235, 0.35); }
+      .pt { position: absolute; width: 12px; height: 12px; border-radius: 999px; background: var(--accent); transform: translate(-50%, -50%); }
+      .pt.compare { background: var(--accent-2); }
+      .pt.best { background: #22c55e; box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.45); }
+      .split-line { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--accent-2); opacity: 0.4; }
+      .strip { position: absolute; top: 0; bottom: 0; background: rgba(56, 189, 248, 0.12); border-left: 2px dashed var(--accent); border-right: 2px dashed var(--accent); }
+      .legend { display: flex; gap: 1rem; color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
+      .legend span { display: inline-flex; align-items: center; gap: 0.35rem; }
+      .dot { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+      .dot.cmp { background: var(--accent-2); }
+      .dot.split { background: var(--accent); }
+      .dot.strip { background: var(--danger); }
+      .dot.best { background: #22c55e; }
+      .pseudocode { margin: 0; padding-left: 0; counter-reset: step; font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; white-space: normal; }
+      .pseudocode .line { display: block; margin: 0; padding: 0; line-height: 1; border-radius: 0; }
+      .pseudocode .line::before { counter-increment: step; content: counter(step) "."; color: var(--muted); display: inline-block; vertical-align: top; width: 3ch; text-align: right; margin-right: 0.5ch; }
+      .pseudocode .line.active { background: rgba(56, 189, 248, 0.15); outline: 1px solid rgba(56, 189, 248, 0.35); }
+      .locals { margin-top: 0.5rem; font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.9rem; color: var(--muted); }
+      .locals .kv { display: inline-block; margin-right: 0.75rem; }
+      .locals .kv strong { color: var(--text); }
+      .grid-2.full { grid-template-columns: 1fr; }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <nav class="nav container">
+        <div class="brand">CS310/5102 • Visualizer</div>
+        <div style="display: flex; gap: 0.5rem; align-items: center">
+          <a class="btn" href="../index.html#lectures">← Back to Lectures</a>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">☀️ Light</button>
+        </div>
+        <ul></ul>
+      </nav>
+    </header>
+
+    <main class="viz-wrap">
+      <div class="viz-header">
+        <div>
+          <h1 style="margin: 0">Closest Pair of Points — Divide & Conquer</h1>
+          <p class="small">Visualize recursive splits, strip, and pair comparisons.</p>
+        </div>
+        <div class="controls">
+          <div class="group">
+            <label for="nPts">Points</label>
+            <input id="nPts" type="range" min="2" max="60" value="20" />
+            <input id="nPtsNum" type="number" min="2" max="60" value="20" style="width: 64px" />
+          </div>
+          <button id="randomCP" class="btn">🎲 Random</button>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stats-left">
+          <span><strong>Best distance:</strong> <span id="best-out">0</span></span>
+          <span>•</span>
+          <span><strong>Steps:</strong> <span id="step-count">0</span></span>
+          <span>•</span>
+          <div class="group">
+            <label for="speed">Speed</label>
+            <input id="speed" type="range" min="100" max="1500" step="50" value="500" />
+          </div>
+        </div>
+        <div class="stats-right">
+          <button id="pcToggle" class="btn" title="Toggle pseudo-code" aria-label="Toggle pseudo-code">📜 Show Code</button>
+          <button id="resetCP" class="btn">↺ Reset</button>
+          <button id="autoCP" class="btn">▶ Auto</button>
+          <button id="stepOverCP" class="btn">Step Over</button>
+          <button id="stepCP" class="btn primary">Step</button>
+        </div>
+      </div>
+
+      <div id="grid" class="grid-2 full">
+        <div class="board">
+          <div id="plane" class="plane"></div>
+          <div class="legend">
+            <span><span class="dot split"></span> split x</span>
+            <span><span class="dot strip"></span> strip</span>
+            <span><span class="dot cmp"></span> compare pair</span>
+            <span><span class="dot best"></span> best pair</span>
+          </div>
+        </div>
+        <div id="pcPanel" class="board" style="display: none;">
+          <div class="legend">Pseudo-code (Closest Pair)</div>
+          <div id="pcCP" class="pseudocode">
+            <div class="line" data-line="1">function closest(Px):</div>
+            <div class="line" data-line="2">if |Px| &lt;= 3: brute()</div>
+            <div class="line" data-line="3">m = floor(|Px|/2), midx = Px[m].x</div>
+            <div class="line" data-line="4">L = Px[0..m), R = Px[m..n)</div>
+            <div class="line" data-line="5">dL = closest(L)</div>
+            <div class="line" data-line="6">dR = closest(R)</div>
+            <div class="line" data-line="7">d = min(dL, dR)</div>
+            <div class="line" data-line="8">strip = { p in Px : |p.x - midx| &lt; d }</div>
+            <div class="line" data-line="9">sort strip by y</div>
+            <div class="line" data-line="10">for i: for j in i+1..i+7:</div>
+            <div class="line" data-line="11">  if dist(strip[i], strip[j]) &lt; d: d = dist(...)</div>
+            <div class="line" data-line="12">return d</div>
+          </div>
+          <div id="locals" class="locals"></div>
+        </div>
+      </div>
+    </main>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/closest_pair.clean.js"></script>
+  </body>
+</html>

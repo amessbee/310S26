@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Counting Inversions — Merge Step Animation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        background: #f8f9fa;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      #controls {
+        text-align: center;
+        margin: 20px 0;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 0 10px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      canvas {
+        display: block;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+        background: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Counting Inversions – Merge Step Visualization</h1>
+
+    <div id="controls">
+      <button onclick="restart()">Restart</button>
+      <button onclick="playPause()">[ Play / Pause ]</button>
+      <button onclick="stepOnce()">Step</button>
+      <label style="margin-left:12px;">Speed
+        <input id="speed" type="range" min="1" max="5" value="3" />
+      </label>
+      <p>Array: [10,14,18,19, 3,7,16,17, 23,25,2,11]</p>
+    </div>
+
+    <script>
+      let left = [3, 7, 16, 17];
+      let right = [2, 10, 11, 14, 18, 19, 23, 25];
+      let array = [...left, ...right];
+
+      let aux = [];
+      let i = 0,
+        j = 0;
+      let totalInversions = 0;
+      let stepInversions = 0;
+
+      let state = "choose";
+      let paused = true;
+      let frameCounter = 0;
+      let framesPerStep = 90; // default pace; controlled via slider
+      let anim = null; // { from:{x,y}, to:{x,y}, value, t, duration }
+      let plusFX = null; // { text, alpha, t, duration }
+
+      function setup() {
+        createCanvas(960, 480);
+        pixelDensity(2);
+        textAlign(CENTER, CENTER);
+        textSize(20);
+        frameRate(30); // ← explicit frame rate helps stability
+        restart();
+        const sp = document.getElementById("speed");
+        if (sp) {
+          sp.addEventListener("input", () => {
+            const v = Number(sp.value);
+            // Map 1..5 to slower..faster
+            const map = { 1: 120, 2: 90, 3: 60, 4: 40, 5: 25 };
+            framesPerStep = map[v] || 60;
+          });
+        }
+      }
+
+      function draw() {
+        background(245);
+        // Always render
+        drawScene();
+
+        // Animate transfer if active
+        if (anim) {
+          const p = anim.t / anim.duration;
+          const q = easeInOutCubic(p);
+          const x = anim.from.x + (anim.to.x - anim.from.x) * q;
+          const y = anim.from.y + (anim.to.y - anim.from.y) * q;
+          drawBubble(x, y, anim.value);
+          anim.t++;
+          if (anim.t >= anim.duration) anim = null;
+        }
+
+        // Fade-out +Δinv overlay
+        if (plusFX) {
+          plusFX.t++;
+          const p = plusFX.t / plusFX.duration;
+          const a = 1 - p;
+          push();
+          fill(220, 50, 50, 255 * a);
+          textSize(26);
+          text(`+${plusFX.text}`, width / 2 + 240, height - 80);
+          pop();
+          if (plusFX.t >= plusFX.duration) plusFX = null;
+        }
+
+        // If paused or finished, don't advance the state machine.
+        if (paused || state === "done") return;
+
+        // Throttle state updates to every N frames when not animating
+        if (!anim) {
+          frameCounter++;
+          if (frameCounter >= framesPerStep) {
+            frameCounter = 0;
+            stepOnce();
+          }
+        }
+      }
+
+      function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      }
+
+      function drawBubble(x, y, val) {
+        push();
+        stroke(60);
+        fill(255);
+        rectMode(CENTER);
+        rect(x, y, 60, 50, 6);
+        fill(0);
+        textSize(18);
+        text(val, x, y + 2);
+        pop();
+      }
+
+      function stepOnce() {
+        if (state === "done" || anim) return false;
+        stepInversions = 0;
+
+        // Compute geometry helpers
+        const geom = getGeom();
+
+        if (state === "choose") {
+          if (i < left.length && j < right.length) {
+            if (left[i] <= right[j]) {
+              const from = geom.leftCenter(i);
+              aux.push(left[i]);
+              const to = geom.auxCenter(aux.length - 1);
+              anim = { from, to, value: left[i], t: 0, duration: Math.max(20, Math.floor(framesPerStep * 0.6)) };
+              i++;
+              state = "took-left";
+            } else {
+              const from = geom.rightCenter(j);
+              aux.push(right[j]);
+              stepInversions = left.length - i;
+              totalInversions += stepInversions;
+              plusFX = { text: stepInversions, t: 0, duration: 45 };
+              const to = geom.auxCenter(aux.length - 1);
+              anim = { from, to, value: right[j], t: 0, duration: Math.max(20, Math.floor(framesPerStep * 0.6)) };
+              j++;
+              state = "took-right-inversion";
+            }
+          } else if (i < left.length) {
+            const from = geom.leftCenter(i);
+            aux.push(left[i]);
+            const to = geom.auxCenter(aux.length - 1);
+            anim = { from, to, value: left[i], t: 0, duration: Math.max(20, Math.floor(framesPerStep * 0.6)) };
+            i++;
+            state = "took-left";
+          } else if (j < right.length) {
+            const from = geom.rightCenter(j);
+            aux.push(right[j]);
+            const to = geom.auxCenter(aux.length - 1);
+            anim = { from, to, value: right[j], t: 0, duration: Math.max(20, Math.floor(framesPerStep * 0.6)) };
+            j++;
+            state = "took-right";
+          } else {
+            state = "done";
+          }
+        }
+        return true;
+      }
+
+      function getGeom() {
+        const cellW = 60;
+        const cellH = 50;
+        const startX = 80;
+        const startY = 80;
+        return {
+          leftCenter: (k) => ({ x: startX + k * cellW + cellW / 2, y: startY + cellH / 2 }),
+          rightCenter: (k) => ({ x: startX + (k + left.length + 2) * cellW + cellW / 2, y: startY + cellH / 2 }),
+          auxCenter: (k) => ({ x: startX + k * cellW + cellW / 2, y: startY + cellH + 90 + cellH / 2 }),
+        };
+      }
+
+      function drawScene() {
+        let cellW = 60;
+        let cellH = 50;
+        let startX = 80;
+        let startY = 80;
+
+        // Title
+        fill(40);
+        noStroke();
+        textSize(22);
+        text("Merge & Count Inversions", width / 2, 35);
+
+        // ──── Two sorted halves ──────────────────────────
+        textSize(18);
+        text("Left half", startX + cellW * 2, startY - 40);
+        text("Right half", startX + cellW * 6.5, startY - 40);
+
+        // Left array
+        for (let k = 0; k < left.length; k++) {
+          let x = startX + k * cellW;
+          let y = startY;
+          stroke(100);
+          fill(k < i ? "#a8dadc" : "#fff");
+          if (k === i && state.includes("left")) fill("#ffd166");
+          rect(x, y, cellW, cellH);
+          fill(0);
+          text(left[k], x + cellW / 2, y + cellH / 2);
+        }
+
+        // Right array
+        for (let k = 0; k < right.length; k++) {
+          let x = startX + (k + left.length + 2) * cellW;
+          let y = startY;
+          stroke(100);
+          fill(k < j ? "#a8dadc" : "#fff");
+          if (k === j && state.includes("right")) fill("#ffd166");
+          rect(x, y, cellW, cellH);
+          fill(0);
+          text(right[k], x + cellW / 2, y + cellH / 2);
+        }
+
+        // ──── Auxiliary / result array ───────────────────
+        text("Auxiliary array (being built)", width / 2, startY + cellH + 60);
+
+        for (let k = 0; k < aux.length; k++) {
+          let x = startX + k * cellW;
+          let y = startY + cellH + 90;
+          stroke(80);
+          fill("#e9c46a");
+          rect(x, y, cellW, cellH);
+          fill(0);
+          text(aux[k], x + cellW / 2, y + cellH / 2);
+        }
+
+        // Pointers
+        textSize(16);
+        if (i < left.length) {
+          let px = startX + i * cellW + cellW / 2;
+          let py = startY + cellH + 15;
+          fill("#ef476f");
+          triangle(px - 8, py, px + 8, py, px, py + 12);
+          text("i = " + i, px, py + 30);
+        }
+        if (j < right.length) {
+          let px = startX + (j + left.length + 2) * cellW + cellW / 2;
+          let py = startY + cellH + 15;
+          fill("#ef476f");
+          triangle(px - 8, py, px + 8, py, px, py + 12);
+          text("j = " + j, px, py + 30);
+        }
+
+        // Inversion count
+        textSize(20);
+        fill(0);
+        text(
+          `Total cross inversions:  ${totalInversions}`,
+          width / 2,
+          height - 80,
+        );
+
+        // (Animated overlay handled separately)
+
+        // Status message
+        textSize(18);
+        fill(60);
+        let msg = "";
+        if (state === "took-left") msg = "Took from left → no inversion";
+        if (state === "took-right")
+          msg = "Took from right (right exhausted left)";
+        if (state === "took-right-inversion")
+          msg = `Inversion!  ${stepInversions} elements in left > ${right[j - 1]}`;
+        if (state === "done") msg = "Merge complete ✓";
+        text(msg, width / 2, height - 45);
+      }
+
+      // ──── Controls ───────────────────────────────────────
+      function restart() {
+        aux = [];
+        i = 0;
+        j = 0;
+        totalInversions = 0;
+        stepInversions = 0;
+        state = "choose";
+        paused = false;
+        frameCounter = 0;
+        anim = null;
+        plusFX = null;
+      }
+
+      function playPause() {
+        paused = !paused;
+      }
+    </script>
+  </body>
+</html>
