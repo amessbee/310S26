@@ -187,32 +187,52 @@
         background: rgba(56, 189, 248, 0.15);
         outline: 1px solid rgba(56, 189, 248, 0.35);
       }
-      .locals { margin-top: 0.5rem; font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.9rem; color: var(--muted); }
-      .locals .kv { display: inline-block; margin-right: 0.75rem; }
-      .locals .kv strong { color: var(--text); }
+      .locals {
+        margin-top: 0.5rem;
+        font-family:
+          "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+          Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+      .locals .kv {
+        display: inline-block;
+        margin-right: 0.75rem;
+      }
+      .locals .kv strong {
+        color: var(--text);
+      }
+      /* Grid expansion when pseudo-code is hidden */
+      .grid-2.full { grid-template-columns: 1fr; }
       /* Color accents for key algorithm steps */
-      .pseudocode .line[data-line="4"] { /* base case */
+      .pseudocode .line[data-line="4"] {
+        /* base case */
         color: var(--danger);
         box-shadow: inset 2px 0 0 var(--danger);
       }
-      .pseudocode .line[data-line="8"] { /* merge init */
+      .pseudocode .line[data-line="8"] {
+        /* merge init */
         color: var(--accent);
         box-shadow: inset 2px 0 0 var(--accent);
       }
-      .pseudocode .line[data-line="9"] { /* compare loop */
+      .pseudocode .line[data-line="9"] {
+        /* compare loop */
         color: var(--accent-2);
         box-shadow: inset 2px 0 0 var(--accent-2);
       }
-      .pseudocode .line[data-line="10"] { /* take from left */
+      .pseudocode .line[data-line="10"] {
+        /* take from left */
         color: var(--accent);
       }
-      .pseudocode .line[data-line="11"] { /* inversion increment */
+      .pseudocode .line[data-line="11"] {
+        /* inversion increment */
         color: var(--danger);
         font-weight: 600;
         box-shadow: inset 3px 0 0 var(--danger);
       }
       .pseudocode .line[data-line="12"],
-      .pseudocode .line[data-line="13"] { /* tails */
+      .pseudocode .line[data-line="13"] {
+        /* tails */
         color: var(--accent);
         opacity: 0.95;
       }
@@ -259,6 +279,7 @@
             />
           </div>
           <button id="random" class="btn">🎲 Random</button>
+          <button id="modeToggle" class="btn">Simple: Off</button>
         </div>
       </div>
 
@@ -281,13 +302,14 @@
             value="500"
           />
         </div>
+        <button id="pcToggle" class="btn" title="Toggle pseudo-code" aria-label="Toggle pseudo-code">📜 Show Code</button>
         <button id="reset" class="btn">↺ Reset</button>
         <button id="auto" class="btn">▶ Auto</button>
         <button id="stepOver" class="btn">Step Over</button>
         <button id="step" class="btn primary">Step</button>
       </div>
 
-      <div class="grid-2">
+      <div id="grid" class="grid-2 full">
         <div class="board">
           <div id="bars" class="bars"></div>
           <div class="legend">
@@ -295,9 +317,9 @@
             <span><span class="dot wrt"></span> writing</span>
           </div>
         </div>
-        <div class="board">
+        <div id="pcPanel" class="board" style="display: none;">
           <div class="legend">Pseudo-code (highlight shows current step)</div>
-          <div id="pc" class="pseudocode">
+          <div id="pcAdvanced" class="pseudocode">
             <div class="line" data-line="1">function countInversions(A):</div>
             <div class="line" data-line="2">return sortCount(A, 0, n)</div>
             <div>.</div>
@@ -308,19 +330,28 @@
             <div class="line" data-line="7">sortCount(A, m, r)</div>
             <div class="line" data-line="8">i = l; j = m; k = l</div>
             <div class="line" data-line="9">while i &lt; m and j &lt; r:</div>
-            <div class="line" data-line="10">
-              if A[i] &lt;= A[j]: A[k] = A[i]; i++; k++
-            </div>
-            <div class="line" data-line="11">
-              else: A[k] = A[j]; j++; k++; inv += (m - i)
-            </div>
-            <div class="line" data-line="12">
-              while i &lt; m: A[k] = A[i]; i++; k++
-            </div>
-            <div class="line" data-line="13">
-              while j &lt; r: A[k] = A[j]; j++; k++
-            </div>
+            <div class="line" data-line="10">if A[i] &lt;= A[j]: A[k] = A[i]; i++; k++</div>
+            <div class="line" data-line="11">else: A[k] = A[j]; j++; k++; inv += (m - i)</div>
+            <div class="line" data-line="12">while i &lt; m: A[k] = A[i]; i++; k++</div>
+            <div class="line" data-line="13">while j &lt; r: A[k] = A[j]; j++; k++</div>
             <div class="line" data-line="14">return</div>
+          </div>
+          <div id="pcSimple" class="pseudocode" style="display:none">
+            <div class="line" data-line="1">function countInversions(A):</div>
+            <div class="line" data-line="2">return sortCount(A, 0, n)</div>
+            <div>.</div>
+            <div class="line" data-line="3">function sortCount(A, l, r):</div>
+            <div class="line" data-line="4">if r - l &lt;= 1: return [A[l..r), 0]</div>
+            <div class="line" data-line="5">m = floor((l + r)/2)</div>
+            <div class="line" data-line="6">L, invL = sortCount(A, l, m)</div>
+            <div class="line" data-line="7">R, invR = sortCount(A, m, r)</div>
+            <div class="line" data-line="8">// prepare merge</div>
+            <div class="line" data-line="9">for each x in L:</div>
+            <div class="line" data-line="10">// (merge arrays separately, no index tracking)</div>
+            <div class="line" data-line="11">inv += lowerBound(R, x)</div>
+            <div class="line" data-line="12">M = merge(L, R)</div>
+            <div class="line" data-line="13">assign M back to A[l..r)</div>
+            <div class="line" data-line="14">return [M, invL + invR + inv]</div>
           </div>
           <div id="locals" class="locals"></div>
         </div>

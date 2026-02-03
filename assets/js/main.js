@@ -122,7 +122,9 @@
       const extras = (data.extras || []).map((x) => ({
         date: x.date,
         title: x.title,
-        extrasLinks: x.link ? [{ label: x.title || "Extra", href: x.link }] : [],
+        extrasLinks: x.link
+          ? [{ label: x.title || "Extra", href: x.link }]
+          : [],
       }));
       const byDate = new Map();
       for (const n of notes) {
@@ -152,7 +154,9 @@
       for (const x of extras) {
         const existing = byDate.get(x.date);
         if (existing) {
-          existing.extrasLinks = existing.extrasLinks.concat(x.extrasLinks || []);
+          existing.extrasLinks = existing.extrasLinks.concat(
+            x.extrasLinks || [],
+          );
         } else {
           byDate.set(x.date, {
             date: x.date,
@@ -184,11 +188,12 @@
                 )
                 .join(", ")
             : '<span class="small">Slides pending</span>';
-          const extrasPart = (item.extrasLinks && item.extrasLinks.length)
-            ? item.extrasLinks
-                .map((e) => `<a href="${e.href}">${e.label || "Extra"}</a>`)
-                .join(", ")
-            : "";
+          const extrasPart =
+            item.extrasLinks && item.extrasLinks.length
+              ? item.extrasLinks
+                  .map((e) => `<a href="${e.href}">${e.label || "Extra"}</a>`)
+                  .join(", ")
+              : "";
           return `
         <div class="card">
           <div class="kicker">${item.date}</div>
