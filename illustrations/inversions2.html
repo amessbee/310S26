@@ -40,7 +40,8 @@
       <button onclick="restart()">Restart</button>
       <button onclick="playPause()">[ Play / Pause ]</button>
       <button onclick="stepOnce()">Step</button>
-      <label style="margin-left:12px;">Speed
+      <label style="margin-left: 12px"
+        >Speed
         <input id="speed" type="range" min="1" max="5" value="3" />
       </label>
       <p>Array: [10,14,18,19, 3,7,16,17, 23,25,2,11]</p>
@@ -153,7 +154,13 @@
               const from = geom.leftCenter(i);
               aux.push(left[i]);
               const to = geom.auxCenter(aux.length - 1);
-              anim = { from, to, value: left[i], t: 0, duration: Math.max(20, Math.floor(framesPerStep * 0.6)) };
+              anim = {
+                from,
+                to,
+                value: left[i],
+                t: 0,
+                duration: Math.max(20, Math.floor(framesPerStep * 0.6)),
+              };
               i++;
               state = "took-left";
             } else {
@@ -163,7 +170,13 @@
               totalInversions += stepInversions;
               plusFX = { text: stepInversions, t: 0, duration: 45 };
               const to = geom.auxCenter(aux.length - 1);
-              anim = { from, to, value: right[j], t: 0, duration: Math.max(20, Math.floor(framesPerStep * 0.6)) };
+              anim = {
+                from,
+                to,
+                value: right[j],
+                t: 0,
+                duration: Math.max(20, Math.floor(framesPerStep * 0.6)),
+              };
               j++;
               state = "took-right-inversion";
             }
@@ -171,14 +184,26 @@
             const from = geom.leftCenter(i);
             aux.push(left[i]);
             const to = geom.auxCenter(aux.length - 1);
-            anim = { from, to, value: left[i], t: 0, duration: Math.max(20, Math.floor(framesPerStep * 0.6)) };
+            anim = {
+              from,
+              to,
+              value: left[i],
+              t: 0,
+              duration: Math.max(20, Math.floor(framesPerStep * 0.6)),
+            };
             i++;
             state = "took-left";
           } else if (j < right.length) {
             const from = geom.rightCenter(j);
             aux.push(right[j]);
             const to = geom.auxCenter(aux.length - 1);
-            anim = { from, to, value: right[j], t: 0, duration: Math.max(20, Math.floor(framesPerStep * 0.6)) };
+            anim = {
+              from,
+              to,
+              value: right[j],
+              t: 0,
+              duration: Math.max(20, Math.floor(framesPerStep * 0.6)),
+            };
             j++;
             state = "took-right";
           } else {
@@ -194,9 +219,18 @@
         const startX = 80;
         const startY = 80;
         return {
-          leftCenter: (k) => ({ x: startX + k * cellW + cellW / 2, y: startY + cellH / 2 }),
-          rightCenter: (k) => ({ x: startX + (k + left.length + 2) * cellW + cellW / 2, y: startY + cellH / 2 }),
-          auxCenter: (k) => ({ x: startX + k * cellW + cellW / 2, y: startY + cellH + 90 + cellH / 2 }),
+          leftCenter: (k) => ({
+            x: startX + k * cellW + cellW / 2,
+            y: startY + cellH / 2,
+          }),
+          rightCenter: (k) => ({
+            x: startX + (k + left.length + 2) * cellW + cellW / 2,
+            y: startY + cellH / 2,
+          }),
+          auxCenter: (k) => ({
+            x: startX + k * cellW + cellW / 2,
+            y: startY + cellH + 90 + cellH / 2,
+          }),
         };
       }
 
