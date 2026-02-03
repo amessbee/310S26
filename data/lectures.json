@@ -123,6 +123,16 @@
       "date": "2026-01-28",
       "title": "Lecture 4 Slides B",
       "link": "resources/slides/qsort.mp4"
+    },
+    {
+      "date": "2026-02-03",
+      "title": "Lecture 5 Slides A",
+      "link": "resources/slides/l5a.pdf"
+    },
+    {
+      "date": "2026-02-03",
+      "title": "Lecture 5 Slides B",
+      "link": "resources/slides/l5b.pdf"
     }
   ]
 }
