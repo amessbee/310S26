@@ -119,6 +119,11 @@
         title: s.title,
         slidesLinks: s.link ? [s.link] : [],
       }));
+      const extras = (data.extras || []).map((x) => ({
+        date: x.date,
+        title: x.title,
+        extrasLinks: x.link ? [{ label: x.title || "Extra", href: x.link }] : [],
+      }));
       const byDate = new Map();
       for (const n of notes) {
         byDate.set(n.date, {
@@ -126,6 +131,7 @@
           title: n.title,
           notesLinks: n.notesLinks,
           slidesLinks: [],
+          extrasLinks: [],
         });
       }
       for (const s of slides) {
@@ -139,6 +145,21 @@
             title: s.title,
             notesLinks: [],
             slidesLinks: s.slidesLinks,
+            extrasLinks: [],
+          });
+        }
+      }
+      for (const x of extras) {
+        const existing = byDate.get(x.date);
+        if (existing) {
+          existing.extrasLinks = existing.extrasLinks.concat(x.extrasLinks || []);
+        } else {
+          byDate.set(x.date, {
+            date: x.date,
+            title: x.title,
+            notesLinks: [],
+            slidesLinks: [],
+            extrasLinks: x.extrasLinks || [],
           });
         }
       }
@@ -163,11 +184,16 @@
                 )
                 .join(", ")
             : '<span class="small">Slides pending</span>';
+          const extrasPart = (item.extrasLinks && item.extrasLinks.length)
+            ? item.extrasLinks
+                .map((e) => `<a href="${e.href}">${e.label || "Extra"}</a>`)
+                .join(", ")
+            : "";
           return `
         <div class="card">
           <div class="kicker">${item.date}</div>
           <h3>${item.title}</h3>
-          <p class="small">${notesPart} • ${slidesPart}</p>
+          <p class="small">${notesPart} • ${slidesPart}${extrasPart ? " • " + extrasPart : ""}</p>
         </div>`;
         })
         .join("");

@@ -124,5 +124,12 @@
       "title": "Lecture 4 Slides B",
       "link": "resources/slides/qsort.mp4"
     }
+  ],
+  "extras": [
+    {
+      "date": "2026-01-28",
+      "title": "Illustration: Inversion Visualizer",
+      "link": "illustrations/inversions.html"
+    }
   ]
 }
