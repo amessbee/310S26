@@ -59,9 +59,10 @@
   function renderLocals(partial) {
     if (partial && typeof partial === "object") Object.assign(locals, partial);
     if (!localsEl) return;
-    const keys = mode === "advanced"
-      ? ["l", "r", "m", "i", "j", "k", "inv", "Δinv"]
-      : ["l", "r", "m", "x", "rank", "inv", "Δinv"];
+    const keys =
+      mode === "advanced"
+        ? ["l", "r", "m", "i", "j", "k", "inv", "Δinv"]
+        : ["l", "r", "m", "x", "rank", "inv", "Δinv"];
     const items = [];
     for (const k of keys) {
       if (locals[k] !== undefined && locals[k] !== null) {
@@ -149,9 +150,10 @@
     array = src.slice();
     inversionCount = 0;
     actionIndex = 0;
-    actions = (mode === "advanced"
-      ? buildActionsAdvanced(src.slice())
-      : buildActionsSimple(src.slice()));
+    actions =
+      mode === "advanced"
+        ? buildActionsAdvanced(src.slice())
+        : buildActionsSimple(src.slice());
     invEl.textContent = String(inversionCount);
     stepEl.textContent = String(actionIndex);
     resetHighlights();
@@ -209,7 +211,10 @@
       // Simple mode: compute rank of L[i] within R (count of elements in R < x)
       lastHighlights.seg = { l: act.l, r: act.r };
       const delta = act.rank;
-      if (delta) { inversionCount += delta; invEl.textContent = String(inversionCount); }
+      if (delta) {
+        inversionCount += delta;
+        invEl.textContent = String(inversionCount);
+      }
       locals.x = act.x;
       locals.rank = act.rank;
       locals["Δinv"] = delta || null;
@@ -221,7 +226,11 @@
       renderLocals();
       if (act.which === "L") highlightLine(6);
       else highlightLine(7);
-      locals.k = null; locals.x = null; locals.rank = null; locals["Δinv"] = null; renderLocals();
+      locals.k = null;
+      locals.x = null;
+      locals.rank = null;
+      locals["Δinv"] = null;
+      renderLocals();
       lastHighlights.seg = { l: act.l, r: act.r };
       locals.l = act.l;
       locals.r = act.r;
@@ -253,7 +262,12 @@
     } else if (act.type === "compare") {
       lastHighlights.compare = [act.i, act.j];
       lastHighlights.seg = { l: act.l, r: act.r };
-      if (mode === "advanced" && currentMerge && currentMerge.l === act.l && currentMerge.r === act.r)
+      if (
+        mode === "advanced" &&
+        currentMerge &&
+        currentMerge.l === act.l &&
+        currentMerge.r === act.r
+      )
         locals.k = currentMerge.k;
       locals.i = act.i;
       locals.j = act.j;
@@ -326,14 +340,20 @@
     let segR = null;
     const next = actions[actionIndex];
     if (next && typeof next.l === "number" && typeof next.r === "number") {
-      segL = next.l; segR = next.r;
+      segL = next.l;
+      segR = next.r;
     } else if (lastHighlights.seg) {
-      segL = lastHighlights.seg.l; segR = lastHighlights.seg.r;
+      segL = lastHighlights.seg.l;
+      segR = lastHighlights.seg.r;
     } else {
       // Fallback: scan ahead to find the next segment marker
       for (let i = actionIndex; i < actions.length; i++) {
         const a = actions[i];
-        if (typeof a.l === "number" && typeof a.r === "number") { segL = a.l; segR = a.r; break; }
+        if (typeof a.l === "number" && typeof a.r === "number") {
+          segL = a.l;
+          segR = a.r;
+          break;
+        }
       }
     }
     if (segL === null || segR === null) return stepOnce();
@@ -342,9 +362,15 @@
     let targetIndex = -1;
     for (let i = actionIndex; i < actions.length; i++) {
       const a = actions[i];
-      if (a.type === "initmerge" && a.l === segL && a.r === segR) { targetIndex = i; break; }
+      if (a.type === "initmerge" && a.l === segL && a.r === segR) {
+        targetIndex = i;
+        break;
+      }
       // If we reach a done for this segment without seeing initmerge, no merge is needed
-      if (a.type === "done" && a.l === segL && a.r === segR) { targetIndex = -1; break; }
+      if (a.type === "done" && a.l === segL && a.r === segR) {
+        targetIndex = -1;
+        break;
+      }
     }
     if (targetIndex === -1) return stepOnce();
 
@@ -447,23 +473,30 @@
   function buildActionsSimple(a) {
     const acts = [];
     function lowerBound(arr, x) {
-      let lo = 0, hi = arr.length;
+      let lo = 0,
+        hi = arr.length;
       while (lo < hi) {
         const mid = (lo + hi) >> 1;
-        if (arr[mid] < x) lo = mid + 1; else hi = mid;
+        if (arr[mid] < x) lo = mid + 1;
+        else hi = mid;
       }
       return lo; // count of elements < x
     }
     function mergeArrays(L, R) {
       const out = [];
-      let i = 0, j = 0;
-      while (i < L.length && j < R.length) out.push(L[i] <= R[j] ? L[i++] : R[j++]);
+      let i = 0,
+        j = 0;
+      while (i < L.length && j < R.length)
+        out.push(L[i] <= R[j] ? L[i++] : R[j++]);
       while (i < L.length) out.push(L[i++]);
       while (j < R.length) out.push(R[j++]);
       return out;
     }
     function mergeSort(l, r) {
-      if (r - l <= 1) { acts.push({ type: "base", l, r }); return a.slice(l, r); }
+      if (r - l <= 1) {
+        acts.push({ type: "base", l, r });
+        return a.slice(l, r);
+      }
       const m = Math.floor((l + r) / 2);
       acts.push({ type: "seg", l, r });
       acts.push({ type: "call", l, r, which: "L" });
@@ -520,15 +553,25 @@
       modeToggle.textContent = mode === "simple" ? "Simple: On" : "Simple: Off";
       // Switch active pseudocode block
       pcEl = mode === "advanced" ? pcAdvancedEl : pcSimpleEl;
-      if (pcAdvancedEl) pcAdvancedEl.style.display = mode === "advanced" ? "block" : "none";
-      if (pcSimpleEl) pcSimpleEl.style.display = mode === "simple" ? "block" : "none";
-      console.debug("[viz] Mode toggled", { mode, pcAdvancedElExists: !!pcAdvancedEl, pcSimpleElExists: !!pcSimpleEl });
+      if (pcAdvancedEl)
+        pcAdvancedEl.style.display = mode === "advanced" ? "block" : "none";
+      if (pcSimpleEl)
+        pcSimpleEl.style.display = mode === "simple" ? "block" : "none";
+      console.debug("[viz] Mode toggled", {
+        mode,
+        pcAdvancedElExists: !!pcAdvancedEl,
+        pcSimpleElExists: !!pcSimpleEl,
+      });
       resetAll(baseArray);
     });
   }
 
   if (pcToggle && gridEl && pcPanelEl) {
-    console.debug("[viz] Binding pcToggle", { pcToggleExists: !!pcToggle, gridElExists: !!gridEl, pcPanelElExists: !!pcPanelEl });
+    console.debug("[viz] Binding pcToggle", {
+      pcToggleExists: !!pcToggle,
+      gridElExists: !!gridEl,
+      pcPanelElExists: !!pcPanelEl,
+    });
     pcToggle.addEventListener("click", () => {
       codeVisible = !codeVisible;
       const before = window.getComputedStyle(pcPanelEl).display;
@@ -542,7 +585,12 @@
         pcToggle.textContent = "📜 Show Code";
       }
       const after = window.getComputedStyle(pcPanelEl).display;
-      console.debug("[viz] pcToggle click", { codeVisible, before, after, gridClasses: gridEl.className });
+      console.debug("[viz] pcToggle click", {
+        codeVisible,
+        before,
+        after,
+        gridClasses: gridEl.className,
+      });
     });
   } else {
     console.warn("[viz] pcToggle setup skipped: missing elements", {
