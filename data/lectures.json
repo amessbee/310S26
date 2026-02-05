@@ -91,10 +91,12 @@
       "date": "2026-01-26",
       "title": "Lecture 3 Notes",
       "link": "resources/slides/l3.pdf"
-    },
+    }
+  ],
+  "worksheets": [
     {
       "date": "2026-02-04",
-      "title": "Lecture 6",
+      "title": "Lecture 6 Worksheet",
       "link": "ws/ws2.pdf"
     }
   ],

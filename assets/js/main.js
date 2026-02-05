@@ -119,6 +119,11 @@
         title: s.title,
         slidesLinks: s.link ? [s.link] : [],
       }));
+      const worksheets = (data.worksheets || []).map((w) => ({
+        date: w.date,
+        title: w.title,
+        worksheetsLinks: w.link ? [w.link] : [],
+      }));
       const byDate = new Map();
       for (const n of notes) {
         byDate.set(n.date, {
@@ -126,6 +131,7 @@
           title: n.title,
           notesLinks: n.notesLinks,
           slidesLinks: [],
+          worksheetsLinks: [],
         });
       }
       for (const s of slides) {
@@ -139,6 +145,24 @@
             title: s.title,
             notesLinks: [],
             slidesLinks: s.slidesLinks,
+            worksheetsLinks: [],
+          });
+        }
+      }
+      for (const w of worksheets) {
+        const existing = byDate.get(w.date);
+        if (existing) {
+          existing.worksheetsLinks = existing.worksheetsLinks.concat(
+            w.worksheetsLinks,
+          );
+          if (!existing.title) existing.title = w.title;
+        } else {
+          byDate.set(w.date, {
+            date: w.date,
+            title: w.title,
+            notesLinks: [],
+            slidesLinks: [],
+            worksheetsLinks: w.worksheetsLinks,
           });
         }
       }
@@ -163,11 +187,19 @@
                 )
                 .join(", ")
             : '<span class="small">Slides pending</span>';
+          const worksheetsPart = item.worksheetsLinks.length
+            ? item.worksheetsLinks
+                .map(
+                  (l, idx) =>
+                    `<a href="${l}">Worksheet${item.worksheetsLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
+                )
+                .join(", ")
+            : '<span class="small">Worksheet pending</span>';
           return `
         <div class="card">
           <div class="kicker">${item.date}</div>
           <h3>${item.title}</h3>
-          <p class="small">${notesPart} • ${slidesPart}</p>
+          <p class="small">${notesPart} • ${slidesPart} • ${worksheetsPart}</p>
         </div>`;
         })
         .join("");
