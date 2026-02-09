@@ -1,0 +1,142 @@
+% -*- program: xelatex -*-
+
+\newif\ifanswers
+%\answerstrue
+
+% Dr Driver's standard reading quiz
+% Source: https://gist.github.com/danieldriver/90a73c4d3c72dd837e39#file-quiz-tex 
+\documentclass[%
+% 11pt,
+% answers,
+addpoints]{exam}
+
+\pagestyle{head}
+
+\usepackage{amssymb,amsmath,amsfonts,amsthm,graphicx}
+
+\usepackage[top=0.3in, bottom=0.75in, left=0.5in, right=0.5in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+
+\DeclareGraphicsExtensions{.pdf}
+%\centerline {\includegraphics[width=3in]{PICTURE}}
+
+
+
+\newtheoremstyle{problem}{\topsep}{\topsep}%%% space between body and thm
+{}                      %%% Thm body font
+{}                              %%% Indent amount (empty = no indent)
+{\bfseries}            %%% Thm head font
+{}                    %%% Punctuation after thm head
+{ }                           %%% Space after thm head
+{\thmnumber{#2}\thmnote{ \bfseries (#3)}}%%% Thm head spec
+\theoremstyle{problem}
+\newtheorem{p}{}
+
+\firstpageheader{% left
+	CS \liningnums{310}: Algorithms --- Divide And Conquer\\
+	Mudassir Shabbir, February 04, 2026
+}{% center - blank
+}{% right
+	Full name1:\enspace\makebox[2in]{\hrulefill}\\
+	Full name2:\enspace\makebox[2in]{\hrulefill}\\
+}
+\runningheader{}{}{}
+% For double-sided quizzes
+% \pagestyle{headandfoot}
+% \footer{}{\thepage}{}
+
+% Typography and layout
+\usepackage{fontspec,realscripts}
+\defaultfontfeatures{Ligatures=TeX}
+%\setmainfont{Meta Serif Pro}
+%\setsansfont{Meta Pro}
+\frenchspacing
+% - print solutions in sans serif
+\unframedsolutions
+\SolutionEmphasis{\sffamily}
+\renewcommand{\solutiontitle}{}
+% - box points & center in the right margin w/ custom setup@point@toks
+\boxedpoints
+\pointsinrightmargin
+\marginbonuspointname{\textsc{up}}
+\makeatletter% rewrite setup@point@toks assuming right margins
+\def\clap#1{\hbox to 0pt{\hss#1\hss}}% define \clap as per https://www.tug.org/TUGboat/tb22-4/tb72perlS.pdf
+\def\setup@point@toks{%
+	\point@toks={%
+		\rlap{\hskip-\@totalleftmargin
+			\hskip\textwidth
+			\hskip\@rightmargin
+			\hskip-\rightpointsmargin
+			\clap{\padded@point@block}% change \llap to \clap
+		}%
+		\global \point@toks={}%
+	}%
+}% end setup@point@toks
+\setlength{\rightpointsmargin}{.5in}% assuming the default 1" margins
+\makeatother
+% - adjust the top and bottom margins
+\extraheadheight{.25in}
+\extrafootheight{-.5in}
+\setlength{\marginparwidth}{1.5in}
+% NB: remember to use \newpage after the last question
+\usepackage{xcolor}
+\usepackage{pagecolor}
+
+%\pagecolor{black}
+%\color{white}
+
+\usepackage[document]{ragged2e}
+\begin{document}
+	
+	\pagestyle{empty}
+	\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r}
+\textbf{CS 310: Algorithms -- Recurrences} 
+& \emph{Mudassir Shabbir, February 09, 2026}
+\end{tabular*}
+
+\vspace{0.4cm}
+
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l l}
+\textbf{Student ID 1 \& 2:}{\em (Do this in pairs)} \hrulefill 
+& 
+\end{tabular*}
+
+\vspace{0.3cm}
+\hrule
+
+
+	\thispagestyle{myheadings}
+	\pagenumbering{gobble}
+	\begin{p}
+		\textbf{Solve the following recurrence relations either through the tree method or the master method:}
+\begin{enumerate}
+    \item $T(n) = 2T(n - 1) + 1$
+    \vspace{1.2cm}
+    \item $T(n)=3T(n/3)+n$
+    \vspace{1.2cm}
+    \item $T(n)=2T(n/2)+n$
+    \vspace{1.2cm}
+    \item $T(n)=T(n/3)+T(2n/3)+n$
+    \vspace{1.2cm}
+    \item $T(n)=2T(n/2)+1$
+    \vspace{1.2cm}
+    \item $T(n)=T(n/3)+\log n$
+    \vspace{1.2cm}
+    \item $T(n)=9T(n/3)+n^2$
+    \vspace{1.2cm}
+    \item $T(n)=4T(n/2)+n^3$
+\end{enumerate}
+		\hfill \end{p}
+	%\vfill
+	\ifanswers
+	{\bf SOL:}  
+	\vfill
+	\fi
+	
+
+		
+	
+\end{document}
