@@ -1,0 +1,261 @@
+\documentclass[9pt]{book}
+\setlength{\oddsidemargin}{-.5 in}
+\setlength{\evensidemargin}{-.5 in}
+% \setlength{\evensidemargin}{.0 in}
+\addtolength{\topmargin}{-1in}
+\setlength{\textwidth}{7.5in}
+\setlength{\textheight}{9in}
+\usepackage{enumitem}
+
+%\usepackage[utf8x]{inputenc}
+\usepackage{amsmath, amssymb}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+%\usepackage[normalem]{ulem}
+%\usepackage[switch, mathlines, displaymath]{lineno}
+%\linenumbers
+\usepackage{algorithm}
+\usepackage{url, color, epsfig, amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb}
+%\usepackage{algorithmic}
+\usepackage{algpseudocode}
+
+% \usepackage{times}
+\usepackage{algorithm}
+\usepackage{url, color, epsfig, amsmath, amsthm, amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+%
+% this command enables to remove a whole part of the text
+% from the printout
+% to use it just enter
+% \remove{
+% before the text to be excluded and
+% }
+% after the text
+\newcommand{\remove}[1]{}
+
+%
+% The following macros are used to generate nice code for programs.
+% See example on how to use it below
+%
+
+%%%%%%%%%%%%%%%%%%%%% program macros %%%%%%%%%%%%%%%%%
+
+\newcommand{\Do}{{\small\bf do}\ }
+\newcommand{\Proc}[1]{#1\+}
+\newcommand{\Returns}{{\small\bf returns}}
+\newcommand{\Procbegin}{{\small\bf begin}}
+\newcommand{\Then}{{\small\bf then}\ \=\+}
+\newcommand{\Elseif}{\<{\small\bf elseif}\ }
+\newcommand{\Endif}{\<{\small\bf end\ if\ }\-\-}
+\newcommand{\Endproc}[1]{{\small\bf end} #1\-}
+\newcommand{\Endfor}{{\small\bf end\ for}\ \-}
+\newcommand{\Endloop}{{\bf end\ loop}\ \-}
+\newenvironment{program}{
+	\begin{minipage}{\textwidth}
+		\begin{tabbing}
+			\ \ \ \ \=\kill
+		}{
+	\end{tabbing}
+\end{minipage}
+}
+
+% a blank line
+\def\blankline{\hbox{}}
+
+%%%%%%%%%%%%%%%%%%%%% End of PROGRAM macros %%%%%%%%%%%%%%%%%
+
+
+%
+% The following macro is used to generate the header.
+%
+%
+
+\newcommand{\lecture}[5]{
+	\pagestyle{headings}
+	\thispagestyle{plain}
+	\newpage
+	\setcounter{chapter}{#1}
+	\setcounter{page}{#2}
+	%  \set\thechapter{#3}
+	\noindent
+	\begin{center}
+		\framebox{
+			\vbox{
+				\hbox to 6.28in { {\bf Algorithms 
+						\hfill Spring Semester, 2026} }
+				\vspace{4mm}
+				\hbox to 6.28in { {\Large \hfill Homework 2 (NOT Graded) \hfill} }
+				\vspace{2mm}
+				\hbox to 6.28in { {\it Professor: #4 \hfill Deadline: Feb 02, 2026.} }
+			}
+		}
+
+
+	\end{center}
+	% \markboth{Lecture #1: #3}{Lecture #1: #3}
+	\vspace*{4mm}
+}
+
+%
+% Use these macros for organizing sections of your notes.
+% Each command takes two arguments: (1) the title of the section and and
+% (2) a keyword for that section to appear in the index.  (See examples.)
+% Please don't use \section, \subsection, and \subsubsection directly!
+%
+
+\newcommand{\topic}[2]{\section{#1} \index{#2} \markright{#1}}
+\newcommand{\subtopic}[2]{\subsection{#1} \index{#2}}
+\newcommand{\subsubtopic}[2]{\subsubsection{#1} \index{#2}}
+
+\renewcommand{\cite}[1]{[#1]}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+%
+% These are just to make things a little easier:
+%
+\newcommand{\bi}{\begin{itemize}}
+	\newcommand{\ei}{\end{itemize}}
+\newcommand{\be}{\begin{enumerate}}
+	\newcommand{\ee}{\end{enumerate}}
+\newcommand{\blank}{\vspace{1ex}}   % generates a blank line in the output
+
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{digress}[theorem]{Digression}
+\newtheorem{corollary}[theorem]{Corollary}
+%\newcommand{\qed}{\hfill $\Box$}
+%\newenvironment{proof}{\par{\bf Proof:}}{\qed \par}
+%\newenvironment{proof}{{\em Proof:}}{\hfill\rule{2mm}{2mm}}
+
+%
+% Use the following for definitions.
+% \bigdef is for definitions to be set off by themselves; \smalldef is for
+% definitions given in the middle of a paragraph.
+%
+\newenvironment{dfn}{{\vspace*{1ex} \noindent \bf Definition }}{\vspace*{1ex}}
+\newcommand{\bigdef}[2]{\index{#1}\begin{dfn} {\rm #2} \end{dfn}}
+\newcommand{\smalldef}[1]{\index{#1} {\em #1}}
+
+\begin{document}
+	%\lecture{**LECTURE-NUMBER**}{**1ST-PAGE**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+	\lecture{0}{1}{\today}{Dr. Mudassir Shabbir}{180 mins.}
+    
+    This homework contains a set of practice problem and \textbf{no submission is required}.
+
+\begin{enumerate}[label=\arabic*.]
+
+\item \textit{This problem models searching for a ``self-consistent'' index, which arises in fixed-point computations and debugging sorted data tables.}  
+Suppose an array contains distinct integers. Design a divide-and-conquer algorithm to determine whether there exists an index $i$ such that $A[i]=i$.
+
+\item Solve the recurrence $T(n)=2T(n/2)+n\log n$.
+
+\item Solve $T(n)=3T(n/4)+n$ and justify which case of the Master Theorem applies.
+
+\item Give an example of a recurrence where the Master Theorem does \emph{not} apply and explain why.
+
+\item Show that if QuickSort always picks the smallest element as pivot, its running time becomes $\Theta(n^2)$.
+
+\item What is the probability that the pivot chosen is among the smallest $10\%$ of elements?
+
+\item Show that MergeSort is stable.
+
+\item The Karatsuba algorithm, discovered by Anatolii Karatsuba in 1960, was the first multiplication algorithm asymptotically faster than the classical ``grade school'' method. It elegantly demonstrates the power of divide and conquer by reducing the number of recursive multiplications needed.
+Consider multiplying two 4-digit numbers using the standard algorithm you learned in elementary school.
+\begin{enumerate}
+    \item How many single-digit multiplications does the classical algorithm require to multiply two $n$-digit numbers? Express your answer as a function of $n$ and explain your reasoning.
+    \item Let's multiply two 2-digit numbers: $X = 52$ and $Y = 37$.
+We can represent these as:
+\begin{align*}
+X &= 5 \times 10^1 + 2 \times 10^0 = 10 \cdot x_1 + x_0 \quad \text{where } x_1 = 5, x_0 = 2\\
+Y &= 3 \times 10^1 + 7 \times 10^0 = 10 \cdot y_1 + y_0 \quad \text{where } y_1 = 3, y_0 = 7
+\end{align*}
+Write the expression for $X \times Y$ in terms of $x_1$, $x_0$, $y_1$, and $y_0$? How many multiplications of single-digit numbers does your expression require? This is still the classical approach. What's the issue with using this as a divide-and-conquer algorithm for large numbers?
+\item Karatsuba observed that we can compute $X \times Y$ using only \textbf{THREE} multiplications instead of four.
+Given:
+\begin{align*}
+z_2 &= x_1 \times y_1\\
+z_0 &= x_0 \times y_0\\
+z_1 &= (x_1 + x_0) \times (y_1 + y_0) - z_2 - z_0
+\end{align*} Prove algebraically that $X \times Y = z_2 \times 10^2 + z_1 \times 10^1 + z_0$.
+\item Verify this works for $X = 52$ and $Y = 37$ by computing all three $z$ values.
+\item Explain why computing $z_1$ this way is clever. What computation does it avoid?
+\item Write pseudocode for the Karatsuba algorithm that works for $n$-digit numbers where $n$ is a power of 2.
+Your pseudocode should:
+\begin{itemize}
+\item Handle the base case appropriately
+\item Recursively compute the three products
+\item Combine results correctly
+\end{itemize}
+\item Let $T(n)$ be the number of single-digit multiplications needed to multiply two $n$-digit numbers using Karatsuba's algorithm. Write the recurrence relation for $T(n)$ and use Master Theorem to solve it.
+\item What is the time complexity when we count all operations (multiplications, additions, and digit shifts)? Assume all single digit operations (e.g., adding two single digit numbers, multiplying two single digit numbers, shifting a single digit), take constant time.
+
+\end{enumerate}
+
+\item \textit{Fast exponentiation appears in cryptography, scientific computing, and modular arithmetic used in security protocols.}  
+Design a divide-and-conquer algorithm to compute $a^n$ for integer $n \ge 0$. Compare it with the naive repeated multiplication method. You can use the Karatsuba Algorithm from the previous problem or the naive classical algorithm for Time Complexity of multiplying two numbers.
+
+
+\item \textit{Closest-point queries arise in sensor readings, timestamps, and financial tick data.}  
+If the points are already sorted, give an $O(n)$ divide and conquer algorithm to find the closest pair of real numbers on a line.
+
+\item \textit{Duplicate detection is central in data cleaning, fraud detection, and log analysis.}  
+Suppose you have a black-box function that tells you whether a subarray contains at least one duplicate element in time $f(n)$.
+
+Design a divide-and-conquer algorithm that finds a duplicate if one exists.\footnote{Hint: Split the array into halves. If neither half contains a duplicate internally, where must a duplicate lie? What information would help you detect it?
+}
+
+\item \textit{Detecting whether a signal or message stream is biased toward 1s, is an important problem in error detection and communications research.} 
+You are given a binary string of length $n$. Design a divide-and-conquer algorithm that counts the number of substrings that contain more 1s than 0s.\footnote{Think of translating the string into $+1$ and $-1$. The problem becomes counting subarrays with positive sum.  
+What information must each recursive call return so the merge step can count cross-boundary substrings?
+}
+
+\item Construct a recurrence that \emph{almost} satisfies case 2 of the standard Master Theorem but violates the regularity condition.\footnote{Try adding a slowly growing factor like $\log\log n$.}
+
+\item 
+Suppose an algorithm splits into 5 subproblems of size $n/3$ and does $n$ work outside recursion.  
+Without solving the recurrence exactly, argue whether the runtime is closer to $n$, $n\log n$, or $n^{1.5}$.\footnote{Compare $n^{\log_3 5}$ with $n$.}
+
+\item \textit{Hybrid sorting (QuickSort + insertion sort) is used in real libraries such as C++ STL and Java.}  
+Modify Randomized QuickSort so that it stops recursing on subarrays of size $\le k$ and instead finishes using insertion sort. Argue how to maximally choose $k$ so that the expected asymptotic runtime remains $O(n\log n)$.
+
+\item Suppose QuickSort always chooses a pivot uniformly from the first $\sqrt{n}$ elements.  
+Is the expected runtime still $O(n\log n)$?\footnote{What is the probability that such a pivot lies in the middle half of the array?}
+
+\item \textit{This question helps explain why QuickSort spreads its work across elements fairly evenly on average.}  
+Consider the standard version of randomized QuickSort. Let $X_k$ be the number of elements that are compared to the $k$-th smallest element.  
+Find
+
+\item \textit{Cycle detection is used in deadlock detection, dependency resolution, and build systems.}  
+Write pseudocode for DFS and explain how it can be used to detect cycles in a graph.
+
+\item \textit{Manhattan distance is used in grid navigation, robotics, and routing on city maps.}  
+For the closest pair problem in 2D, Suppose the distance metric is Manhattan distance instead of Euclidean. Does the divide-and-conquer algorithm we discussed in class still work in $O(n\log n)$ time?\footnote{What geometric property of the strip argument must still hold?}
+
+\item \textit{This measures disagreement between two ranked lists — for example, how two users rate movies differently in a recommendation system.}  
+Given two permutations $P$ and $Q$, define their distance as the number of pairs ordered differently in the two permutations.  
+Show how to compute this in $O(n\log n)$ time.\footnote{Map one permutation into the index order of the other.}
+
+\item \textit{Weighted inversions arise when late mistakes are more costly than early ones, such as scheduling delays or ranking penalties.}  
+Define a \emph{distance-weighted inversion} as $(i,j)$ with $i<j$ and $A[i]>A[j]$, weighted by $j-i$.  
+Design an $O(n\log n)$ algorithm to compute the total weight.\footnote{During merge, what prefix sums must you maintain?}
+
+\item 
+Show that reversing a sorted array of size $n$ produces exactly $\binom{n}{2}$ inversions.
+
+\item Give an input where MergeSort performs exactly $n\log_2 n - n + 1$ comparisons.
+
+\item \textit{Detecting already-sorted data allows systems to avoid unnecessary work (e.g., log files, nearly sorted databases).}  
+Modify MergeSort so that it stops merging once it detects the two halves are already ordered, i.e, the merge won't change the order at all. What single comparison could detect this? What is the best-case runtime for this modified algorithm?
+
+\item \textit{Reducing extra memory is crucial in embedded systems and large-scale external sorting.}  
+MergeSort is not an in-place sorting algorithm as it requires linear amount of extra space. Design a MergeSort variant that uses only $O(\sqrt{n})$ extra memory.\footnote{Think about merging blocks instead of individual elements.}
+
+\end{enumerate}
+
+\end{document}
