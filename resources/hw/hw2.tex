@@ -6,6 +6,7 @@
 \setlength{\textwidth}{7.5in}
 \setlength{\textheight}{9in}
 \usepackage{enumitem}
+\usepackage{tikz}
 
 %\usepackage[utf8x]{inputenc}
 \usepackage{amsmath, amssymb}
@@ -255,6 +256,55 @@ Modify MergeSort so that it stops merging once it detects the two halves are alr
 
 \item \textit{Reducing extra memory is crucial in embedded systems and large-scale external sorting.}  
 MergeSort is not an in-place sorting algorithm as it requires linear amount of extra space. Design a MergeSort variant that uses only $O(\sqrt{n})$ extra memory.\footnote{Think about merging blocks instead of individual elements.}
+
+\item \textit{Write an algorithm to find the number of connected components in a graph.}
+
+\item \textit{BFS and DFS}
+
+Consider the following undirected graph with vertices: $A, B, C, D, E, F$.
+\begin{center}
+
+\begin{tikzpicture}[scale=1.0, every node/.style={circle, draw, minimum size=0.9cm}]
+    % Nodes
+    \node (A) at (0,2) {A};
+    \node (B) at (2,3) {B};
+    \node (C) at (2,1) {C};
+    \node (D) at (4,3) {D};
+    \node (E) at (4,1) {E};
+    \node (F) at (6,2) {F};
+    
+    % Edges
+    \draw (A) -- (B);
+    \draw (A) -- (C);
+    \draw (B) -- (D);
+    \draw (C) -- (E);
+    \draw (D) -- (F);
+    \draw (E) -- (F);
+\end{tikzpicture}
+\end{center}
+
+Assume that neighbors are added to the queue (for BFS) or considered (for DFS) in **alphabetical order**.
+
+\begin{enumerate}
+    \item Start BFS from vertex $A$.  
+    Write the order in which vertices are **discovered** (added to the queue).
+    
+    \item In the BFS tree, what is the **minimum number of edges** required to reach vertex $F$ from vertex $A$?
+    
+    \item Perform a DFS starting from vertex $A$.  
+    Rule: Always explore the **alphabetically first unvisited neighbor**.  
+    Trace your recursion: $A \to B \to \dots$
+    
+    Write the full **DFS discovery order**.
+    
+    \item Which vertex was discovered **last** in BFS?
+    
+    \item Which vertex was discovered **last** in DFS?
+    
+    \item In general, which algorithm is better for finding **shortest paths in unweighted graphs**? Explain why.
+\end{enumerate}
+
+
 
 \end{enumerate}
 
