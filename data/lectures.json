@@ -103,6 +103,11 @@
       "date": "2026-02-09",
       "title": "Lecture 7 Worksheet",
       "link": "ws/ws3.pdf"
+    },
+    {
+      "date": "2026-02-16",
+      "title": "Lecture 9 Worksheet",
+      "link": "ws/ws4.pdf"
     }
   ],
   "slides": [
@@ -179,6 +184,11 @@
     {
       "date": "2026-02-23",
       "title": "Lecture 11 Slides",
+      "link": "resources/slides/l11.pdf"
+    },
+    {
+      "date": "2026-02-25",
+      "title": "Lecture 12 Slides",
       "link": "resources/slides/l11.pdf"
     }
   ]
