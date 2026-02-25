@@ -1,0 +1,150 @@
+\documentclass[12pt]{exam}
+
+\usepackage{amssymb,amsmath,amsfonts,amsthm,graphicx}
+\usepackage[top=0.3in, bottom=0.75in, left=0.5in, right=0.5in]{geometry}
+\usepackage{tikz}
+\DeclareGraphicsExtensions{.pdf}
+
+\newtheoremstyle{problem}{\topsep}{\topsep}{}{}{\bfseries}{}{ }%
+{\thmnumber{#2}\thmnote{ \bfseries (#3)}}
+\theoremstyle{problem}
+\newtheorem{p}{}
+
+\firstpageheader%
+{CS \liningnums{310}: Algorithms --- Graphs\\
+Mudassir Shabbir, February 25, 2026}
+{}
+{Full name1:\enspace\makebox[2in]{\hrulefill}\\
+Full name2:\enspace\makebox[2in]{\hrulefill}\\}
+
+\runningheader{}{}{}
+
+\frenchspacing
+\unframedsolutions
+\SolutionEmphasis{\sffamily}
+\renewcommand{\solutiontitle}{}
+\boxedpoints
+\pointsinrightmargin
+\marginbonuspointname{\textsc{up}}
+
+\makeatletter
+\def\clap#1{\hbox to 0pt{\hss#1\hss}}
+\def\setup@point@toks{%
+	\point@toks={%
+		\rlap{\hskip-\@totalleftmargin
+			\hskip\textwidth
+			\hskip\@rightmargin
+			\hskip-\rightpointsmargin
+			\clap{\padded@point@block}%
+		}%
+		\global \point@toks={}%
+	}%
+}
+\setlength{\rightpointsmargin}{.5in}
+\makeatother
+
+\extraheadheight{.25in}
+\extrafootheight{-.5in}
+\setlength{\marginparwidth}{1.5in}
+
+\usepackage{xcolor}
+\usepackage{pagecolor}
+\usepackage[document]{ragged2e}
+
+\begin{document}
+	
+\pagestyle{empty}
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r}
+\textbf{CS 310: Algorithms -- Graphs} 
+& \emph{Mudassir Shabbir, February 16, 2026}
+\end{tabular*}
+
+\vspace{0.4cm}
+
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l l}
+\textbf{Student ID 1 \& 2:}{\em (Do this in pairs)} \hrulefill 
+&
+\end{tabular*}
+
+\vspace{0.3cm}
+\hrule
+
+\thispagestyle{myheadings}
+\pagenumbering{gobble}
+
+\begin{p}
+\textbf{The Network Integrity Challenge}
+
+\textbf{Scenario:} You are managing a communication network. The network is currently \emph{Bipartite}, meaning the
+users are split into two groups (Group $L$ and Group $R$), and users only communicate with members of the
+opposite group.
+
+\begin{center}
+\begin{tikzpicture}[
+    scale=1.2,
+    every node/.style={circle, draw, minimum size=0.9cm},
+    every edge/.style={thick}
+]
+
+
+% LAYER 1 - GROUP L
+
+\node (L1) at (0,3) {$L_1$};
+\node (L2) at (0,2) {$L_2$};
+\node (L3) at (0,1) {$L_3$};
+
+
+% LAYER 2 - GROUP R
+
+\node (R1) at (4,3) {$R_1$};
+\node (R2) at (4,2) {$R_2$};
+\node (R3) at (4,1) {$R_3$};
+
+
+\draw (L1) -- (R1);
+\draw (L1) -- (R2);
+\draw (L2) -- (R2);
+\draw (L2) -- (R3);
+\draw (L3) -- (R1);
+
+
+\node (v) at (8,2) {$v$};
+
+\draw[red, dashed, line width=2pt] (R2) -- (v);
+
+\node[draw=none, red] at (5.5,2.5) {Proposed $(u,v)$ ?};
+
+
+\node[draw=none] at (0,3.8) {\textbf{Group L}};
+\node[draw=none] at (4,3.8) {\textbf{Group R}};
+\node[draw=none] at (8,3.8) {\textbf{L or R ?}};
+
+\end{tikzpicture}
+\end{center}
+
+\textbf{The Problem:} You need to add one new edge between two existing users. However, if this edge creates
+an odd cycle, the bipartite property of the network will be destroyed.
+
+\vspace{0.2cm}
+
+\textbf{The Task: Design a Verification Algorithm}
+
+\begin{enumerate}
+    \item \textbf{Algorithm Design:}  
+    Given an existing bipartite graph $G = (V, E)$ and a proposed new edge $(u,v)$, describe a
+    simple strategy using \textsc{BFS} to determine whether adding $(u,v)$ will break the bipartite property.
+
+    \emph{Hint:} Think about the ``layers'' (or two-coloring/groups) assigned to nodes during a BFS traversal.
+    Which group does each endpoint belong to?
+
+    \vspace{7 cm}
+
+    \item \textbf{Efficiency:}  
+    What is the runtime of your algorithm? Can it be done in O(V + E)?
+\end{enumerate}
+
+\end{p}
+
+\end{document}
