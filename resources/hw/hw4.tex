@@ -1,0 +1,461 @@
+\documentclass[9pt]{book}
+\setlength{\oddsidemargin}{-.5 in}
+\setlength{\evensidemargin}{-.5 in}
+\addtolength{\topmargin}{-1in}
+\setlength{\textwidth}{7.5in}
+\setlength{\textheight}{9in}
+\usepackage{enumitem}
+\usepackage{tikz}
+
+\usepackage{amsmath, amssymb}
+\usepackage{algorithm}
+\usepackage{url, color, epsfig, amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{algpseudocode}
+
+\usepackage{algorithm}
+\usepackage{url, color, epsfig, amsmath, amsthm, amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\newcommand{\remove}[1]{}
+
+\newcommand{\Do}{{\small\bf do}\ }
+\newcommand{\Proc}[1]{#1\+}
+\newcommand{\Returns}{{\small\bf returns}}
+\newcommand{\Procbegin}{{\small\bf begin}}
+\newcommand{\Then}{{\small\bf then}\ \=\+}
+\newcommand{\Elseif}{\<{\small\bf elseif}\ }
+\newcommand{\Endif}{\<{\small\bf end\ if\ }\-\-}
+\newcommand{\Endproc}[1]{{\small\bf end} #1\-}
+\newcommand{\Endfor}{{\small\bf end\ for}\ \-}
+\newcommand{\Endloop}{{\bf end\ loop}\ \-}
+\newenvironment{program}{
+	\begin{minipage}{\textwidth}
+		\begin{tabbing}
+			\ \ \ \ \=\kill
+		}{
+	\end{tabbing}
+\end{minipage}
+}
+
+\def\blankline{\hbox{}}
+
+\newcommand{\lecture}[5]{
+	\pagestyle{headings}
+	\thispagestyle{plain}
+	\newpage
+	\setcounter{chapter}{#1}
+	\setcounter{page}{#2}
+	\noindent
+	\begin{center}
+		\framebox{
+			\vbox{
+				\hbox to 6.28in { {\bf Algorithms
+						\hfill Spring Semester, 2026} }
+				\vspace{4mm}
+				\hbox to 6.28in { {\Large \hfill Homework 4 (NOT Graded) \hfill} }
+				\vspace{2mm}
+				\hbox to 6.28in { {\it Professor: #4 \hfill Deadline: Mar 02, 2026.} }
+			}
+		}
+
+
+	\end{center}
+	\vspace*{4mm}
+}
+
+\newcommand{\topic}[2]{\section{#1} \index{#2} \markright{#1}}
+\newcommand{\subtopic}[2]{\subsection{#1} \index{#2}}
+\newcommand{\subsubtopic}[2]{\subsubsection{#1} \index{#2}}
+
+\renewcommand{\cite}[1]{[#1]}
+\renewcommand{\thefootnote}{\arabic{footnote}}
+
+\newcommand{\bi}{\begin{itemize}}
+	\newcommand{\ei}{\end{itemize}}
+\newcommand{\be}{\begin{enumerate}}
+	\newcommand{\ee}{\end{enumerate}}
+\newcommand{\blank}{\vspace{1ex}}
+
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{digress}[theorem]{Digression}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newenvironment{dfn}{{\vspace*{1ex} \noindent \bf Definition }}{\vspace*{1ex}}
+\newcommand{\bigdef}[2]{\index{#1}\begin{dfn} {\rm #2} \end{dfn}}
+\newcommand{\smalldef}[1]{\index{#1} {\em #1}}
+
+\begin{document}
+	\lecture{0}{1}{\today}{Dr. Mudassir Shabbir}{180 mins.}
+
+    This homework contains a set of practice problems and \textbf{no submission is required}.
+
+\begin{enumerate}[label=\arabic*.]
+
+% ---------------------------------------------------------------
+% GREEDY ALGORITHMS
+% ---------------------------------------------------------------
+
+\item \textit{The greedy approach to coin change breaks for non-standard denominations, which arises in currency design and dynamic programming motivation.}
+
+A country uses coin denominations $\{1, 4, 6\}$.
+\begin{enumerate}
+    \item Show that the greedy algorithm (always pick the largest coin that fits) does \emph{not} produce the optimal solution when making change for $8$.
+    \item Give an example denomination set $\{1, c, d\}$ where greedy is \emph{optimal} for all amounts, and explain why.
+    \item Prove that for denominations $\{1, 2, 5, 10, 25\}$ (US cents), the greedy algorithm is always optimal.\footnote{Hint: Show that for any amount, the greedy solution uses no more coins than any other solution, by considering each denomination class separately.}
+\end{enumerate}
+
+\item \textit{Interval scheduling appears in resource allocation, CPU scheduling, and calendar management.}
+
+You are given $n$ jobs. Job $i$ has a \textbf{deadline} $d_i$ (it must finish by time $d_i$) and a \textbf{penalty} $w_i$ if it misses its deadline. Each job takes exactly one unit of time. You can only do one job at a time and you want to \textbf{minimize the total penalty}.
+
+\begin{enumerate}
+    \item Prove that there always exists an optimal schedule with no idle time before all jobs are done, i.e., an optimal schedule is a permutation of all $n$ jobs.
+    \item Consider the greedy strategy: schedule jobs in \emph{decreasing} order of penalty, placing each job as late as possible before its deadline (or mark it as missed if no slot is available). Give a small example (4 jobs) and trace this algorithm.
+    \item Prove or disprove: sorting by $w_i / d_i$ (penalty-to-deadline ratio) in decreasing order always gives an optimal solution.
+\end{enumerate}
+
+\item \textit{Fractional knapsack models resource allocation when items can be partially taken, such as loading cargo onto a ship.}
+
+You have a knapsack of capacity $W$. There are $n$ items; item $i$ has weight $w_i > 0$ and value $v_i > 0$. Unlike the 0/1 knapsack, you may take a \emph{fraction} of any item.
+
+\begin{enumerate}
+    \item Describe a greedy algorithm for the fractional knapsack problem.
+    \item Prove your algorithm is optimal using an exchange argument.\footnote{Suppose an optimal solution differs from the greedy solution. Find the first item where they disagree and show swapping towards the greedy choice cannot decrease the value.}
+    \item Show by example that the same greedy strategy fails for the 0/1 knapsack (where each item is taken entirely or not at all).
+\end{enumerate}
+
+\item \textit{File merging arises in external sorting, database systems, and Huffman-inspired compression pipelines.}
+
+You have $n$ sorted files of sizes $s_1, s_2, \ldots, s_n$. Merging two files of sizes $a$ and $b$ costs $a + b$. You want to merge all files into one with \textbf{minimum total cost}.\footnote{This is exactly the problem solved by Huffman coding, but framed for file merging.}
+
+\begin{enumerate}
+    \item Show that for $n = 3$ files of sizes $\{2, 3, 5\}$, the total cost depends on the merge order. Compute both possible merge orders and their costs.
+    \item Describe a greedy algorithm using a priority queue that always merges the two smallest files first.
+    \item Prove that this greedy strategy is optimal.\footnote{Use an exchange argument: if an optimal solution merges two files that are not the two smallest, show you can swap without increasing cost.}
+    \item What is the time complexity of your algorithm (including the time to build the priority queue)?
+\end{enumerate}
+
+\item \textit{Greedy algorithms can appear correct but fail subtly. This is one of the most instructive failure modes in algorithm design.}
+
+Consider a \textbf{weighted} activity selection problem. You have $n$ intervals, each with a start time $s_i$, finish time $f_i$, and weight $w_i$. You want to select a set of non-overlapping intervals with \textbf{maximum total weight}.
+
+\begin{enumerate}
+    \item Show that the greedy strategy ``always pick the non-overlapping interval with the smallest finish time'' fails for weighted intervals.
+    \item Show that ``always pick the non-overlapping interval with the highest weight'' also fails.
+    \item Show that ``always pick the non-overlapping interval with the best weight-to-duration ratio'' also fails. Provide a concrete counterexample for each.
+\end{enumerate}
+
+% ---------------------------------------------------------------
+% UNION-FIND
+% ---------------------------------------------------------------
+
+\item \textit{Union-Find models dynamic connectivity, which arises in network routing, image segmentation, and Kruskal's MST algorithm.}
+
+Suppose you have $n = 8$ elements $\{1, 2, 3, 4, 5, 6, 7, 8\}$, each initially its own component. Perform the following sequence of operations using \textbf{union by rank} and \textbf{path compression}. After each Union, draw the resulting forest (showing parent pointers and ranks).
+
+\begin{enumerate}
+    \item $\texttt{Union}(1,2)$, $\texttt{Union}(3,4)$, $\texttt{Union}(5,6)$, $\texttt{Union}(7,8)$
+    \item $\texttt{Union}(1,3)$, $\texttt{Union}(5,7)$
+    \item $\texttt{Union}(1,5)$
+    \item $\texttt{Find}(8)$ --- trace the path taken and show the state of the data structure after path compression.
+    \item How many distinct components remain after all operations? Which elements are in each component?
+\end{enumerate}
+
+\item \textit{This problem explores why union by rank is crucial for efficiency.}
+
+Consider running $n-1$ \texttt{Union} operations on $n$ elements using \textbf{naive union} (attach the second tree's root under the first tree's root, regardless of rank), and then $n$ \texttt{Find} operations.
+
+\begin{enumerate}
+    \item Give a sequence of $n-1$ \texttt{Union} operations that causes the resulting tree to be a chain (path) of length $n$.
+    \item For the chain you constructed, what is the cost of $n$ \texttt{Find} operations on the deepest element?
+    \item Now prove that with \textbf{union by rank}, no tree can have height greater than $\lfloor \log_2 n \rfloor$.\footnote{Use induction: show that a tree of rank $k$ must contain at least $2^k$ nodes.}
+    \item Conclude that with union by rank (and no path compression), any sequence of $m$ operations on $n$ elements costs $O(m \log n)$ total.
+\end{enumerate}
+
+\item \textit{Union by size is an alternative to union by rank that uses subtree node counts instead of height estimates.}
+
+Define \textbf{union by size}: always attach the smaller tree under the root of the larger tree; break ties arbitrarily. Track $\texttt{size}[i]$ = number of nodes in the subtree rooted at $i$.
+
+\begin{enumerate}
+    \item Write pseudocode for \texttt{Union} and \texttt{Find} using union by size (no path compression).
+    \item Prove that with union by size, the depth of any node is at most $\lfloor \log_2 n \rfloor$.\footnote{Show that when a node's subtree doubles in size, its depth increases by at most 1.}
+    \item Compare union by size and union by rank: do they always produce identical trees? If not, give an example where they differ.
+\end{enumerate}
+
+\item \textit{Offline dynamic connectivity is a classic application of Union-Find in competitive programming and data engineering.}
+
+You are given a sequence of $q$ queries on a graph with $n$ nodes and $m$ edges. Each query is either:
+\begin{itemize}
+    \item $\texttt{AddEdge}(u, v)$: add an edge between $u$ and $v$, or
+    \item $\texttt{Connected}(u, v)$: output whether $u$ and $v$ are in the same connected component.
+\end{itemize}
+Edges are only added, never removed.
+
+\begin{enumerate}
+    \item Show how to answer all $q$ queries in $O((m + q)\,\alpha(n))$ total time using Union-Find.
+    \item Now suppose queries are answered \emph{online} (you must answer each \texttt{Connected} query before reading the next). Does your approach still work? Explain.
+    \item Suppose you also have $\texttt{RemoveEdge}(u,v)$ queries. Explain why Union-Find (as we defined it) cannot directly handle edge deletions, and sketch an alternative approach.\footnote{Think about what invariant Union-Find maintains and why deletion breaks it.}
+\end{enumerate}
+
+% ---------------------------------------------------------------
+% PRIORITY QUEUES AND HEAPS
+% ---------------------------------------------------------------
+
+\item \textit{The running median is used in streaming data analysis, real-time signal processing, and financial tick data.}
+
+You receive a stream of integers one at a time and after each insertion you must report the \textbf{median} of all integers seen so far.
+
+\begin{enumerate}
+    \item Describe a data structure using \textbf{two heaps} (a max-heap and a min-heap) that supports \texttt{Insert} and \texttt{GetMedian} each in $O(\log n)$ time, where $n$ is the number of elements inserted so far.
+    \item Prove the correctness of your data structure: what invariant do you maintain between the two heaps?
+    \item Trace your data structure on the input stream: $5, 3, 8, 1, 9, 2, 7$. After each insertion, show the state of both heaps and the current median.
+\end{enumerate}
+
+\item \textit{Merging sorted sequences efficiently is fundamental in external sorting and distributed computing.}
+
+You have $k$ sorted arrays, each of length $m$, for a total of $n = km$ elements. You want to merge them into a single sorted array.
+
+\begin{enumerate}
+    \item Describe an algorithm using a \textbf{min-heap} of size $k$ that merges all arrays in $O(n \log k)$ time.
+    \item Give the pseudocode clearly, indicating what you store in the heap and how you extract the next element.
+    \item Prove the time complexity is $O(n \log k)$.
+    \item Show that the naive approach of merging arrays pairwise (merge array 1 with 2, then merge result with 3, etc.) takes $O(nk)$ time in the worst case. For large $k$, which approach is better?
+\end{enumerate}
+
+\item \textit{HeapSort combines the best properties of MergeSort and QuickSort, but has a subtle shortcoming.}
+
+\begin{enumerate}
+    \item Prove that \textbf{HeapSort is not stable} (i.e., it does not preserve the relative order of equal elements). Provide a concrete array of length 4 with a repeated element that demonstrates instability.\footnote{Trace the BuildHeap and extraction phases carefully.}
+    \item HeapSort runs in $O(n \log n)$ time in the worst case and uses $O(1)$ extra space. Argue that \emph{no} comparison-based sorting algorithm can do better than $O(n \log n)$ in the worst case.
+    \item In practice, HeapSort is often slower than QuickSort despite having a better worst-case guarantee. Give two reasons why this might be so.\footnote{Consider cache access patterns and the constant factors hidden in the $O$ notation.}
+\end{enumerate}
+
+\item \textit{The $k$-th smallest element problem arises in order statistics, database query optimization, and approximate algorithms.}
+
+\begin{enumerate}
+    \item Given an unsorted array $A$ of $n$ elements, describe how to find the \textbf{$k$-th smallest} element using a max-heap of size $k$ in $O(n \log k)$ time.
+    \item Trace your algorithm on $A = [7, 2, 10, 4, 3, 8, 1, 6, 9, 5]$ for $k = 3$.
+    \item Show that BuildHeap gives an $O(n)$ algorithm to find the minimum element. Can you find the second-minimum in $O(\log n)$ additional time? The $k$-th minimum in $O(k \log n)$ time?
+    \item Suppose the array is already a \emph{max-heap}. What is the minimum number of elements you must examine to find the $k$-th largest element?
+\end{enumerate}
+
+\item \textit{Priority queues with a decrease-key operation are essential for Dijkstra's shortest path and Prim's MST algorithms.}
+
+A \textbf{decrease-key} operation takes a node $v$ in the heap and a new key $k' < \texttt{key}[v]$, updates the key, and restores the heap property.
+
+\begin{enumerate}
+    \item Describe how to implement \texttt{DecreaseKey} on a binary min-heap in $O(\log n)$ time. (Assume you have a direct pointer to $v$'s position in the heap.)
+    \item In Dijkstra's algorithm on a graph with $V$ vertices and $E$ edges, how many \texttt{Insert} and \texttt{DecreaseKey} operations are performed in total? What is the total running time using a binary heap?
+    \item Without a pointer into the heap, one common workaround is to use \emph{lazy deletion}: instead of updating an existing entry, insert a new entry with the smaller key and mark the old one as invalid. Describe this approach and analyze its time and space complexity for Dijkstra's algorithm.
+\end{enumerate}
+
+\item \textit{This problem connects the two main data structures from this unit.}
+
+Kruskal's algorithm finds a Minimum Spanning Tree (MST) by sorting edges by weight and greedily adding each edge that does not create a cycle.
+
+\begin{enumerate}
+    \item Describe how Union-Find is used in Kruskal's algorithm to detect cycles efficiently.
+    \item Suppose instead of Union-Find, you use a simple BFS/DFS to check each time whether an edge creates a cycle. What is the total running time of this modified Kruskal's?
+    \item A graph has $V = 1000$ vertices and $E = 5000$ edges. Estimate the number of Union-Find operations performed during Kruskal's, and compare the total time using Union-Find vs.\ BFS cycle detection.
+    \item Now suppose you want to build a \emph{maximum} spanning tree instead of a minimum one. How would you modify Kruskal's algorithm? Does Union-Find still apply without modification?
+\end{enumerate}
+
+% ---------------------------------------------------------------
+% KRUSKAL'S CORRECTNESS PROOF
+% ---------------------------------------------------------------
+
+\item \textit{This sequence of questions builds a complete proof of Kruskal's algorithm's correctness from first principles. Throughout, assume all edge weights are distinct.}
+
+We work with a connected undirected weighted graph $G = (V, E, w)$ where $w : E \to \mathbb{R}$ assigns a distinct real weight to each edge.
+
+\medskip
+\textbf{Definitions.}
+\begin{itemize}
+    \item A \textbf{spanning tree} of $G$ is a subgraph $T \subseteq E$ such that $(V, T)$ is connected and acyclic. A \textbf{minimum spanning tree (MST)} is a spanning tree of minimum total weight $\sum_{e \in T} w(e)$.
+    \item A \textbf{cut} of $G$ is a partition of $V$ into two non-empty sets $(S,\, V \setminus S)$. An edge $e = (u,v)$ \textbf{crosses} the cut if exactly one of $u, v$ lies in $S$.
+    \item A \textbf{forest} is an acyclic graph (not necessarily spanning). Kruskal's maintains a growing forest $F$ that starts empty and ends as a spanning tree.
+    \item Given a spanning tree $T$ and an edge $e = (u,v) \in T$, the \textbf{fundamental cut} of $e$ with respect to $T$ is the cut $(S_e,\, V \setminus S_e)$ where $S_e$ is the set of vertices reachable from $u$ in $T - e$. Every non-tree edge $f \notin T$ that crosses this cut can be swapped with $e$ to produce another spanning tree.
+\end{itemize}
+
+\begin{enumerate}
+    \item \textbf{(Removing an edge from a cycle.)}
+    Suppose edge $e$ lies on a cycle $C$ in graph $G$. Prove that $G - e$ is still connected between the endpoints of $e$, and hence $G - e$ has the same number of connected components as $G$.
+
+    Conclude: if $T$ is a spanning tree and $f \notin T$, then $T \cup \{f\}$ contains \emph{exactly one} cycle.
+
+    \item \textbf{(Removing an edge from a tree.)}
+    Let $T$ be a spanning tree of $G$ and let $e = (u,v) \in T$. Prove that $T - e$ has exactly two connected components $S_e$ (containing $u$) and $V \setminus S_e$ (containing $v$), which are precisely the two sides of the fundamental cut of $e$.
+
+    \item \textbf{(Swapping edges preserves spanning trees.)}
+    Let $T$ be a spanning tree and let $e \in T$, $f \notin T$. Suppose $f$ crosses the fundamental cut of $e$. Prove that $T' = T - \{e\} + \{f\}$ is also a spanning tree of $G$.
+
+    \textit{(Hint: show $T'$ is connected and has $|V|-1$ edges, hence acyclic.)}
+
+    \item \textbf{(Cycle property.)}
+    Let $C$ be any cycle in $G$ and let $e^*$ be the unique maximum-weight edge of $C$. Prove that $e^*$ is \textbf{not} in any MST.
+
+    \textit{(Hint: suppose some MST $T$ contains $e^*$. By part (b), removing $e^*$ defines a fundamental cut $(S, V \setminus S)$. Since $C$ is a cycle and $e^*$ crosses the cut, some other edge $f \in C$ also crosses it. Use part (c) and the weight of $f$ to derive a contradiction.)}
+
+    \item \textbf{(Cut property.)}
+    Let $(S,\, V \setminus S)$ be any cut of $G$ and let $e^*$ be the unique minimum-weight edge crossing it. Prove that $e^*$ is in \textbf{every} MST.
+
+    \textit{(Hint: suppose some MST $T$ does not contain $e^*$. Since $T$ is a spanning tree it must have some other edge $f$ crossing the cut. Apply part (c) and compare $w(e^*)$ with $w(f)$.)}
+
+    \item \textbf{(Correctness of Kruskal's algorithm.)}
+    Recall Kruskal's algorithm: process edges in increasing weight order; add edge $e = (u,v)$ to forest $F$ if and only if $u$ and $v$ are in different components of $F$.
+
+    \begin{enumerate}
+        \item When Kruskal's considers edge $e = (u,v)$ and decides to add it, let $S$ be the component of $F$ currently containing $u$. Prove that $e$ is the minimum-weight edge crossing the cut $(S,\, V \setminus S)$.\footnote{Every lighter edge was processed earlier. If it was added to $F$, its endpoints merged into the same component. If it was rejected, both its endpoints were already in the same component. In either case, no lighter edge crosses $(S,\, V \setminus S)$.}
+        \item Use the cut property (part e) to conclude that every edge Kruskal's adds belongs to every MST.
+        \item Kruskal's terminates with $|V|-1$ edges forming a spanning tree $T^*$. Argue that $T^*$ is an MST.
+    \end{enumerate}
+
+    \item \textbf{(What if weights are not distinct?)}
+    Without distinct weights, an MST may not be unique.
+    \begin{enumerate}
+        \item Give a graph on 3 vertices $\{a, b, c\}$ with equal-weight edges where there are multiple MSTs.
+        \item Does Kruskal's still always produce \emph{an} MST (not necessarily the unique one)? Argue briefly why or why not.
+        \item Does the cycle property still hold verbatim (``the maximum-weight edge in any cycle is in \emph{no} MST'')? If not, state the correct version.
+    \end{enumerate}
+\end{enumerate}
+
+% ---------------------------------------------------------------
+% SPANNING TREE VARIATIONS
+% ---------------------------------------------------------------
+
+\item \textit{The MST problem has many natural variants. Each one forces you to ask: does the cut property still hold? Does sorting by weight still work? What changes and what stays the same?}
+
+\begin{enumerate}
+
+    \item \textbf{(Maximum Spanning Tree.)}
+    A \textbf{maximum spanning tree} (MaxST) is a spanning tree of maximum total weight.
+    \begin{enumerate}
+        \item State an analog of the \textbf{cut property} for maximum spanning trees: which crossing edge of a cut is guaranteed to belong to every MaxST?
+        \item State an analog of the \textbf{cycle property}: which edge in a cycle is guaranteed to be absent from every MaxST?
+        \item Describe two different ways to adapt Kruskal's algorithm to find a MaxST. Do both work?
+        \item Prove that negating all edge weights reduces the MaxST problem to the MST problem, i.e., if $T^*$ is an MST of $(G, -w)$, then $T^*$ is a MaxST of $(G, w)$.
+    \end{enumerate}
+
+    \item \textbf{(Negative edge weights.)}
+    Suppose all edge weights are strictly negative, i.e., $w(e) < 0$ for all $e \in E$.
+    \begin{enumerate}
+        \item Does Kruskal's algorithm (sort edges in increasing order, greedily add if no cycle) still correctly find the MST? Justify your answer. \textit{(Hint: does the proof of correctness rely on weights being positive?)}
+        \item What does the MST intuitively look like when all weights are negative? Which edges does Kruskal's pick first?
+        \item Now suppose some weights are positive and some are negative. Is there any spanning tree that is guaranteed to have negative total weight? Or could the MST have positive total weight? Give examples for both cases.
+    \end{enumerate}
+
+    \item \textbf{(Bottleneck Spanning Tree.)}
+    A \textbf{bottleneck spanning tree} (BST) is a spanning tree that minimizes the weight of its \emph{heaviest} edge: $\min_{T} \max_{e \in T} w(e)$.
+    \begin{enumerate}
+        \item Give an example of a graph where the MST and the BST have different total weights, but the same bottleneck value (heaviest edge weight).
+        \item Prove that \textbf{every MST is also a BST}.\footnote{Suppose $T^*$ is an MST with bottleneck $b^* = \max_{e \in T^*} w(e)$. Suppose for contradiction there exists a spanning tree $T$ with bottleneck $b < b^*$. Let $e^* \in T^*$ be the bottleneck edge of $T^*$. Since all edges of $T$ weigh at most $b < w(e^*)$, and $T$ is connected, argue that some edge of $T$ crosses the fundamental cut of $e^*$ with weight $< w(e^*)$, contradicting the optimality of $T^*$.}
+        \item Is every BST also an MST? Prove it or give a counterexample.
+    \end{enumerate}
+
+    \item \textbf{(Minimax path.)}
+    Given a weighted graph $G$ and two vertices $s$ and $t$, a \textbf{minimax path} from $s$ to $t$ is a path $P$ that minimizes the maximum edge weight along the path:
+    \[
+        \min_{P : s \leadsto t} \;\max_{e \in P} w(e).
+    \]
+    \begin{enumerate}
+        \item Give a small example (5 vertices) where the minimax path from $s$ to $t$ is \emph{not} the shortest path from $s$ to $t$.
+        \item Let $T^*$ be any MST of $G$. Prove that the unique path from $s$ to $t$ in $T^*$ is a minimax path.\footnote{Suppose the path in $T^*$ uses an edge $e$ with $w(e) = b$. If some other path $P$ avoids $e$ and has bottleneck $< b$, show that $P$ contains an edge crossing the fundamental cut of $e$ with weight $< b$, contradicting the MST cut property.}
+        \item Conclude: to answer minimax path queries between any pair of vertices, it suffices to build the MST once in $O(E \log E)$ time, then answer each query by finding the maximum-weight edge on the $s$-$t$ path in $T^*$.
+    \end{enumerate}
+
+    \item \textbf{(Forced and forbidden edges.)}
+    Suppose some edges are \emph{forced} (must appear in the spanning tree) and others are \emph{forbidden} (must not appear).
+    \begin{enumerate}
+        \item You are told that edge $e_0 = (u, v)$ \textbf{must} be in the MST. Describe how to modify Kruskal's algorithm to enforce this. When is this constraint feasible (i.e., when does a spanning tree containing $e_0$ exist)?
+        \item You are told that edge $e_0$ \textbf{must not} be in the MST. Describe how to modify Kruskal's algorithm. Is there always a spanning tree that avoids $e_0$?
+        \item Suppose $e_0$ is the unique minimum-weight edge in $G$ but you are forbidden from using it. Describe how to find the MST of $G$ that excludes $e_0$. Does simply deleting $e_0$ and rerunning Kruskal's work?
+        \item You are given a partial spanning tree $F$ (a forest of $k < n-1$ edges, all of which must be included). Show how to complete $F$ into a minimum spanning tree by running a modified Kruskal's on the remaining edges.
+    \end{enumerate}
+
+    \item \textbf{(Uniform weights and counting spanning trees.)}
+    Suppose all edge weights are equal to 1.
+    \begin{enumerate}
+        \item How many spanning trees does the complete graph $K_n$ have? (State Cayley's formula $n^{n-2}$ without proof.) Compute the number for $n = 3, 4, 5$.
+        \item Since all spanning trees have the same total weight, every spanning tree is an MST. Does Kruskal's algorithm still terminate correctly? What spanning tree does it produce?
+        \item With all weights equal, neither the cut property nor the cycle property uniquely identifies an edge as ``in'' or ``out'' of any MST. What goes wrong? How is this consistent with part (b)?
+    \end{enumerate}
+
+\end{enumerate}
+
+% ---------------------------------------------------------------
+% AMORTIZED ANALYSIS
+% ---------------------------------------------------------------
+
+\item \textit{The multipop stack is a canonical example showing that expensive operations, when rare, do not ruin the amortized bound.}
+
+A stack supports three operations: \texttt{Push}$(x)$ (push one element, cost 1), \texttt{Pop} (pop one element, cost 1), and \texttt{MultiPop}$(k)$ (pop the top $\min(k, |S|)$ elements, cost $= $ number of elements popped).
+
+\begin{enumerate}
+    \item What is the worst-case cost of a single \texttt{MultiPop}$(k)$ on a stack of size $n$?
+    \item Show that the naive worst-case analysis gives $O(n^2)$ for $n$ operations starting from an empty stack. (Describe the sequence that achieves this bound under naive analysis.)
+    \item Use the \textbf{accounting method} to prove that the amortized cost per operation is $O(1)$. Specify how many credits you assign to \texttt{Push}, \texttt{Pop}, and \texttt{MultiPop}, and what invariant you maintain.\footnote{Each element can be popped at most once for every time it is pushed.}
+    \item Define a potential function $\Phi$ and use the \textbf{potential method} to arrive at the same $O(1)$ amortized cost. Show that $\hat{c}_i \leq 2$ for \texttt{Push} and $\hat{c}_i \leq 0$ for \texttt{Pop}/\texttt{MultiPop}.
+\end{enumerate}
+
+\item \textit{Implementing a queue from two stacks is a classic interview question. Amortized analysis reveals why it is efficient.}
+
+Implement a \textbf{queue} (FIFO) using two stacks $S_{\text{in}}$ and $S_{\text{out}}$, each supporting \texttt{Push} and \texttt{Pop} in $O(1)$ worst case.
+\begin{itemize}
+    \item \texttt{Enqueue}$(x)$: push $x$ onto $S_{\text{in}}$.
+    \item \texttt{Dequeue}: if $S_{\text{out}}$ is empty, pop all elements from $S_{\text{in}}$ and push them onto $S_{\text{out}}$; then pop from $S_{\text{out}}$.
+\end{itemize}
+
+\begin{enumerate}
+    \item Trace this data structure on the sequence: \texttt{Enqueue}(1), \texttt{Enqueue}(2), \texttt{Enqueue}(3), \texttt{Dequeue}, \texttt{Enqueue}(4), \texttt{Dequeue}, \texttt{Dequeue}. Show the contents of both stacks at each step.
+    \item What is the worst-case cost of a single \texttt{Dequeue} operation?
+    \item Define a potential function $\Phi = |S_{\text{in}}|$ (the number of elements in $S_{\text{in}}$). Use the \textbf{potential method} to show that the amortized cost of each \texttt{Enqueue} and \texttt{Dequeue} is $O(1)$.
+    \item Conclude that $n$ \texttt{Enqueue} and \texttt{Dequeue} operations starting from an empty structure cost $O(n)$ in total.
+\end{enumerate}
+
+\item \textit{The binary counter analysis generalizes beautifully, but adding a reset or decrement operation can break everything.}
+
+\begin{enumerate}
+    \item A $k$-bit binary counter supports \texttt{Increment} (cost $=$ bits flipped) and \texttt{Reset} (set all bits to 0, cost $= k$). Using the \textbf{aggregate method}, show that $m$ \texttt{Increment} operations \emph{without} any \texttt{Reset} cost $O(m)$ total.
+
+    \item Now consider a sequence of $m$ operations, each being either \texttt{Increment} or \texttt{Reset}. Give a sequence of $m$ operations where the total cost is $\Theta(mk)$. (This shows the $O(m)$ bound breaks once resets are allowed.)
+
+    \item Suppose instead of resetting to all-zeros, \texttt{Reset} resets the counter to its value \emph{before the last increment}. Does the $O(1)$ amortized bound for \texttt{Increment} still hold? Prove or disprove.
+
+    \item Consider a counter that supports both \texttt{Increment} and \texttt{Decrement} (subtract 1 in binary). Explain why the potential $\Phi = $ (number of 1-bits) no longer yields $O(1)$ amortized cost for both operations together. Give a sequence of increments and decrements where the total cost is $\Theta(mk)$.\footnote{Alternate between $0\underbrace{1\cdots1}_{k-1}$ and $\underbrace{1\cdots1}_{k}$.}
+\end{enumerate}
+
+\item \textit{Dynamic arrays are ubiquitous in practice. The choice of growth factor critically affects both the amortized cost and memory usage.}
+
+A dynamic array doubles its capacity whenever an element is pushed into a full array. All other pushes cost 1.
+
+\begin{enumerate}
+    \item Use the \textbf{accounting method} to show that the amortized cost of \texttt{Push} is $O(1)$. Assign 3 credits per \texttt{Push} and show the invariant: elements in the right half of the array each hold 2 credits, which is exactly enough to pay for the next doubling.\footnote{At the moment of doubling from capacity $c$ to $2c$, all $c$ elements in the array need to be copied. Which elements have been holding credits?}
+    \item Define a potential function $\Phi = 2 \cdot (\text{size}) - \text{capacity}$ and use the \textbf{potential method} to prove the same $O(1)$ amortized bound. Verify that $\Phi \geq 0$ at all times and that $\Phi = 0$ immediately after a doubling.
+    \item Now suppose the array grows by a \textbf{factor of $r > 1$} (not necessarily 2) when full. For example, $r = 1.5$ means the new capacity is $1.5 \times$ the old capacity. Show that the amortized cost of \texttt{Push} is still $O(1)$ for any fixed $r > 1$.
+    \item Suppose instead of doubling, the array grows by adding a \textbf{fixed constant} $c$ to its capacity each time it is full. Show that the amortized cost of \texttt{Push} is $\Theta(n)$ after $n$ pushes, making this strategy far inferior.
+    \item Now consider \textbf{shrinking}: when the array becomes less than $1/4$ full, halve its capacity (cost = number of elements copied). Show that the amortized cost of each push and pop is still $O(1)$.\footnote{Use $\Phi = 2 \cdot \text{size} - \text{capacity}$ when size $\geq$ capacity/2, and $\Phi = \text{capacity}/2 - \text{size}$ when size $<$ capacity/2. Verify $\Phi \geq 0$ in both cases.} Why is the threshold $1/4$ (not $1/2$) important for this to work?
+\end{enumerate}
+
+\item \textit{Designing your own potential function is the key skill in amortized analysis.}
+
+For each of the following scenarios, propose a potential function $\Phi$, verify it satisfies $\Phi_0 = 0$ and $\Phi \geq 0$, and use it to bound the amortized cost per operation.
+
+\begin{enumerate}
+    \item A data structure maintains a sorted list. \texttt{Insert}$(x)$ appends $x$ to the end (cost 1) and \texttt{Sort} re-sorts the entire list (cost $= $ current size $n$). After any \texttt{Sort}, the list is sorted and a subsequent \texttt{Insert} makes it unsorted again. Show that the amortized cost of \texttt{Insert} and \texttt{Sort} are both $O(1)$ if \texttt{Sort} is called at most once per $n$ insertions.\footnote{Let $\Phi$ = number of elements inserted since the last \texttt{Sort}.}
+
+    \item A \textbf{lazy deletion} priority queue supports \texttt{Insert} (cost 1, always) and \texttt{ExtractMin} (scan all elements and remove the minimum, cost $= $ number of non-deleted elements). However, deleted elements are never actually removed --- instead, \texttt{Delete}$(x)$ merely marks $x$ as deleted (cost 1). The structure stores at most $n$ elements at any time. Show that the amortized cost of \texttt{ExtractMin} is $O(d + 1)$ where $d$ is the number of deletions since the last \texttt{ExtractMin}.\footnote{Let $\Phi$ = number of marked-deleted elements currently in the structure.}
+
+    \item A \textbf{splay-like} structure supports an operation \texttt{Access}$(i)$ that costs $d_i + 1$ where $d_i$ is the depth of element $i$ in a binary tree. After each access, element $i$ is moved to the root (cost already counted in $d_i + 1$). If the tree has $n$ nodes and is initially a path (worst case), show that a sequence of $m$ accesses to the \emph{same} element costs $O(m + n)$ total using any valid potential function.\footnote{After the first access (cost $n$), every subsequent access to the same element costs $O(1)$ since it is now at the root.}
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}

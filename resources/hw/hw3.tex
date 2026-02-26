@@ -1,0 +1,304 @@
+\documentclass[9pt]{book}
+\setlength{\oddsidemargin}{-.5 in}
+\setlength{\evensidemargin}{-.5 in}
+\addtolength{\topmargin}{-1in}
+\setlength{\textwidth}{7.5in}
+\setlength{\textheight}{9in}
+\usepackage{enumitem}
+\usepackage{tikz}
+
+\usepackage{amsmath, amssymb}
+\usepackage{algorithm}
+\usepackage{url, color, epsfig, amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{algpseudocode}
+
+\usepackage{algorithm}
+\usepackage{url, color, epsfig, amsmath, amsthm, amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\newcommand{\remove}[1]{}
+
+\newcommand{\Do}{{\small\bf do}\ }
+\newcommand{\Proc}[1]{#1\+}
+\newcommand{\Returns}{{\small\bf returns}}
+\newcommand{\Procbegin}{{\small\bf begin}}
+\newcommand{\Then}{{\small\bf then}\ \=\+}
+\newcommand{\Elseif}{\<{\small\bf elseif}\ }
+\newcommand{\Endif}{\<{\small\bf end\ if\ }\-\-}
+\newcommand{\Endproc}[1]{{\small\bf end} #1\-}
+\newcommand{\Endfor}{{\small\bf end\ for}\ \-}
+\newcommand{\Endloop}{{\bf end\ loop}\ \-}
+\newenvironment{program}{
+	\begin{minipage}{\textwidth}
+		\begin{tabbing}
+			\ \ \ \ \=\kill
+		}{
+	\end{tabbing}
+\end{minipage}
+}
+
+\def\blankline{\hbox{}}
+
+\newcommand{\lecture}[5]{
+	\pagestyle{headings}
+	\thispagestyle{plain}
+	\newpage
+	\setcounter{chapter}{#1}
+	\setcounter{page}{#2}
+	\noindent
+	\begin{center}
+		\framebox{
+			\vbox{
+				\hbox to 6.28in { {\bf Algorithms
+						\hfill Spring Semester, 2026} }
+				\vspace{4mm}
+				\hbox to 6.28in { {\Large \hfill Homework 3 (Graded) \hfill} }
+				\vspace{2mm}
+				\hbox to 6.28in { {\it Professor: #4 \hfill Deadline: Mar 16, 2026.} }
+			}
+		}
+	\end{center}
+	\vspace*{4mm}
+}
+
+\newcommand{\topic}[2]{\section{#1} \index{#2} \markright{#1}}
+\newcommand{\subtopic}[2]{\subsection{#1} \index{#2}}
+\newcommand{\subsubtopic}[2]{\subsubsection{#1} \index{#2}}
+
+\renewcommand{\cite}[1]{[#1]}
+\renewcommand{\thefootnote}{\arabic{footnote}}
+
+\newcommand{\bi}{\begin{itemize}}
+	\newcommand{\ei}{\end{itemize}}
+\newcommand{\be}{\begin{enumerate}}
+	\newcommand{\ee}{\end{enumerate}}
+\newcommand{\blank}{\vspace{1ex}}
+
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{digress}[theorem]{Digression}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newenvironment{dfn}{{\vspace*{1ex} \noindent \bf Definition }}{\vspace*{1ex}}
+\newcommand{\bigdef}[2]{\index{#1}\begin{dfn} {\rm #2} \end{dfn}}
+\newcommand{\smalldef}[1]{\index{#1} {\em #1}}
+
+\begin{document}
+	\lecture{0}{1}{\today}{Dr. Mudassir Shabbir}{180 mins.}
+
+    \textbf{Instructions.} This is a graded homework. Submit your solutions as a single PDF. Show all work; correct answers without justification will receive no credit. You may collaborate on high-level ideas but must write up solutions independently.
+
+\bigskip
+
+\begin{enumerate}[label=\arabic*.]
+
+% ---------------------------------------------------------------
+% PROBLEM 1 — UNION-FIND TRACE  [30 points]
+% ---------------------------------------------------------------
+
+\item \textbf{[30 points]} \textit{Union-Find models dynamic connectivity, which arises in network routing, image segmentation, and Kruskal's MST algorithm.}
+
+Recall the \textbf{Union-Find} data structure with two optimizations:
+\begin{itemize}
+    \item \textbf{Union by rank:} always attach the root of the lower-rank tree under the root of the higher-rank tree; if ranks are equal, choose either root and increment its rank by 1.
+    \item \textbf{Path compression:} during \texttt{Find}$(x)$, make every node on the path from $x$ to the root point directly to the root.
+\end{itemize}
+
+Start with $n = 8$ elements $\{1, 2, 3, 4, 5, 6, 7, 8\}$, each initially its own component with rank 0.
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{[12 pts]} Perform the following operations in order using union by rank.
+    After \emph{each} Union, draw the resulting forest.  For every node shown, label its \textbf{rank} and indicate the \textbf{parent pointer} (or mark it as a root).
+    \[
+      \texttt{Union}(1,2),\quad
+      \texttt{Union}(3,4),\quad
+      \texttt{Union}(5,6),\quad
+      \texttt{Union}(7,8)
+    \]
+    \[
+      \texttt{Union}(1,3),\quad
+      \texttt{Union}(5,7)
+    \]
+    \[
+      \texttt{Union}(1,5)
+    \]
+
+    \item \textbf{[12 pts]} Now perform \texttt{Find}$(8)$ with path compression.
+    Write down the sequence of nodes visited while traversing parent pointers from $8$ to the root.
+    Show the updated parent array after path compression, and draw the resulting forest.
+    How many distinct components exist after all operations?  List every element in each component.
+
+    \item \textbf{[6 pts]} Suppose that instead of union by rank you used \textbf{naive union} (always attach the second argument's root under the first argument's root).  Perform only the first four unions:
+    \[
+      \texttt{Union}(1,2),\quad \texttt{Union}(1,3),\quad \texttt{Union}(1,4),\quad \texttt{Union}(1,5)
+    \]
+    Draw the resulting tree.  What is the height of this tree, and why is this bad for subsequent \texttt{Find} operations?
+\end{enumerate}
+
+\bigskip
+
+% ---------------------------------------------------------------
+% PROBLEM 2 — RUNNING MEDIAN WITH TWO HEAPS  [35 points]
+% ---------------------------------------------------------------
+
+\item \textbf{[35 points]} \textit{The running median is used in streaming data analysis, real-time signal processing, and financial tick data.}
+
+You receive integers one at a time in a stream. After each insertion you must report the \textbf{median} of all integers seen so far.  (If the count is even, report the average of the two middle values; if odd, report the middle value.)
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{[10 pts]} Describe a data structure using exactly \textbf{two heaps} — a max-heap $H_{\text{lo}}$ storing the smaller half of the elements, and a min-heap $H_{\text{hi}}$ storing the larger half — that supports \texttt{Insert} and \texttt{GetMedian} each in $O(\log n)$ time.
+    Your answer must specify: (i)~the \textbf{size/ordering invariant} between $H_{\text{lo}}$ and $H_{\text{hi}}$; (ii)~the \textbf{Insert} procedure including when and how to rebalance; and (iii)~how \textbf{GetMedian} uses the heap roots to return the answer in $O(1)$.
+
+    \item \textbf{[5 pts]} Prove that your invariant is maintained after every \texttt{Insert}.
+    You may assume $H_{\text{lo}}$ and $H_{\text{hi}}$ each support \texttt{Insert} and \texttt{ExtractMax}/\texttt{ExtractMin} in $O(\log n)$.
+
+    \item \textbf{[20 pts]} Trace your data structure on the following input stream:
+    \[
+        5,\quad 3,\quad 8,\quad 1,\quad 9,\quad 2,\quad 7
+    \]
+    After \emph{each} insertion, fill in one row of the table below.
+
+    \bigskip
+    \begin{center}
+    \begin{tabular}{c|l|l|c}
+    \hline
+    \textbf{Inserted} & \textbf{$H_{\text{lo}}$ (max-heap, top first)} & \textbf{$H_{\text{hi}}$ (min-heap, top first)} & \textbf{Median} \\
+    \hline
+    5 & & & \\[6pt]
+    3 & & & \\[6pt]
+    8 & & & \\[6pt]
+    1 & & & \\[6pt]
+    9 & & & \\[6pt]
+    2 & & & \\[6pt]
+    7 & & & \\[6pt]
+    \hline
+    \end{tabular}
+    \end{center}
+\end{enumerate}
+
+\bigskip
+
+% ---------------------------------------------------------------
+% PROBLEM 3 — QUEUE FROM TWO STACKS  [35 points]
+% ---------------------------------------------------------------
+
+\item \textbf{[35 points]} \textit{Implementing a queue from two stacks is a classic application of amortized analysis.}
+
+Implement a \textbf{FIFO queue} using two stacks $S_{\text{in}}$ and $S_{\text{out}}$, each supporting \texttt{Push} and \texttt{Pop} in $O(1)$ worst case, as follows:
+\begin{itemize}
+    \item \texttt{Enqueue}$(x)$: push $x$ onto $S_{\text{in}}$.
+    \item \texttt{Dequeue}: if $S_{\text{out}}$ is non-empty, pop and return its top.
+    Otherwise, move \emph{all} elements from $S_{\text{in}}$ to $S_{\text{out}}$ (by repeated pop-then-push), then pop and return the top of $S_{\text{out}}$.
+\end{itemize}
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{[12 pts]} Trace the data structure on the following sequence of operations.
+    After each operation write the contents of $S_{\text{in}}$ and $S_{\text{out}}$ (top element listed first) and the value returned (if any).
+
+    \medskip
+    \begin{center}
+    \begin{tabular}{l|l|l|l}
+    \hline
+    \textbf{Operation} & \textbf{$S_{\text{in}}$ (top first)} & \textbf{$S_{\text{out}}$ (top first)} & \textbf{Returned} \\
+    \hline
+    \texttt{Enqueue}(1) & & & --- \\[4pt]
+    \texttt{Enqueue}(2) & & & --- \\[4pt]
+    \texttt{Enqueue}(3) & & & --- \\[4pt]
+    \texttt{Dequeue}    & & & \\[4pt]
+    \texttt{Enqueue}(4) & & & --- \\[4pt]
+    \texttt{Dequeue}    & & & \\[4pt]
+    \texttt{Dequeue}    & & & \\[4pt]
+    \hline
+    \end{tabular}
+    \end{center}
+
+    \item \textbf{[23 pts]} First, explain why a single \texttt{Dequeue} on a queue holding $n$ elements can cost $\Theta(n)$ in the worst case.
+    Then use the \textbf{accounting method} to prove that any sequence of $n$ \texttt{Enqueue} and \texttt{Dequeue} operations costs $O(n)$ total.
+    Charge \textbf{3 credits} per \texttt{Enqueue} and \textbf{1 credit} per \texttt{Dequeue}, and maintain the \textbf{credit invariant}: every element currently in $S_{\text{in}}$ holds exactly 2 banked credits.
+
+    For each of the three cases below, show that the credits charged are sufficient to pay the actual cost \emph{and} that the credit invariant is maintained afterwards.  Then conclude that the credit balance never goes negative, so the total actual cost is at most the total credits charged, i.e.\ $O(n)$.
+
+    \begin{enumerate}[label=(\roman*)]
+        \item \texttt{Enqueue}$(x)$: actual cost $= 1$.  Where do the 3 charged credits go?
+
+        \item \texttt{Dequeue} when $S_{\text{out}}$ is \textbf{non-empty}: actual cost $= 1$.  Show the 1 credit covers this; is the invariant on $S_{\text{in}}$ affected?
+
+        \item \texttt{Dequeue} when $S_{\text{out}}$ is \textbf{empty} and $S_{\text{in}}$ holds $k$ elements: actual cost $= 2k + 1$.  Show that the 1 charged credit plus the 2 banked credits per element exactly cover this cost.
+    \end{enumerate}
+\end{enumerate}
+
+% ---------------------------------------------------------------
+% PROBLEM 4 — KRUSKAL'S ALGORITHM: TRACE AND ROBUSTNESS  [30 points]
+% ---------------------------------------------------------------
+
+\bigskip
+\item \textbf{[30 points]} \textit{Running Kruskal's algorithm by hand builds intuition for the cut property and reveals how sensitive the MST is to edge weight changes.}
+
+Consider the following weighted undirected graph $G$ with vertices $\{1,2,3,4,5,6\}$ and edges as shown.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1,
+  nd/.style={circle, draw=black, thick, minimum size=0.75cm, font=\bfseries\small},
+  lbl/.style={draw=none, fill=white, inner sep=1.5pt, font=\small}]
+  \node[nd] (1) at (0,   2)  {1};
+  \node[nd] (2) at (2,   3)  {2};
+  \node[nd] (3) at (2,   1)  {3};
+  \node[nd] (4) at (4,   3)  {4};
+  \node[nd] (5) at (4,   1)  {5};
+  \node[nd] (6) at (6,   2)  {6};
+
+  \draw[thick] (1) -- node[lbl, above left]  {4}  (2);
+  \draw[thick] (1) -- node[lbl, below left]  {2}  (3);
+  \draw[thick] (2) -- node[lbl, left]        {1}  (3);
+  \draw[thick] (2) -- node[lbl, above]       {5}  (4);
+  \draw[thick] (3) -- node[lbl, above]       {8}  (4);
+  \draw[thick] (3) -- node[lbl, below]       {10} (5);
+  \draw[thick] (4) -- node[lbl, left]        {2}  (5);
+  \draw[thick] (4) -- node[lbl, above right] {6}  (6);
+  \draw[thick] (5) -- node[lbl, below right] {3}  (6);
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[label=(\alph*)]
+
+    \item \textbf{[16 pts]} List all 9 edges in non-decreasing order of weight (break ties by smaller endpoint first), then trace Kruskal's algorithm.  Fill in every row of the table.  In the ``Action'' column write \textbf{Add} or \textbf{Skip}.  In the ``Reason'' column, for a \textbf{Skip} name the cycle that would have been created; for an \textbf{Add} state which two components merge.
+
+    \bigskip
+    \begin{center}
+    \renewcommand{\arraystretch}{1.6}
+    \begin{tabular}{c|c|c|c|l}
+    \hline
+    \textbf{Step} & \textbf{Edge} & \textbf{Weight} & \textbf{Action} & \quad\textbf{Reason / Components after} \\
+    \hline
+    1 & & & & \\
+    2 & & & & \\
+    3 & & & & \\
+    4 & & & & \\
+    5 & & & & \\
+    6 & & & & \\
+    7 & & & & \\
+    8 & & & & \\
+    9 & & & & \\
+    \hline
+    \end{tabular}
+    \end{center}
+
+    \item \textbf{[4 pts]} Draw the MST of $G$ (label all edges and their weights) and state its total weight.
+
+    \item \textbf{[10 pts]} When Kruskal's adds edge $(2, 4)$, it merges two components $S$ and $V \setminus S$.
+    Identify the cut $(S, V \setminus S)$ at that moment, list all edges crossing it with their weights, and verify using the \textbf{cut property} that $(2,4)$ must belong to every MST of $G$.
+
+    Then suppose the weight of $(2,4)$ is changed to $w'$.  Find the exact threshold below which the MST is unchanged.  For $w' = 9$, identify which edge replaces $(2,4)$, draw the new MST, and state its total weight.
+
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
