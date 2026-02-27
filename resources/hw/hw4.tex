@@ -60,7 +60,7 @@
 				\vspace{4mm}
 				\hbox to 6.28in { {\Large \hfill Homework 4 (NOT Graded) \hfill} }
 				\vspace{2mm}
-				\hbox to 6.28in { {\it Professor: #4 \hfill Deadline: Mar 02, 2026.} }
+				\hbox to 6.28in { {\it Professor: #4 \hfill Deadline: N/A.} }
 			}
 		}
 
@@ -132,16 +132,16 @@ You have a knapsack of capacity $W$. There are $n$ items; item $i$ has weight $w
     \item Show by example that the same greedy strategy fails for the 0/1 knapsack (where each item is taken entirely or not at all).
 \end{enumerate}
 
-\item \textit{File merging arises in external sorting, database systems, and Huffman-inspired compression pipelines.}
+% \item \textit{File merging arises in external sorting, database systems, and Huffman-inspired compression pipelines.}
 
-You have $n$ sorted files of sizes $s_1, s_2, \ldots, s_n$. Merging two files of sizes $a$ and $b$ costs $a + b$. You want to merge all files into one with \textbf{minimum total cost}.\footnote{This is exactly the problem solved by Huffman coding, but framed for file merging.}
+% You have $n$ sorted files of sizes $s_1, s_2, \ldots, s_n$. Merging two files of sizes $a$ and $b$ costs $a + b$. You want to merge all files into one with \textbf{minimum total cost}.\footnote{This is exactly the problem solved by Huffman coding, but framed for file merging.}
 
-\begin{enumerate}
-    \item Show that for $n = 3$ files of sizes $\{2, 3, 5\}$, the total cost depends on the merge order. Compute both possible merge orders and their costs.
-    \item Describe a greedy algorithm using a priority queue that always merges the two smallest files first.
-    \item Prove that this greedy strategy is optimal.\footnote{Use an exchange argument: if an optimal solution merges two files that are not the two smallest, show you can swap without increasing cost.}
-    \item What is the time complexity of your algorithm (including the time to build the priority queue)?
-\end{enumerate}
+% \begin{enumerate}
+%     \item Show that for $n = 3$ files of sizes $\{2, 3, 5\}$, the total cost depends on the merge order. Compute both possible merge orders and their costs.
+%     \item Describe a greedy algorithm using a priority queue that always merges the two smallest files first.
+%     \item Prove that this greedy strategy is optimal.\footnote{Use an exchange argument: if an optimal solution merges two files that are not the two smallest, show you can swap without increasing cost.}
+%     \item What is the time complexity of your algorithm (including the time to build the priority queue)?
+% \end{enumerate}
 
 \item \textit{Greedy algorithms can appear correct but fail subtly. This is one of the most instructive failure modes in algorithm design.}
 
@@ -190,20 +190,20 @@ Define \textbf{union by size}: always attach the smaller tree under the root of 
     \item Compare union by size and union by rank: do they always produce identical trees? If not, give an example where they differ.
 \end{enumerate}
 
-\item \textit{Offline dynamic connectivity is a classic application of Union-Find in competitive programming and data engineering.}
+% \item \textit{Offline dynamic connectivity is a classic application of Union-Find in competitive programming and data engineering.}
 
-You are given a sequence of $q$ queries on a graph with $n$ nodes and $m$ edges. Each query is either:
-\begin{itemize}
-    \item $\texttt{AddEdge}(u, v)$: add an edge between $u$ and $v$, or
-    \item $\texttt{Connected}(u, v)$: output whether $u$ and $v$ are in the same connected component.
-\end{itemize}
-Edges are only added, never removed.
+% You are given a sequence of $q$ queries on a graph with $n$ nodes and $m$ edges. Each query is either:
+% \begin{itemize}
+%     \item $\texttt{AddEdge}(u, v)$: add an edge between $u$ and $v$, or
+%     \item $\texttt{Connected}(u, v)$: output whether $u$ and $v$ are in the same connected component.
+% \end{itemize}
+% Edges are only added, never removed.
 
-\begin{enumerate}
-    \item Show how to answer all $q$ queries in $O((m + q)\,\alpha(n))$ total time using Union-Find.
-    \item Now suppose queries are answered \emph{online} (you must answer each \texttt{Connected} query before reading the next). Does your approach still work? Explain.
-    \item Suppose you also have $\texttt{RemoveEdge}(u,v)$ queries. Explain why Union-Find (as we defined it) cannot directly handle edge deletions, and sketch an alternative approach.\footnote{Think about what invariant Union-Find maintains and why deletion breaks it.}
-\end{enumerate}
+% \begin{enumerate}
+%     \item Show how to answer all $q$ queries in $O((m + q)\,\alpha(n))$ total time using Union-Find.
+%     \item Now suppose queries are answered \emph{online} (you must answer each \texttt{Connected} query before reading the next). Does your approach still work? Explain.
+%     \item Suppose you also have $\texttt{RemoveEdge}(u,v)$ queries. Explain why Union-Find (as we defined it) cannot directly handle edge deletions, and sketch an alternative approach.\footnote{Think about what invariant Union-Find maintains and why deletion breaks it.}
+% \end{enumerate}
 
 % ---------------------------------------------------------------
 % PRIORITY QUEUES AND HEAPS
@@ -224,27 +224,33 @@ You receive a stream of integers one at a time and after each insertion you must
 You have $k$ sorted arrays, each of length $m$, for a total of $n = km$ elements. You want to merge them into a single sorted array.
 
 \begin{enumerate}
-    \item Describe an algorithm using a \textbf{min-heap} of size $k$ that merges all arrays in $O(n \log k)$ time.
-    \item Give the pseudocode clearly, indicating what you store in the heap and how you extract the next element.
-    \item Prove the time complexity is $O(n \log k)$.
-    \item Show that the naive approach of merging arrays pairwise (merge array 1 with 2, then merge result with 3, etc.) takes $O(nk)$ time in the worst case. For large $k$, which approach is better?
+    \item Show that the naive approach of merging arrays pairwise (merge array 1 with 2, then merge 
+    result with 3, etc.) takes $O(nk)$ time in the worst case.
+    \item Describe an algorithm using a \textbf{min-heap} of size $k$ that merges all arrays in 
+    $O(n \log k)$ time.
 \end{enumerate}
 
-\item \textit{HeapSort combines the best properties of MergeSort and QuickSort, but has a subtle shortcoming.}
+% \item \textit{HeapSort combines the best properties of MergeSort and QuickSort, but has a subtle shortcoming.}
+
+% \begin{enumerate}
+%     \item Prove that \textbf{HeapSort is not stable} (i.e., it does not preserve the relative order of equal elements). Provide a concrete array of length 4 with a repeated element that demonstrates instability.\footnote{Trace the BuildHeap and extraction phases carefully.}
+%     \item HeapSort runs in $O(n \log n)$ time in the worst case and uses $O(1)$ extra space. Argue that \emph{no} comparison-based sorting algorithm can do better than $O(n \log n)$ in the worst case.
+%     \item In practice, HeapSort is often slower than QuickSort despite having a better worst-case guarantee. Give two reasons why this might be so.\footnote{Consider cache access patterns and the constant factors hidden in the $O$ notation.}
+% \end{enumerate}
+
+\item \textit{The $k$-th smallest element problem arises in order statistics, 
+database query optimization, and approximate algorithms. We designed a linear-time algorithm 
+using the median-of-medians earlier, 
+but a simpler $O(n \log k)$ algorithm using a heap is at times more practical.}
 
 \begin{enumerate}
-    \item Prove that \textbf{HeapSort is not stable} (i.e., it does not preserve the relative order of equal elements). Provide a concrete array of length 4 with a repeated element that demonstrates instability.\footnote{Trace the BuildHeap and extraction phases carefully.}
-    \item HeapSort runs in $O(n \log n)$ time in the worst case and uses $O(1)$ extra space. Argue that \emph{no} comparison-based sorting algorithm can do better than $O(n \log n)$ in the worst case.
-    \item In practice, HeapSort is often slower than QuickSort despite having a better worst-case guarantee. Give two reasons why this might be so.\footnote{Consider cache access patterns and the constant factors hidden in the $O$ notation.}
-\end{enumerate}
-
-\item \textit{The $k$-th smallest element problem arises in order statistics, database query optimization, and approximate algorithms.}
-
-\begin{enumerate}
-    \item Given an unsorted array $A$ of $n$ elements, describe how to find the \textbf{$k$-th smallest} element using a max-heap of size $k$ in $O(n \log k)$ time.
-    \item Trace your algorithm on $A = [7, 2, 10, 4, 3, 8, 1, 6, 9, 5]$ for $k = 3$.
-    \item Show that BuildHeap gives an $O(n)$ algorithm to find the minimum element. Can you find the second-minimum in $O(\log n)$ additional time? The $k$-th minimum in $O(k \log n)$ time?
-    \item Suppose the array is already a \emph{max-heap}. What is the minimum number of elements you must examine to find the $k$-th largest element?
+    % \item Given an unsorted array $A$ of $n$ elements, describe how to find the \textbf{$k$-th smallest} element using a max-heap of size $k$ in $O(n \log k)$ time.
+    % \item Trace your algorithm on $A = [7, 2, 10, 4, 3, 8, 1, 6, 9, 5]$ for $k = 3$.
+    \item Show that BuildHeap gives an $O(n)$ algorithm to find the minimum element. 
+    Can you find the second-minimum in $O(\log n)$ additional time? 
+    The $k$-th minimum in $O(k \log n)$ time?
+    \item Suppose the array is already a \emph{max-heap}. What is the minimum number of elements
+    you must examine to find the $k$-th largest element?
 \end{enumerate}
 
 \item \textit{Priority queues with a decrease-key operation are essential for Dijkstra's shortest path and Prim's MST algorithms.}
@@ -380,13 +386,13 @@ We work with a connected undirected weighted graph $G = (V, E, w)$ where $w : E 
         \item You are given a partial spanning tree $F$ (a forest of $k < n-1$ edges, all of which must be included). Show how to complete $F$ into a minimum spanning tree by running a modified Kruskal's on the remaining edges.
     \end{enumerate}
 
-    \item \textbf{(Uniform weights and counting spanning trees.)}
-    Suppose all edge weights are equal to 1.
-    \begin{enumerate}
-        \item How many spanning trees does the complete graph $K_n$ have? (State Cayley's formula $n^{n-2}$ without proof.) Compute the number for $n = 3, 4, 5$.
-        \item Since all spanning trees have the same total weight, every spanning tree is an MST. Does Kruskal's algorithm still terminate correctly? What spanning tree does it produce?
-        \item With all weights equal, neither the cut property nor the cycle property uniquely identifies an edge as ``in'' or ``out'' of any MST. What goes wrong? How is this consistent with part (b)?
-    \end{enumerate}
+    % \item \textbf{(Uniform weights and counting spanning trees.)}
+    % Suppose all edge weights are equal to 1.
+    % \begin{enumerate}
+    %     \item How many spanning trees does the complete graph $K_n$ have? (State Cayley's formula $n^{n-2}$ without proof.) Compute the number for $n = 3, 4, 5$.
+    %     \item Since all spanning trees have the same total weight, every spanning tree is an MST. Does Kruskal's algorithm still terminate correctly? What spanning tree does it produce?
+    %     \item With all weights equal, neither the cut property nor the cycle property uniquely identifies an edge as ``in'' or ``out'' of any MST. What goes wrong? How is this consistent with part (b)?
+    % \end{enumerate}
 
 \end{enumerate}
 
@@ -438,23 +444,23 @@ A dynamic array doubles its capacity whenever an element is pushed into a full a
 
 \begin{enumerate}
     \item Use the \textbf{accounting method} to show that the amortized cost of \texttt{Push} is $O(1)$. Assign 3 credits per \texttt{Push} and show the invariant: elements in the right half of the array each hold 2 credits, which is exactly enough to pay for the next doubling.\footnote{At the moment of doubling from capacity $c$ to $2c$, all $c$ elements in the array need to be copied. Which elements have been holding credits?}
-    \item Define a potential function $\Phi = 2 \cdot (\text{size}) - \text{capacity}$ and use the \textbf{potential method} to prove the same $O(1)$ amortized bound. Verify that $\Phi \geq 0$ at all times and that $\Phi = 0$ immediately after a doubling.
+    % \item Define a potential function $\Phi = 2 \cdot (\text{size}) - \text{capacity}$ and use the \textbf{potential method} to prove the same $O(1)$ amortized bound. Verify that $\Phi \geq 0$ at all times and that $\Phi = 0$ immediately after a doubling.
     \item Now suppose the array grows by a \textbf{factor of $r > 1$} (not necessarily 2) when full. For example, $r = 1.5$ means the new capacity is $1.5 \times$ the old capacity. Show that the amortized cost of \texttt{Push} is still $O(1)$ for any fixed $r > 1$.
-    \item Suppose instead of doubling, the array grows by adding a \textbf{fixed constant} $c$ to its capacity each time it is full. Show that the amortized cost of \texttt{Push} is $\Theta(n)$ after $n$ pushes, making this strategy far inferior.
+    % \item Suppose instead of doubling, the array grows by adding a \textbf{fixed constant} $c$ to its capacity each time it is full. Show that the amortized cost of \texttt{Push} is $\Theta(n)$ after $n$ pushes, making this strategy far inferior.
     \item Now consider \textbf{shrinking}: when the array becomes less than $1/4$ full, halve its capacity (cost = number of elements copied). Show that the amortized cost of each push and pop is still $O(1)$.\footnote{Use $\Phi = 2 \cdot \text{size} - \text{capacity}$ when size $\geq$ capacity/2, and $\Phi = \text{capacity}/2 - \text{size}$ when size $<$ capacity/2. Verify $\Phi \geq 0$ in both cases.} Why is the threshold $1/4$ (not $1/2$) important for this to work?
 \end{enumerate}
 
-\item \textit{Designing your own potential function is the key skill in amortized analysis.}
+% \item \textit{Designing your own potential function is the key skill in amortized analysis.}
 
-For each of the following scenarios, propose a potential function $\Phi$, verify it satisfies $\Phi_0 = 0$ and $\Phi \geq 0$, and use it to bound the amortized cost per operation.
+% For each of the following scenarios, propose a potential function $\Phi$, verify it satisfies $\Phi_0 = 0$ and $\Phi \geq 0$, and use it to bound the amortized cost per operation.
 
-\begin{enumerate}
-    \item A data structure maintains a sorted list. \texttt{Insert}$(x)$ appends $x$ to the end (cost 1) and \texttt{Sort} re-sorts the entire list (cost $= $ current size $n$). After any \texttt{Sort}, the list is sorted and a subsequent \texttt{Insert} makes it unsorted again. Show that the amortized cost of \texttt{Insert} and \texttt{Sort} are both $O(1)$ if \texttt{Sort} is called at most once per $n$ insertions.\footnote{Let $\Phi$ = number of elements inserted since the last \texttt{Sort}.}
+% \begin{enumerate}
+%     \item A data structure maintains a sorted list. \texttt{Insert}$(x)$ appends $x$ to the end (cost 1) and \texttt{Sort} re-sorts the entire list (cost $= $ current size $n$). After any \texttt{Sort}, the list is sorted and a subsequent \texttt{Insert} makes it unsorted again. Show that the amortized cost of \texttt{Insert} and \texttt{Sort} are both $O(1)$ if \texttt{Sort} is called at most once per $n$ insertions.\footnote{Let $\Phi$ = number of elements inserted since the last \texttt{Sort}.}
 
-    \item A \textbf{lazy deletion} priority queue supports \texttt{Insert} (cost 1, always) and \texttt{ExtractMin} (scan all elements and remove the minimum, cost $= $ number of non-deleted elements). However, deleted elements are never actually removed --- instead, \texttt{Delete}$(x)$ merely marks $x$ as deleted (cost 1). The structure stores at most $n$ elements at any time. Show that the amortized cost of \texttt{ExtractMin} is $O(d + 1)$ where $d$ is the number of deletions since the last \texttt{ExtractMin}.\footnote{Let $\Phi$ = number of marked-deleted elements currently in the structure.}
+%     \item A \textbf{lazy deletion} priority queue supports \texttt{Insert} (cost 1, always) and \texttt{ExtractMin} (scan all elements and remove the minimum, cost $= $ number of non-deleted elements). However, deleted elements are never actually removed --- instead, \texttt{Delete}$(x)$ merely marks $x$ as deleted (cost 1). The structure stores at most $n$ elements at any time. Show that the amortized cost of \texttt{ExtractMin} is $O(d + 1)$ where $d$ is the number of deletions since the last \texttt{ExtractMin}.\footnote{Let $\Phi$ = number of marked-deleted elements currently in the structure.}
 
-    \item A \textbf{splay-like} structure supports an operation \texttt{Access}$(i)$ that costs $d_i + 1$ where $d_i$ is the depth of element $i$ in a binary tree. After each access, element $i$ is moved to the root (cost already counted in $d_i + 1$). If the tree has $n$ nodes and is initially a path (worst case), show that a sequence of $m$ accesses to the \emph{same} element costs $O(m + n)$ total using any valid potential function.\footnote{After the first access (cost $n$), every subsequent access to the same element costs $O(1)$ since it is now at the root.}
-\end{enumerate}
+%     \item A \textbf{splay-like} structure supports an operation \texttt{Access}$(i)$ that costs $d_i + 1$ where $d_i$ is the depth of element $i$ in a binary tree. After each access, element $i$ is moved to the root (cost already counted in $d_i + 1$). If the tree has $n$ nodes and is initially a path (worst case), show that a sequence of $m$ accesses to the \emph{same} element costs $O(m + n)$ total using any valid potential function.\footnote{After the first access (cost $n$), every subsequent access to the same element costs $O(1)$ since it is now at the root.}
+% \end{enumerate}
 
 \end{enumerate}
 
