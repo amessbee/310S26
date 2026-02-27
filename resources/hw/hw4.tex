@@ -436,6 +436,16 @@ Implement a \textbf{queue} (FIFO) using two stacks $S_{\text{in}}$ and $S_{\text
     \item Suppose instead of resetting to all-zeros, \texttt{Reset} resets the counter to its value \emph{before the last increment}. Does the $O(1)$ amortized bound for \texttt{Increment} still hold? Prove or disprove.
 
     \item Consider a counter that supports both \texttt{Increment} and \texttt{Decrement} (subtract 1 in binary). Explain why the potential $\Phi = $ (number of 1-bits) no longer yields $O(1)$ amortized cost for both operations together. Give a sequence of increments and decrements where the total cost is $\Theta(mk)$.\footnote{Alternate between $0\underbrace{1\cdots1}_{k-1}$ and $\underbrace{1\cdots1}_{k}$.}
+
+    \item \textit{Proving the binary counter analysis with the accounting method by connecting bit flips to the number of 1-bits in the counter.}
+    
+    Consider a $k$-bit binary counter that starts at 0. Use the \textbf{accounting method} with a ``bank balance'' to prove that $n$ \texttt{Increment} operations cost $O(n)$ total, by reserving 2 bit flips per increment.
+    
+    \begin{enumerate}
+        \item Prove that after each \texttt{Increment} operation, the bank balance equals the number of 1-bits in the current counter value. \textit{(Hint: Track how the bank balance changes: when we spend bits to flip 0-bits to 1s and 1-bits to 0s, and when we reserve new credits, the bank balance should always equal the number of 1s.)}
+        \item Conclude that the total cost of $n$ increments is at most $2n$ bit flips.
+        % \item Explain how this proof by accounting differs from the potential method analysis, and what role the ``bank balance = number of 1s'' invariant plays.
+    \end{enumerate}
 \end{enumerate}
 
 \item \textit{Dynamic arrays are ubiquitous in practice. The choice of growth factor critically affects both the amortized cost and memory usage.}
