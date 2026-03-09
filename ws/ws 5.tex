@@ -1,0 +1,98 @@
+\documentclass[12pt]{exam}
+
+\usepackage{amssymb,amsmath,amsfonts,amsthm,graphicx}
+\usepackage[top=0.3in, bottom=0.75in, left=0.5in, right=0.5in]{geometry}
+\usepackage{tikz}
+\DeclareGraphicsExtensions{.pdf}
+
+\newtheoremstyle{problem}{\topsep}{\topsep}{}{}{\bfseries}{}{ }%
+{\thmnumber{#2}\thmnote{ \bfseries (#3)}}
+\theoremstyle{problem}
+\newtheorem{p}{}
+
+\firstpageheader%
+{CS \liningnums{310}: Algorithms --- Graphs\\
+Mudassir Shabbir, February 25, 2026}
+{}
+{Full name1:\enspace\makebox[2in]{\hrulefill}\\
+Full name2:\enspace\makebox[2in]{\hrulefill}\\}
+
+\runningheader{}{}{}
+
+\frenchspacing
+\unframedsolutions
+\SolutionEmphasis{\sffamily}
+\renewcommand{\solutiontitle}{}
+\boxedpoints
+\pointsinrightmargin
+\marginbonuspointname{\textsc{up}}
+
+\makeatletter
+\def\clap#1{\hbox to 0pt{\hss#1\hss}}
+\def\setup@point@toks{%
+	\point@toks={%
+		\rlap{\hskip-\@totalleftmargin
+			\hskip\textwidth
+			\hskip\@rightmargin
+			\hskip-\rightpointsmargin
+			\clap{\padded@point@block}%
+		}%
+		\global \point@toks={}%
+	}%
+}
+\setlength{\rightpointsmargin}{.5in}
+\makeatother
+
+\extraheadheight{.25in}
+\extrafootheight{-.5in}
+\setlength{\marginparwidth}{1.5in}
+
+\usepackage{xcolor}
+\usepackage{pagecolor}
+\usepackage[document]{ragged2e}
+
+\begin{document}
+	
+\pagestyle{empty}
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r}
+\textbf{CS 310: Algorithms -- Graphs} 
+& \emph{Mudassir Shabbir, February 25, 2026}
+\end{tabular*}
+
+\vspace{0.4cm}
+
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l l}
+\textbf{Student ID 1 \& 2:}{\em (Do this in pairs)} \hrulefill 
+&
+\end{tabular*}
+
+\vspace{0.3cm}
+\hrule
+
+\thispagestyle{myheadings}
+\pagenumbering{gobble}
+
+
+\vspace{0.5cm}
+\smallskip
+\textbf{A.} Recall that in Union by Rank, the root with smaller rank is attached under the root with larger rank. The rank only increases when two equal-rank trees are merged.
+\textbf{Prove that Union by rank results in $O(\log n)$ cost per Find in Union-Find Data Structure.}
+
+\vspace{0.5cm}
+
+\textit{Hint:} Show that a tree of rank $r$ must contain at least $2^r$ nodes. Use this to bound the maximum possible height.
+
+\vspace{7.5 cm}
+
+\textbf{B.} \textbf{Design a decimal counter and perform amortized analysis of number of digits that need to be changed per increment (in class we did this for binary counter.)} The counter is in base 10, with digits $0$–$9$. When a digit becomes $9$, it resets to $0$ and generates a carry.
+
+\vspace{0.5cm}
+
+\textit{Hint:} Count how many times each digit position changes over $n$ increments. 
+First compute the total number of digit changes across all $n$ increments, and then divide by $n$ to obtain the amortized cost per increment.
+
+
+
+\end{document}
