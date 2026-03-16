@@ -124,6 +124,11 @@
         title: w.title,
         worksheetsLinks: w.link ? [w.link] : [],
       }));
+      const recordings = (data.recordings || []).map((r) => ({
+        date: r.date,
+        title: r.title,
+        recordingLinks: r.link ? [r.link] : [],
+      }));
       const byDate = new Map();
       for (const n of notes) {
         byDate.set(n.date, {
@@ -132,6 +137,7 @@
           notesLinks: n.notesLinks,
           slidesLinks: [],
           worksheetsLinks: [],
+          recordingLinks: [],
         });
       }
       for (const s of slides) {
@@ -146,6 +152,7 @@
             notesLinks: [],
             slidesLinks: s.slidesLinks,
             worksheetsLinks: [],
+            recordingLinks: [],
           });
         }
       }
@@ -163,6 +170,25 @@
             notesLinks: [],
             slidesLinks: [],
             worksheetsLinks: w.worksheetsLinks,
+            recordingLinks: [],
+          });
+        }
+      }
+      for (const r of recordings) {
+        const existing = byDate.get(r.date);
+        if (existing) {
+          existing.recordingLinks = existing.recordingLinks.concat(
+            r.recordingLinks,
+          );
+          if (!existing.title) existing.title = r.title;
+        } else {
+          byDate.set(r.date, {
+            date: r.date,
+            title: r.title,
+            notesLinks: [],
+            slidesLinks: [],
+            worksheetsLinks: [],
+            recordingLinks: r.recordingLinks,
           });
         }
       }
@@ -195,11 +221,19 @@
                 )
                 .join(", ")
             : '<span class="small">Worksheet pending</span>';
+          const recordingsPart = item.recordingLinks.length
+            ? item.recordingLinks
+                .map(
+                  (l, idx) =>
+                    `<a href="${l}">Recording${item.recordingLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
+                )
+                .join(", ")
+            : "";
           return `
         <div class="card">
           <div class="kicker">${item.date}</div>
           <h3>${item.title}</h3>
-          <p class="small">${notesPart} • ${slidesPart} • ${worksheetsPart}</p>
+          <p class="small">${notesPart} • ${slidesPart} • ${worksheetsPart}${recordingsPart ? ` • ${recordingsPart}` : ""}</p>
         </div>`;
         })
         .join("");

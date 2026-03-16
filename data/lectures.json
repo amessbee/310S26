@@ -210,6 +210,23 @@
       "date": "2026-03-11",
       "title": "Lecture 16 Slides",
       "link": "resources/slides/l16.pdf"
+    },
+    {
+      "date": "2026-03-16",
+      "title": "Lecture 17 Slides",
+      "link": "resources/slides/l17.pdf"
+    }
+  ],
+  "recordings": [
+    {
+      "date": "2026-03-16",
+      "title": "Lecture 17 Recording",
+      "link": "https://pern.sharepoint.com/:v:/s/Algorithms_mhuqd7/IQBg9SjPXAxfQKjXZNvPtzExAaIaQw7v_j8L1M04Q6sl4wQ?e=GO3zfL"
+    },
+    {
+      "date": "2026-03-11",
+      "title": "Lecture 16 Recording",
+      "link": "https://pern.sharepoint.com/:v:/s/Algorithms_mhuqd7/IQCd5epQ6JbnSo_olcqoN12hAfxqUpNK4BPwok_DZHzSnFQ?e=9C1VpZ"
     }
   ]
 }
