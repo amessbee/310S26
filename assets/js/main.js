@@ -204,7 +204,7 @@
                     `<a href="${l}">Notes${item.notesLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
                 )
                 .join(", ")
-            : '<span class="small">Notes pending</span>';
+            : "";
           const slidesPart = item.slidesLinks.length
             ? item.slidesLinks
                 .map(
@@ -212,7 +212,7 @@
                     `<a href="${l}">Slides${item.slidesLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
                 )
                 .join(", ")
-            : '<span class="small">Slides pending</span>';
+            : "";
           const worksheetsPart = item.worksheetsLinks.length
             ? item.worksheetsLinks
                 .map(
@@ -220,7 +220,7 @@
                     `<a href="${l}">Worksheet${item.worksheetsLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
                 )
                 .join(", ")
-            : '<span class="small">Worksheet pending</span>';
+            : "";
           const recordingsPart = item.recordingLinks.length
             ? item.recordingLinks
                 .map(
@@ -229,11 +229,17 @@
                 )
                 .join(", ")
             : "";
+          const materialsParts = [
+            notesPart,
+            slidesPart,
+            worksheetsPart,
+            recordingsPart,
+          ].filter(Boolean);
           return `
         <div class="card">
           <div class="kicker">${item.date}</div>
           <h3>${item.title}</h3>
-          <p class="small">${notesPart} • ${slidesPart} • ${worksheetsPart}${recordingsPart ? ` • ${recordingsPart}` : ""}</p>
+          ${materialsParts.length ? `<p class="small">${materialsParts.join(" • ")}</p>` : ""}
         </div>`;
         })
         .join("");
