@@ -129,6 +129,13 @@
         title: r.title,
         recordingLinks: r.link ? [r.link] : [],
       }));
+      const misc = (data.misc || []).map((m) => ({
+        date: m.date,
+        title: m.title,
+        miscLinks: m.link
+          ? [{ href: m.link, label: m.title || "Misc" }]
+          : [],
+      }));
       const byDate = new Map();
       for (const n of notes) {
         byDate.set(n.date, {
@@ -138,6 +145,7 @@
           slidesLinks: [],
           worksheetsLinks: [],
           recordingLinks: [],
+          miscLinks: [],
         });
       }
       for (const s of slides) {
@@ -153,6 +161,7 @@
             slidesLinks: s.slidesLinks,
             worksheetsLinks: [],
             recordingLinks: [],
+            miscLinks: [],
           });
         }
       }
@@ -171,6 +180,7 @@
             slidesLinks: [],
             worksheetsLinks: w.worksheetsLinks,
             recordingLinks: [],
+            miscLinks: [],
           });
         }
       }
@@ -189,6 +199,24 @@
             slidesLinks: [],
             worksheetsLinks: [],
             recordingLinks: r.recordingLinks,
+            miscLinks: [],
+          });
+        }
+      }
+      for (const m of misc) {
+        const existing = byDate.get(m.date);
+        if (existing) {
+          existing.miscLinks = existing.miscLinks.concat(m.miscLinks);
+          if (!existing.title) existing.title = m.title;
+        } else {
+          byDate.set(m.date, {
+            date: m.date,
+            title: m.title,
+            notesLinks: [],
+            slidesLinks: [],
+            worksheetsLinks: [],
+            recordingLinks: [],
+            miscLinks: m.miscLinks,
           });
         }
       }
@@ -229,11 +257,17 @@
                 )
                 .join(", ")
             : "";
+          const miscPart = item.miscLinks.length
+            ? item.miscLinks
+                .map((m) => `<a href="${m.href}">${m.label}</a>`)
+                .join(", ")
+            : "";
           const materialsParts = [
             notesPart,
             slidesPart,
             worksheetsPart,
             recordingsPart,
+            miscPart,
           ].filter(Boolean);
           return `
         <div class="card">
