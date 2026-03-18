@@ -132,9 +132,7 @@
       const misc = (data.misc || []).map((m) => ({
         date: m.date,
         title: m.title,
-        miscLinks: m.link
-          ? [{ href: m.link, label: m.title || "Misc" }]
-          : [],
+        miscLinks: m.link ? [{ href: m.link, label: m.title || "Misc" }] : [],
       }));
       const byDate = new Map();
       for (const n of notes) {
