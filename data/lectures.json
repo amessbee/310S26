@@ -108,6 +108,26 @@
       "date": "2026-02-16",
       "title": "Lecture 9 Worksheet",
       "link": "ws/ws4.pdf"
+    },
+    {
+      "date": "2026-03-04",
+      "title": "Worksheet 5",
+      "link": "ws/ws5.pdf"
+    },
+    {
+      "date": "2026-03-18",
+      "title": "Worksheet 6",
+      "link": "ws/ws6.pdf"
+    },
+    {
+      "date": "2026-03-18",
+      "title": "Worksheet 7",
+      "link": "ws/ws7.pdf"
+    },
+    {
+      "date": "2026-03-25",
+      "title": "Worksheet 8",
+      "link": "ws/ws8.pdf"
     }
   ],
   "slides": [
@@ -215,9 +235,19 @@
       "date": "2026-03-16",
       "title": "Lecture 17 Slides",
       "link": "resources/slides/l17.pdf"
+    },
+    {
+      "date": "2026-03-25",
+      "title": "Lecture 19 Slides",
+      "link": "resources/slides/l19.pdf"
     }
   ],
   "recordings": [
+    {
+      "date": "2026-03-23",
+      "title": "Lecture 19 Recording",
+      "link": "https://pern.sharepoint.com/:v:/s/Algorithms_mhuqd7/IQB1FURfXySbQbyoDVC5I12UARpBkRXlMXjy275mdM52pnY?e=Mfhz9m"
+    },
     {
       "date": "2026-03-16",
       "title": "Lecture 17 Recording",

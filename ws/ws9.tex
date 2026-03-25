@@ -1,0 +1,177 @@
+% -*- program: xelatex -*-
+
+\newif\ifanswers
+%\answerstrue
+
+\documentclass[11pt]{article}
+
+\usepackage{amssymb,amsmath,amsfonts,amsthm,graphicx}
+\usepackage[top=0.3in, bottom=0.75in, left=0.5in, right=0.5in]{geometry}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{enumitem}
+
+\DeclareGraphicsExtensions{.pdf}
+
+\usepackage{fontspec,realscripts}
+\defaultfontfeatures{Ligatures=TeX}
+\frenchspacing
+
+\usepackage{xcolor}
+\usepackage{pagecolor}
+\usepackage[document]{ragged2e}
+
+\begin{document}
+
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r}
+\textbf{CS 310: Algorithms -- Matrix Chain Multiplication Worksheet Quiz}
+& \emph{Mudassir Shabbir, March 25, 2026}
+\end{tabular*}
+
+\vspace{0.4cm}
+
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l l}
+\textbf{Student ID 1 \& 2:}{\em (Do this in pairs)} \hrulefill
+&
+\end{tabular*}
+
+\vspace{0.3cm}
+\hrule
+
+\vspace{0.4cm}
+
+\noindent
+Matrix Chain rules for this worksheet:
+\begin{itemize}
+    \item Matrix dimensions are given by $p[0..n]$ for $n$ matrices.
+    \item Matrix $A_i$ has size $p[i-1] \times p[i]$.
+    \item Goal: choose a parenthesization that minimizes scalar multiplications.
+\end{itemize}
+
+\pagenumbering{gobble}
+
+\begin{enumerate}[leftmargin=0pt, itemindent=1.7em, itemsep=1.2em]
+
+\item \textbf{Warm-up: compare two parenthesizations}
+
+For each dimensions array, compute both candidate costs and circle the cheaper order.
+
+\vspace{0.2cm}
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|>{\raggedright\arraybackslash}m{1.8in}|>{\raggedright\arraybackslash}m{2.2in}|>{\raggedright\arraybackslash}m{2.0in}|}
+\hline
+Dimensions $p$ & Candidate A & Candidate B \\\hline
+$[10,30,5,60]$ & $(A_1A_2)A_3$ & $A_1(A_2A_3)$ \\\hline
+$[5,10,3,12]$ & $(A_1A_2)A_3$ & $A_1(A_2A_3)$ \\\hline
+$[8,20,2,25]$ & $(A_1A_2)A_3$ & $A_1(A_2A_3)$ \\\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.8cm}
+
+\ifanswers
+\textbf{Sample answers:}
+\begin{itemize}
+    \item $[10,30,5,60]$: $4500$ vs $27000$, so $(A_1A_2)A_3$.
+    \item $[5,10,3,12]$: $330$ vs $960$, so $(A_1A_2)A_3$.
+    \item $[8,20,2,25]$: $1320$ vs $4400$, so $(A_1A_2)A_3$.
+\end{itemize}
+\fi
+
+\item \textbf{Fill the DP table}
+
+Use $p=[10,30,5,60]$ and fill upper-triangular values for $\mathrm{MC}[i][j]$.
+
+\vspace{0.2cm}
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c|ccc}
+  & $j=1$ & $j=2$ & $j=3$ \\\hline
+$i=1$ & & & \\
+$i=2$ & & & \\
+$i=3$ & & & \\
+\end{tabular}
+\end{center}
+
+\vspace{0.2cm}
+What final value do you get for $\mathrm{MC}[1][3]$?
+
+\vspace{1.0cm}
+
+\ifanswers
+\textbf{Sample filled table:}
+\[
+\begin{array}{c|ccc}
+ & j=1 & j=2 & j=3 \\\hline
+i=1 & 0 & 1500 & 4500 \\
+i=2 &  & 0 & 9000 \\
+i=3 &  &  & 0
+\end{array}
+\]
+$\mathrm{MC}[1][3]=4500$.
+\fi
+
+\item \textbf{Choose the DP state}
+
+Let there be $n$ matrices.
+
+\begin{enumerate}[label=(\alph*), leftmargin=2em, itemsep=0.9em]
+\item Complete the state definition:
+
+\vspace{0.2cm}
+\hspace*{1em}$\mathrm{MC}(i,j) =$ \hrulefill
+
+\vspace{0.7cm}
+\item What is the base case $\mathrm{MC}(i,i)$ and why?
+
+\vspace{1.0cm}
+\item Why do we fill by increasing chain length $\ell$?
+
+\vspace{1.1cm}
+\end{enumerate}
+
+\ifanswers
+\textbf{Sample answers:}
+\begin{itemize}
+    \item $\mathrm{MC}(i,j)$ is the minimum number of scalar multiplications to compute $A_iA_{i+1}\cdots A_j$.
+    \item $\mathrm{MC}(i,i)=0$ because a single matrix needs no multiplication.
+    \item Each interval $(i,j)$ depends on shorter intervals $(i,k)$ and $(k+1,j)$.
+\end{itemize}
+\fi
+
+\newpage
+
+\item \textbf{Build the recurrence and analyze complexity}
+
+\begin{enumerate}[label=(\alph*), leftmargin=2em, itemsep=0.9em]
+\item Write the recurrence using split point $k$.
+
+\vspace{1.3cm}
+
+\item Explain in one sentence what the extra term $p[i-1]p[k]p[j]$ represents.
+
+\vspace{1.2cm}
+
+\item What are the overall time and space complexities?
+
+\vspace{1.0cm}
+\end{enumerate}
+
+\ifanswers
+\textbf{Sample answers:}
+\begin{itemize}
+    \item
+    \[
+    \mathrm{MC}(i,j)=\min_{i\le k<j}\{\mathrm{MC}(i,k)+\mathrm{MC}(k+1,j)+p[i-1]p[k]p[j]\}.
+    \]
+    \item It is the cost of multiplying the two resulting matrices after solving the left and right subchains.
+    \item Time: $O(n^3)$, Space: $O(n^2)$.
+\end{itemize}
+\fi
+
+\end{enumerate}
+
+\end{document}

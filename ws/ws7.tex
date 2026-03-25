@@ -1,0 +1,191 @@
+% -*- program: xelatex -*-
+
+\newif\ifanswers
+%\answerstrue
+
+\documentclass[11pt]{article}
+
+\usepackage{amssymb,amsmath,amsfonts,amsthm,graphicx}
+\usepackage[top=0.3in, bottom=0.75in, left=0.5in, right=0.5in]{geometry}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{enumitem}
+
+\DeclareGraphicsExtensions{.pdf}
+
+\usepackage{fontspec,realscripts}
+\defaultfontfeatures{Ligatures=TeX}
+\frenchspacing
+
+\usepackage{xcolor}
+\usepackage{pagecolor}
+\usepackage[document]{ragged2e}
+
+\begin{document}
+
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r}
+\textbf{CS 310: Algorithms -- Wildcard Matching Worksheet Quiz}
+& \emph{Mudassir Shabbir, March 18, 2026}
+\end{tabular*}
+
+\vspace{0.4cm}
+
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l l}
+\textbf{Student ID 1 \& 2:}{\em (Do this in pairs)} \hrulefill
+&
+\end{tabular*}
+
+\vspace{0.3cm}
+\hrule
+
+\vspace{0.4cm}
+
+\noindent
+We use the following wildcard rules throughout the worksheet:
+\begin{itemize}
+    \item \texttt{?} matches exactly one character.
+    \item \texttt{*} matches any sequence of characters, including the empty sequence.
+    \item A match must cover the \emph{entire} string.
+\end{itemize}
+
+\pagenumbering{gobble}
+
+\begin{enumerate}[leftmargin=0pt, itemindent=1.7em, itemsep=1.2em]
+
+\item \textbf{Warm-up: yes or no?}
+
+For each pair $(s,p)$ below, decide whether the wildcard pattern $p$ matches the entire string $s$.
+Write \textbf{Yes} or \textbf{No} in the last column.
+
+\vspace{0.2cm}
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|>{\raggedright\arraybackslash}m{2.4in}|>{\raggedright\arraybackslash}m{2.0in}|>{\centering\arraybackslash}m{0.9in}|}
+\hline
+String $s$ & Pattern $p$ & Match? \\\hline
+\texttt{report\_final.pdf} & \texttt{report*.pdf} & \\\hline
+\texttt{photo.png} & \texttt{*.jpg} & \\\hline
+\texttt{lab07.txt} & \texttt{lab??.txt} & \\\hline
+\texttt{acdcb} & \texttt{a*c?b} & \\\hline
+\end{tabular}
+\end{center}
+
+\vspace{1.0cm}
+
+\ifanswers
+\textbf{Sample answers:} Yes, No, Yes, No.
+\fi
+
+\item \textbf{Fill a DP table}
+
+Use the example $s=\texttt{adcb}$ and $p=\texttt{a*?b}$.
+Fill each cell with T or F.
+
+\vspace{0.2cm}
+\begin{center}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{c|*{5}{>{\centering\arraybackslash}m{1.7em}}}
+ & $\varepsilon$ & \texttt{a} & \texttt{*} & \texttt{?} & \texttt{b} \\\hline
+$\varepsilon$ & & & & & \\
+\texttt{a} & & & & & \\
+\texttt{d} & & & & & \\
+\texttt{c} & & & & & \\
+\texttt{b} & & & & & \\
+\end{tabular}
+\end{center}
+
+\vspace{0.3cm}
+What final answer do you read from the table?
+
+\vspace{1.0cm}
+
+\ifanswers
+\textbf{Sample filled table:}
+\[
+\begin{array}{c|ccccc}
+ & \varepsilon & a & * & ? & b \\\hline
+\varepsilon & T & F & F & F & F \\
+a & F & T & T & F & F \\
+d & F & F & T & T & F \\
+c & F & F & T & T & F \\
+b & F & F & T & T & T
+\end{array}
+\]
+Final answer: Yes.
+\fi
+
+\item \textbf{Choosing the DP state}
+
+Suppose we want a dynamic programming solution.
+Let $\mathrm{WM}[i][j]$ represent a statement about prefixes of the string and the pattern.
+
+\begin{enumerate}[label=(\alph*), leftmargin=2em, itemsep=0.8em]
+\item Complete the definition:
+
+\vspace{0.2cm}
+\hspace*{1em}$\mathrm{WM}[i][j] =$ \hrulefill
+
+\vspace{0.6cm}
+\item What should $\mathrm{WM}[0][0]$ be, and why?
+
+\vspace{1.0cm}
+\item When can $\mathrm{WM}[0][j]$ be true for $j>0$?
+
+\vspace{1.2cm}
+\end{enumerate}
+
+\ifanswers
+\textbf{Sample answers:}
+\begin{itemize}
+    \item $\mathrm{WM}[i][j]$ is true iff the prefix $s[0..i-1]$ is matched by the prefix $p[0..j-1]$.
+    \item $\mathrm{WM}[0][0]=\texttt{true}$ because the empty pattern matches the empty string.
+    \item $\mathrm{WM}[0][j]$ is true only when the first $j$ pattern characters are all \texttt{*}.
+\end{itemize}
+\fi
+
+
+\item \textbf{Derive the recurrence}
+
+Using your table and the wildcard rules, complete the recurrence for $\mathrm{WM}[i][j]$.
+
+\begin{enumerate}[label=(\alph*), leftmargin=2em, itemsep=0.8em]
+\item If $p[j-1]$ is a normal character, what should the transition be?
+
+\vspace{1.6cm}
+
+\item If $p[j-1]$ is \texttt{?}, what should the transition be?
+
+\vspace{1.6cm}
+
+\item If $p[j-1]$ is \texttt{*}, explain the two choices that \texttt{*} gives you and write the transition.
+
+\vspace{1.6cm}
+
+\item Write down a reccurence that combines all cases and computes $\mathrm{WM}[i][j]$ recursively from smaller subproblems.
+
+\vspace{0.9cm}
+
+\item What is the overall time complexity of the DP algorithm for a string of length $m$ and a pattern of length $n$?
+
+\vspace{0.9cm}
+
+\end{enumerate}
+
+\ifanswers
+\textbf{Sample answers:}
+\begin{itemize}
+    \item If $p[j-1]=s[i-1]$ or $p[j-1]=\texttt{?}$, then $\mathrm{WM}[i][j]=\mathrm{WM}[i-1][j-1]$.
+    \item If $p[j-1]=\texttt{*}$, then either it matches nothing or it consumes one more character:
+    \[
+    \mathrm{WM}[i][j]=\mathrm{WM}[i][j-1] \vee \mathrm{WM}[i-1][j].
+    \]
+    \item Time complexity: $O(mn)$.
+    \item Because each \texttt{*} can match many different-length substrings, a locally greedy choice can block a later match.
+\end{itemize}
+\fi
+
+\end{enumerate}
+
+\end{document}

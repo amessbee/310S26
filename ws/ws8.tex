@@ -1,0 +1,202 @@
+% -*- program: xelatex -*-
+
+\newif\ifanswers
+%\answerstrue
+
+\documentclass[11pt]{article}
+
+\usepackage{amssymb,amsmath,amsfonts,amsthm,graphicx}
+\usepackage[top=0.3in, bottom=0.75in, left=0.5in, right=0.5in]{geometry}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{enumitem}
+
+\DeclareGraphicsExtensions{.pdf}
+
+\usepackage{fontspec,realscripts}
+\defaultfontfeatures{Ligatures=TeX}
+\frenchspacing
+
+\usepackage{xcolor}
+\usepackage{pagecolor}
+\usepackage[document]{ragged2e}
+
+\begin{document}
+
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l r}
+\textbf{CS 310: Algorithms -- Edit Distance Worksheet Quiz}
+& \emph{Mudassir Shabbir, March 25, 2026}
+\end{tabular*}
+
+\vspace{0.4cm}
+
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} l l}
+\textbf{Student ID 1 \& 2:}{\em (Do this in pairs)} \hrulefill
+&
+\end{tabular*}
+
+\vspace{0.3cm}
+\hrule
+
+\vspace{0.4cm}
+
+\noindent
+Edit Distance rules for this worksheet:
+\begin{itemize}
+    \item You are given two strings $A$ and $B$.
+    \item Allowed operations are insert, delete, and replace (each has cost 1).
+    \item The goal is to transform $A$ into $B$ using minimum total cost.
+\end{itemize}
+
+\pagenumbering{gobble}
+
+\begin{enumerate}[leftmargin=0pt, itemindent=1.7em, itemsep=1.2em]
+
+\item \textbf{Warm-up: compute the distance}
+
+For each pair $(A,B)$, write the minimum edit distance.
+
+\vspace{0.2cm}
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|>{\raggedright\arraybackslash}m{2.3in}|>{\raggedright\arraybackslash}m{2.3in}|>{\centering\arraybackslash}m{0.8in}|}
+\hline
+$A$ & $B$ & ED$(A,B)$ \\\hline
+\texttt{kitten} & \texttt{sitting} & \\\hline
+\texttt{flaw} & \texttt{lawn} & \\\hline
+\texttt{algorithm} & \texttt{altruistic} & \\\hline
+\texttt{care} & \texttt{score} & \\\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.8cm}
+
+\ifanswers
+\textbf{Sample answers:} 3, 2, 6, 2.
+\fi
+
+\item \textbf{Choose a DP state}
+
+Let $m=|A|$, $n=|B|$, and define a table $\mathrm{ED}[0..m][0..n]$.
+Complete the state definition:
+
+\vspace{0.2cm}
+\hspace*{1em}$\mathrm{ED}[i][j] =$ \hrulefill
+
+\vspace{2.0cm}
+
+\ifanswers
+\textbf{Sample answer:}
+\begin{itemize}
+    \item $\mathrm{ED}[i][j]$ is the minimum edit distance between prefixes $A[1..i]$ and $B[1..j]$.
+\end{itemize}
+\fi
+
+\item \textbf{Fill an Edit Distance table}
+
+Use $A=\texttt{care}$ and $B=\texttt{score}$. Fill the full DP table $\mathrm{ED}[i][j]$.
+
+\vspace{0.2cm}
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|*{6}{>{\centering\arraybackslash}m{1.5em}}}
+ & $\varepsilon$ & \texttt{s} & \texttt{c} & \texttt{o} & \texttt{r} & \texttt{e} \\\hline
+$\varepsilon$ & & & & & & \\
+\texttt{c} & & & & & & \\
+\texttt{a} & & & & & & \\
+\texttt{r} & & & & & & \\
+\texttt{e} & & & & & & \\
+\end{tabular}
+\end{center}
+
+\vspace{1.0cm}
+
+\ifanswers
+\textbf{Sample filled table:}
+\[
+\begin{array}{c|cccccc}
+ & \varepsilon & s & c & o & r & e \\\hline
+\varepsilon & 0 & 1 & 2 & 3 & 4 & 5 \\
+c & 1 & 1 & 1 & 2 & 3 & 4 \\
+a & 2 & 2 & 2 & 2 & 3 & 4 \\
+r & 3 & 3 & 3 & 3 & 2 & 3 \\
+e & 4 & 4 & 4 & 4 & 3 & 2
+\end{array}
+\]
+$\mathrm{ED}(4,5)=2$.
+\fi
+
+\item \textbf{Base cases}
+
+What are the base cases $\mathrm{ED}[i][0]$ and $\mathrm{ED}[0][j]$?
+
+\vspace{3.0cm}
+
+\ifanswers
+\textbf{Sample answer:}
+\begin{itemize}
+    \item $\mathrm{ED}[i][0]=i$ and $\mathrm{ED}[0][j]=j$.
+\end{itemize}
+\fi
+
+% \item \textbf{Cell dependencies}
+
+% Which other cells does each cell $\mathrm{ED}[i][j]$ depend on?
+
+% \vspace{1.1cm}
+
+% \ifanswers
+% \textbf{Sample answer:}
+% \begin{itemize}
+%     \item The final step is either delete, insert, or replace/match, which maps to up, left, and diagonal neighbors.
+% \end{itemize}
+% \fi
+
+\item \textbf{Write the recurrence}
+
+Write the full recurrence for $\mathrm{ED}[i][j]$ for both cases: $A[i]=B[j]$ and $A[i]\neq B[j]$.
+
+\vspace{3.3cm}
+
+\ifanswers
+\textbf{Sample answer:}
+\begin{itemize}
+    \item If $A[i]=B[j]$, then $\mathrm{ED}[i][j]=\mathrm{ED}[i-1][j-1]$.
+    \item Otherwise,
+    \[
+    \mathrm{ED}[i][j]=1+\min\{\mathrm{ED}[i-1][j],\ \mathrm{ED}[i][j-1],\ \mathrm{ED}[i-1][j-1]\}.
+    \]
+\end{itemize}
+\fi
+
+% \item \textbf{Loop order}
+
+% Write short pseudocode-level loop order to fill the table bottom-up.
+
+% \vspace{1.2cm}
+
+% \ifanswers
+% \textbf{Sample answer:}
+% \begin{itemize}
+%     \item Fill row 0 and column 0 first, then iterate $i=1..m$ and $j=1..n$.
+% \end{itemize}
+% \fi
+
+\item \textbf{Complexity}
+
+What is the overall time and space complexity of DP solution based on above recurrence?
+
+\vspace{1.0cm}
+
+\ifanswers
+\textbf{Sample answer:}
+\begin{itemize}
+    \item Time: $O(mn)$. Space: $O(mn)$ (or $O(\min(m,n))$ with rolling arrays).
+\end{itemize}
+\fi
+
+\end{enumerate}
+
+\end{document}
