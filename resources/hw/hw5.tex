@@ -1,0 +1,220 @@
+\documentclass[9pt]{book}
+\setlength{\oddsidemargin}{-.5 in}
+\setlength{\evensidemargin}{-.5 in}
+\addtolength{\topmargin}{-1in}
+\setlength{\textwidth}{7.5in}
+\setlength{\textheight}{9in}
+\usepackage{enumitem}
+\usepackage{tikz}
+
+\usepackage{amsmath, amssymb}
+\usepackage{algorithm}
+\usepackage{url, color, epsfig, amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{algpseudocode}
+
+\usepackage{algorithm}
+\usepackage{url, color, epsfig, amsmath, amsthm, amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\newcommand{\remove}[1]{}
+
+\newcommand{\Do}{{\small\bf do}\ }
+\newcommand{\Proc}[1]{#1\+}
+\newcommand{\Returns}{{\small\bf returns}}
+\newcommand{\Procbegin}{{\small\bf begin}}
+\newcommand{\Then}{{\small\bf then}\ \=\+}
+\newcommand{\Elseif}{\<{\small\bf elseif}\ }
+\newcommand{\Endif}{\<{\small\bf end\ if\ }\-\-}
+\newcommand{\Endproc}[1]{{\small\bf end} #1\-}
+\newcommand{\Endfor}{{\small\bf end\ for}\ \-}
+\newcommand{\Endloop}{{\bf end\ loop}\ \-}
+\newenvironment{program}{
+    \begin{minipage}{\textwidth}
+        \begin{tabbing}
+            \ \ \ \ \=\kill
+        }{
+        \end{tabbing}
+    \end{minipage}
+}
+
+\def\blankline{\hbox{}}
+
+\newcommand{\lecture}[5]{
+    \pagestyle{headings}
+    \thispagestyle{plain}
+    \newpage
+    \setcounter{chapter}{#1}
+    \setcounter{page}{#2}
+    \noindent
+    \begin{center}
+        \framebox{
+            \vbox{
+                \hbox to 6.28in { {\bf Algorithms
+                        \hfill Spring Semester, 2026} }
+                \vspace{4mm}
+                \hbox to 6.28in { {\Large \hfill Homework 5 (Graded) \hfill} }
+                \vspace{2mm}
+                \hbox to 6.28in { {\it Professor: #4 \hfill Deadline: 11:59AM Apr 5, 2026.} }
+            }
+        }
+    \end{center}
+    \vspace*{4mm}
+}
+
+\newcommand{\topic}[2]{\section{#1} \index{#2} \markright{#1}}
+\newcommand{\subtopic}[2]{\subsection{#1} \index{#2}}
+\newcommand{\subsubtopic}[2]{\subsubsection{#1} \index{#2}}
+
+\renewcommand{\cite}[1]{[#1]}
+\renewcommand{\thefootnote}{\arabic{footnote}}
+
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\blank}{\vspace{1ex}}
+
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{digress}[theorem]{Digression}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newenvironment{dfn}{{\vspace*{1ex} \noindent \bf Definition }}{\vspace*{1ex}}
+\newcommand{\bigdef}[2]{\index{#1}\begin{dfn} {\rm #2} \end{dfn}}
+\newcommand{\smalldef}[1]{\index{#1} {\em #1}}
+
+\begin{document}
+    \lecture{0}{1}{\today}{Dr. Mudassir Shabbir}{180 mins.}
+
+    \textbf{Instructions.} This is a graded homework. Submit your solutions as a single PDF. Show all work; correct answers without justification will receive no credit. You may collaborate on high-level ideas but must write up solutions independently.
+
+\bigskip
+
+\begin{enumerate}[label=\arabic*.]
+
+% ---------------------------------------------------------------
+% PROBLEM 1 -- LONGEST PALINDROMIC SUBSEQUENCE
+% ---------------------------------------------------------------
+
+\item \textbf{[25 points]} \textit{This is an interval DP over substrings.}
+
+Given a string $S=s_1s_2\cdots s_n$, let $\mathrm{LPS}(i,j)$ denote the length of the longest palindromic subsequence in substring $S[i..j]$.
+
+Use the string:
+\[
+S = \texttt{BANANAS}
+\]
+(indexed from 1 to 7).
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{[5 pts]} Give a precise definition of the state $\mathrm{LPS}(i,j)$ and all base cases.
+
+    \item \textbf{[8 pts]} Write the recurrence for the two cases $s_i=s_j$ and $s_i\ne s_j$.
+
+    \item \textbf{[7 pts]} Compute enough table entries to determine $\mathrm{LPS}(1,7)$. Show your fill order by increasing substring length.
+
+    \item \textbf{[3 pts]} Report the final length of the LPS of \texttt{BANANAS}.
+
+    \item \textbf{[2 pts]} Give asymptotic time and space complexity of the bottom-up DP.
+\end{enumerate}
+
+\bigskip
+
+% ---------------------------------------------------------------
+% PROBLEM 3 -- PARTITION INTO K SEGMENTS
+% ---------------------------------------------------------------
+
+\item \textbf{[25 points]} \textit{You are given an array and must partition it into exactly $k$ contiguous segments to minimize total cost.}
+
+Let $A[1..n]$ be an array of positive integers. For any segment $A[t..i]$, define its segment cost as
+\[
+\mathrm{cost}(t,i)=\left(\sum_{r=t}^{i} A[r]\right)^2.
+\]
+You must partition $A[1..n]$ into exactly $k$ nonempty contiguous segments.
+
+For this problem use:
+\[
+A=[3,1,4,1,5,9],\quad n=6,\quad k=3.
+\]
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{[5 pts]} Define a DP state $\mathrm{DP}[i][j]$ that represents an optimization over prefixes and segment counts.
+
+    \item \textbf{[5 pts]} Give base cases for $\mathrm{DP}[i][1]$ and any impossible states.
+
+    \item \textbf{[7 pts]} Derive a recurrence for $\mathrm{DP}[i][j]$ by choosing the last segment boundary.
+
+    \item \textbf{[5 pts]} Compute the optimal value for $\mathrm{DP}[6][3]$. Show intermediate values clearly for all states with $j\in\{1,2,3\}$.
+
+    \item \textbf{[3 pts]} State time complexity of the straightforward bottom-up implementation in terms of $n$ and $k$, and explain how prefix sums change the cost of evaluating each transition.
+\end{enumerate}
+
+\bigskip
+
+% ---------------------------------------------------------------
+% PROBLEM 4 -- INTERLEAVING STRINGS (2D DP)
+% ---------------------------------------------------------------
+
+\item \textbf{[25 points]} \textit{Determine if one string can be formed by interleaving two others.}
+
+You are given three strings:
+\[
+s_1=\texttt{aabcc},\qquad s_2=\texttt{dbbca},\qquad s_3=\texttt{aadbbcbcac}.
+\]
+% Define $\mathrm{Inter}[i][j]$ = \texttt{true} if $s_3[1..i+j]$ can be formed by interleaving $s_1[1..i]$ and $s_2[1..j]$ in some order (alternating characters, but not necessarily 1-1 alternation).
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{[5 pts]} Give a precise state definition and all base cases.
+
+    \item \textbf{[8 pts]} Derive the recurrence. (Hint: consider where the last character of $s_3[i+j]$ came from.)
+
+    \item \textbf{[6 pts]} Fill enough of the DP table to determine $\mathrm{Inter}[5][5]$ (whether $s_3[1..10]$ is an interleaving of $s_1$ and $s_2$).
+
+    \item \textbf{[3 pts]} Report whether $s_3$ can be formed as an interleaving of $s_1$ and $s_2$.
+
+    \item \textbf{[3 pts]} Give asymptotic running time and space complexity.
+\end{enumerate}
+
+\bigskip
+
+% ---------------------------------------------------------------
+% PROBLEM 5 -- MINIMUM PATH SUM IN GRID (2D DP)
+% ---------------------------------------------------------------
+
+\item \textbf{[25 points]} \textit{Find the path from top-left to bottom-right that minimizes total cost.}
+
+You are given a $4 \times 5$ grid with positive integer costs. You may only move right or down.
+
+\[
+\begin{array}{ccccc}
+1 & 3 & 1 & 5 & 1 \\
+2 & 2 & 4 & 1 & 5 \\
+5 & 0 & 2 & 3 & 0 \\
+6 & 1 & 1 & 2 & 1 \\
+\end{array}
+\]
+
+% Define $\mathrm{DP}[i][j]$ as the minimum cost to reach cell $(i,j)$ from cell $(1,1)$.
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{[5 pts]} Give the state definition and all base cases.
+
+    \item \textbf{[8 pts]} Derive the recurrence relation for $\mathrm{DP}[i][j]$, considering that we can reach $(i,j)$ from either $(i-1,j)$ or $(i,j-1)$.
+
+    \item \textbf{[6 pts]} Fill the complete $\mathrm{DP}$ table for the given grid.
+
+    \item \textbf{[3 pts]} Report the minimum path sum to reach $(4,5)$.
+
+    \item \textbf{[3 pts]} State the time and space complexity, and describe how to reconstruct one optimal path.
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
