@@ -133,6 +133,11 @@
       "date": "2026-03-25",
       "title": "Lecture 19 Worksheet",
       "link": "resources/ws/ws8.pdf"
+    },
+    {
+      "date": "2026-03-30",
+      "title": "Lecture 20 Worksheet",
+      "link": "resources/ws/ws9.pdf"
     }
   ],
   "slides": [
@@ -245,9 +250,19 @@
       "date": "2026-03-25",
       "title": "Lecture 19 Slides",
       "link": "resources/slides/l19.pdf"
+    },
+    {
+      "date": "2026-03-30",
+      "title": "Lecture 20 Slides",
+      "link": "resources/slides/l20.pdf"
     }
   ],
   "recordings": [
+    {
+      "date": "2026-03-30",
+      "title": "Lecture 20 Recording",
+      "link": "https://pern.sharepoint.com/:v:/s/Algorithms_mhuqd7/IQD89R9pu1dBTYfwl46IvHduAe5ru1YqwumNTTlZDef4gwM?e=JTeSFF"
+    },
     {
       "date": "2026-03-25",
       "title": "Lecture 19 Recording",
