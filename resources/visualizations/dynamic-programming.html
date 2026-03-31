@@ -323,7 +323,7 @@
       <div><strong>What you learn:</strong> DP works when subproblems overlap. Caching turns repeated work into one solved state per value.</div>
     </div>
     <div class="controls">
-      <label>n =</label>
+      <label for="fib-n">n =</label>
       <input type="range" min="1" max="7" value="5" id="fib-n" oninput="redrawFib(+this.value)">
       <span id="fib-n-val" style="font-size:14px;font-weight:500;min-width:16px">5</span>
     </div>
@@ -368,7 +368,7 @@
       <div><strong>What you learn:</strong> Bottom-up DP builds bigger answers from smaller solved states, and each cell stores the current best choice.</div>
     </div>
     <div class="controls">
-      <label>Target amount:</label>
+      <label for="cc-target">Target amount:</label>
       <input type="range" min="3" max="12" value="8" id="cc-target" oninput="initCC()">
       <span id="cc-target-val" style="font-size:14px;font-weight:500;min-width:24px">8</span>
       <div class="stat" style="display:inline-flex;flex-direction:column;gap:2px;padding:8px 12px">
@@ -378,11 +378,11 @@
     </div>
     <div style="font-size:13px;color:var(--text2);margin-bottom:6px">Coins available:</div>
     <div class="coin-row" id="coin-row"></div>
-    <div class="step-info" id="step-info">Press "Step" to watch the table fill one cell at a time.</div>
+    <div class="step-info" id="step-info" role="status" aria-live="polite">Press "Step" to watch the table fill one cell at a time.</div>
     <div class="btn-row">
-      <button onclick="stepCC()">Step →</button>
-      <button onclick="autoPlayCC()">Auto-play ▶</button>
-      <button onclick="initCC()">Reset</button>
+      <button type="button" onclick="stepCC()">Step →</button>
+      <button type="button" onclick="autoPlayCC()">Auto-play ▶</button>
+      <button type="button" onclick="initCC()">Reset</button>
     </div>
     <div style="overflow-x:auto;margin-top:12px"><div id="cc-table-wrap"></div></div>
     <div class="legend" style="margin-top:14px">
@@ -416,20 +416,20 @@
     </div>
     <div class="lcs-inputs">
       <div>
-        <label>String X</label>
+        <label for="lcs-x">String X</label>
         <input type="text" id="lcs-x" value="ABCB" maxlength="8" oninput="initLCS()">
       </div>
       <div>
-        <label>String Y</label>
+        <label for="lcs-y">String Y</label>
         <input type="text" id="lcs-y" value="BDCAB" maxlength="8" oninput="initLCS()">
       </div>
     </div>
-    <div class="lcs-info" id="lcs-info">Press "Step" to fill the table cell by cell.</div>
+    <div class="lcs-info" id="lcs-info" role="status" aria-live="polite">Press "Step" to fill the table cell by cell.</div>
     <div class="btn-row">
-      <button onclick="stepLCS()">Step →</button>
-      <button onclick="autoLCS()">Auto-play ▶</button>
-      <button onclick="showPath()">Show LCS path</button>
-      <button onclick="initLCS()">Reset</button>
+      <button type="button" onclick="stepLCS()">Step →</button>
+      <button type="button" onclick="autoLCS()">Auto-play ▶</button>
+      <button type="button" onclick="showPath()">Show LCS path</button>
+      <button type="button" onclick="initLCS()">Reset</button>
     </div>
     <div class="lcs-result" id="lcs-result"></div>
     <div style="overflow-x:auto"><div id="lcs-table-wrap"></div></div>
@@ -472,12 +472,10 @@ function buildFibTree(n) {
     const lx = (xMin + mid) / 2;
     const rx = (mid + xMax) / 2;
 
-    if (isFirst) {
-      const lid = recurse(val-1, depth+1, lx, xMin, mid);
-      const rid = recurse(val-2, depth+1, rx, mid, xMax);
-      edges.push({ from: nid, to: lid });
-      edges.push({ from: nid, to: rid });
-    }
+    const lid = recurse(val-1, depth+1, lx, xMin, mid);
+    const rid = recurse(val-2, depth+1, rx, mid, xMax);
+    edges.push({ from: nid, to: lid });
+    edges.push({ from: nid, to: rid });
     return nid;
   }
 
