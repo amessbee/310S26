@@ -613,7 +613,7 @@ initCC();
 
 
 /* ──────────── 3. LCS ──────────── */
-let lcsX='', lcsY='', lcsDP=[], lcsI=1, lcsJ=1, lcsDone=false, lcsTimer=null;
+let lcsX='', lcsY='', lcsDP=[], lcsI=1, lcsJ=1, lcsDone=false, lcsTimer=null, lcsMatches=new Set();
 
 function initLCS() {
   if (lcsTimer) { clearInterval(lcsTimer); lcsTimer = null; }
@@ -625,6 +625,7 @@ function initLCS() {
   lcsDP = Array.from({length: m+1}, () => new Array(n+1).fill(null));
   for (let i=0;i<=m;i++) lcsDP[i][0]=0;
   for (let j=0;j<=n;j++) lcsDP[0][j]=0;
+  lcsMatches = new Set();
   lcsI=1; lcsJ=1; lcsDone=false;
   document.getElementById('lcs-info').textContent = 'Press "Step" to fill the table cell by cell.';
   document.getElementById('lcs-result').textContent = '';
@@ -642,11 +643,13 @@ function renderLCSTable(ci, cj, pathSet) {
     h += `<tr><th>${rl}</th>`;
     for (let j=0;j<=n;j++) {
       const inPath = pathSet.some(p=>p[0]===i&&p[1]===j);
+      const isMatch = lcsMatches.has(`${i},${j}`);
       let cls = '';
       if (inPath) cls='lcs-path';
       else if (i===ci&&j===cj) cls='lcs-active';
       else if (ci>0&&cj>0 &&
         (i===ci-1&&j===cj-1||i===ci-1&&j===cj||i===ci&&j===cj-1) && !inPath) cls='lcs-dep';
+      else if (isMatch) cls='lcs-match';
       const v = lcsDP[i][j];
       h += `<td class="${cls}">${v===null?'':v}</td>`;
     }
@@ -674,6 +677,7 @@ function stepLCS() {
   const i=lcsI, j=lcsJ;
   if (lcsX[i-1]===lcsY[j-1]) {
     lcsDP[i][j] = lcsDP[i-1][j-1]+1;
+    lcsMatches.add(`${i},${j}`);
     document.getElementById('lcs-info').textContent =
       `X[${i}]="${lcsX[i-1]}" = Y[${j}]="${lcsY[j-1]}" — match! DP[${i}][${j}] = DP[${i-1}][${j-1}] + 1 = ${lcsDP[i][j]}`;
   } else {
