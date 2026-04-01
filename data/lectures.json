@@ -96,6 +96,11 @@
       "date": "2026-03-25",
       "title": "Lecture 19 Notes",
       "link": "resources/notes/l19.pdf"
+    },
+    {
+      "date": "2026-04-01",
+      "title": "Lecture 21 Notes",
+      "link": "resources/notes/l21.pdf"
     }
   ],
   "worksheets": [
@@ -255,9 +260,19 @@
       "date": "2026-03-30",
       "title": "Lecture 20 Slides",
       "link": "resources/slides/l20.pdf"
+    },
+    {
+      "date": "2026-04-01",
+      "title": "Lecture 21 Slides",
+      "link": "resources/slides/l21.pdf"
     }
   ],
   "recordings": [
+    {
+      "date": "2026-04-01",
+      "title": "Lecture 21 Recording",
+      "link": "https://pern.sharepoint.com/:v:/s/Algorithms_mhuqd7/IQD89R9pu1dBTYfwl46IvHduAe5ru1YqwumNTTlZDef4gwM?e=DSFfdu"
+    },
     {
       "date": "2026-03-30",
       "title": "Lecture 20 Recording",
