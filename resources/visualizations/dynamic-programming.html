@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Programming — Visual Study Guide</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f4f0;
+    --bg3: #eceae3;
+    --text: #1a1a18;
+    --text2: #5f5e5a;
+    --text3: #888780;
+    --border: rgba(0,0,0,0.12);
+    --border2: rgba(0,0,0,0.22);
+    --info-bg: #e6f1fb;
+    --info-text: #0c447c;
+    --success-bg: #eaf3de;
+    --success-text: #27500a;
+    --warn-bg: #faeeda;
+    --warn-text: #633806;
+    --purple-bg: #eeedfe;
+    --purple-text: #3c3489;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg2: #252522;
+      --bg3: #2e2e2b;
+      --text: #e8e6de;
+      --text2: #a8a69e;
+      --text3: #6e6d68;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.2);
+      --info-bg: #042c53;
+      --info-text: #b5d4f4;
+      --success-bg: #173404;
+      --success-text: #c0dd97;
+      --warn-bg: #412402;
+      --warn-text: #fac775;
+      --purple-bg: #26215c;
+      --purple-text: #cecbf6;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+
+  .page-header {
+    max-width: 860px;
+    margin: 0 auto 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .page-header h1 { font-size: 26px; font-weight: 500; margin-bottom: 6px; }
+  .page-header p { font-size: 15px; color: var(--text2); }
+
+  .section {
+    max-width: 860px;
+    margin: 0 auto 2.5rem;
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .section-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 0.5px solid var(--border);
+    background: var(--bg2);
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .section-header h2 { font-size: 17px; font-weight: 500; }
+  .section-header .tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: var(--info-bg);
+    color: var(--info-text);
+    font-weight: 500;
+  }
+
+  .section-body { padding: 1.5rem; }
+
+  .desc {
+    font-size: 14px;
+    color: var(--text2);
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+  }
+
+  .learn-box {
+    display: grid;
+    gap: 8px;
+    margin: -2px 0 1.25rem;
+    padding: 12px 14px;
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+
+  .learn-box div {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.55;
+  }
+
+  .learn-box strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ── Controls ── */
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .controls label { font-size: 13px; color: var(--text2); }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    height: 4px;
+    background: var(--border2);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+    width: 160px;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--text);
+    cursor: pointer;
+  }
+
+  input[type=text] {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    width: 140px;
+    padding: 6px 10px;
+    background: var(--bg2);
+    border: 0.5px solid var(--border2);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    outline: none;
+  }
+
+  input[type=text]:focus { border-color: var(--text3); }
+
+  button {
+    font-size: 13px;
+    padding: 6px 14px;
+    border: 0.5px solid var(--border2);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  button:hover { background: var(--bg2); }
+  button:active { transform: scale(0.98); }
+
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+
+  /* ── Stat cards ── */
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.25rem; }
+  .stat { background: var(--bg2); border-radius: var(--radius-sm); padding: 12px 14px; }
+  .stat-label { font-size: 12px; color: var(--text2); margin-bottom: 4px; }
+  .stat-value { font-size: 20px; font-weight: 500; }
+  .stat-value.red { color: #a32d2d; }
+  .stat-value.green { color: #3b6d11; }
+
+  @media (prefers-color-scheme: dark) {
+    .stat-value.red { color: #f09595; }
+    .stat-value.green { color: #97c459; }
+  }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 12px;
+    align-items: center;
+  }
+
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+
+  .legend-sq {
+    width: 12px; height: 12px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+
+  /* ── Tree SVG ── */
+  #tree-svg { display: block; overflow-x: auto; }
+
+  /* ── Coin Change table ── */
+  .coin-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 12px; align-items: center; }
+  .coin-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 50%;
+    font-size: 12px; font-weight: 500;
+    background: var(--info-bg); color: var(--info-text);
+    border: 0.5px solid var(--border2);
+  }
+
+  table.dp-table { border-collapse: collapse; width: 100%; margin-top: 1rem; table-layout: fixed; }
+  table.dp-table th, table.dp-table td {
+    text-align: center; padding: 7px 2px; font-size: 13px;
+    border: 0.5px solid var(--border);
+  }
+  table.dp-table th { color: var(--text2); font-weight: 500; background: var(--bg2); }
+  table.dp-table td { background: var(--bg); color: var(--text); transition: background 0.25s; }
+
+  td.cell-active { background: #ead9f5 !important; color: #5a1e8a !important; font-weight: 500; }
+  td.cell-source { background: #e1f5ee !important; color: #085041 !important; }
+  td.cell-target { background: #f5c4b3 !important; color: #4a1b0c !important; font-weight: 500; }
+
+  @media (prefers-color-scheme: dark) {
+    td.cell-active { background: #3b1f5a !important; color: #d4acef !important; }
+    td.cell-source { background: #0a3d2b !important; color: #5dcaa5 !important; }
+    td.cell-target { background: #4a1b0c !important; color: #f0997b !important; }
+  }
+
+  /* ── LCS table ── */
+  .lcs-inputs { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1rem; }
+  .lcs-inputs > div { display: flex; flex-direction: column; gap: 4px; }
+  .lcs-inputs label { font-size: 12px; color: var(--text2); }
+
+  table.lcs-table { border-collapse: collapse; margin-top: 1rem; }
+  table.lcs-table th, table.lcs-table td {
+    width: 38px; height: 38px; text-align: center; font-size: 14px;
+    border: 0.5px solid var(--border); transition: background 0.2s;
+  }
+  table.lcs-table th { font-weight: 500; color: var(--text2); background: var(--bg2); }
+  table.lcs-table td { color: var(--text); background: var(--bg); }
+
+  td.lcs-match   { background: #c0dd97 !important; color: #173404 !important; font-weight: 500; }
+  td.lcs-active  { background: #b5d4f4 !important; color: #042c53 !important; font-weight: 500; }
+  td.lcs-dep     { background: #fac775 !important; color: #412402 !important; }
+  td.lcs-path    { background: #afa9ec !important; color: #26215c !important; font-weight: 500; }
+
+  @media (prefers-color-scheme: dark) {
+    td.lcs-match  { background: #27500a !important; color: #c0dd97 !important; }
+    td.lcs-active { background: #0c447c !important; color: #b5d4f4 !important; }
+    td.lcs-dep    { background: #633806 !important; color: #fac775 !important; }
+    td.lcs-path   { background: #3c3489 !important; color: #cecbf6 !important; }
+  }
+
+  .step-info, .lcs-info {
+    font-size: 13px; color: var(--text2);
+    margin: 10px 0; min-height: 38px; line-height: 1.55;
+  }
+
+  .lcs-result { font-size: 14px; font-weight: 500; color: var(--text); margin-top: 8px; min-height: 22px; }
+
+  @media (max-width: 520px) {
+    .stats { grid-template-columns: 1fr; }
+    input[type=range] { width: 110px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Dynamic Programming — Visual Study Guide</h1>
+  <p>Three interactive visualizations: Fibonacci redundancy, Coin Change table filling, and LCS grid construction.</p>
+</div>
+
+<!-- ════════════════════════════════════════════
+     1. FIBONACCI RECURSION TREE
+     ════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <h2>1. Fibonacci — Recursion Tree</h2>
+    <span class="tag">Overlapping Subproblems</span>
+  </div>
+  <div class="section-body">
+    <p class="desc">
+      Purple nodes are computed fresh. Gray nodes are already cached — DP skips them entirely.
+      Drag n upward to see the gray explosion that makes naive recursion O(2ⁿ).
+    </p>
+    <div class="learn-box">
+      <div><strong>Description:</strong> This visualization shows how Fibonacci recursion expands into a tree of repeated subproblems.</div>
+      <div><strong>Colors:</strong> Purple nodes are first-time computations, while gray nodes are repeated calls that DP would reuse from cache.</div>
+      <div><strong>Why this happens:</strong> Naive recursion recomputes identical values like F(3) and F(2), so the tree grows much faster than the number of unique answers.</div>
+      <div><strong>How to use:</strong> Move the <code style="font-size:12px;background:var(--bg3);padding:1px 4px;border-radius:4px">n</code> slider and compare the total recursive calls with the number of unique DP states.</div>
+      <div><strong>What you learn:</strong> DP works when subproblems overlap. Caching turns repeated work into one solved state per value.</div>
+    </div>
+    <div class="controls">
+      <label for="fib-n">n =</label>
+      <input type="range" min="1" max="7" value="5" id="fib-n" oninput="redrawFib(+this.value)">
+      <span id="fib-n-val" style="font-size:14px;font-weight:500;min-width:16px">5</span>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">Naive calls (with redundancy)</div>
+        <div class="stat-value red" id="naive-count">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">DP unique subproblems</div>
+        <div class="stat-value green" id="dp-count">—</div>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <svg id="tree-svg" width="100%" style="display:block"></svg>
+    </div>
+    <div class="legend">
+      <span><span class="legend-dot" style="background:#c04ebb"></span>First time computed</span>
+      <span><span class="legend-dot" style="background:#b4b2a9"></span>Already cached — skipped by DP</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     2. COIN CHANGE
+     ════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <h2>2. Coin Change — DP Table</h2>
+    <span class="tag">Bottom-Up Tabulation</span>
+  </div>
+  <div class="section-body">
+    <p class="desc">
+      Watch the recurrence <code style="font-size:13px;background:var(--bg2);padding:1px 5px;border-radius:4px">DP[i] = min(DP[i], DP[i−c] + 1)</code> happen one cell at a time.
+      The green cell is the source being read; the orange cell is being computed.
+    </p>
+    <div class="learn-box">
+      <div><strong>Description:</strong> This table builds the minimum-coin answer for every amount from 0 up to the target.</div>
+      <div><strong>Colors:</strong> Green marks the source state being read, orange marks the amount currently being updated, and purple marks values already locked in.</div>
+      <div><strong>Why this happens:</strong> To solve amount <code style="font-size:12px;background:var(--bg3);padding:1px 4px;border-radius:4px">i</code>, the table reuses earlier answers such as <code style="font-size:12px;background:var(--bg3);padding:1px 4px;border-radius:4px">i-c</code> and adds one new coin.</div>
+      <div><strong>How to use:</strong> Change the target amount, then press <code style="font-size:12px;background:var(--bg3);padding:1px 4px;border-radius:4px">Step</code> or <code style="font-size:12px;background:var(--bg3);padding:1px 4px;border-radius:4px">Auto-play</code> to watch each DP entry get updated.</div>
+      <div><strong>What you learn:</strong> Bottom-up DP builds bigger answers from smaller solved states, and each cell stores the current best choice.</div>
+    </div>
+    <div class="controls">
+      <label for="cc-target">Target amount:</label>
+      <input type="range" min="3" max="12" value="8" id="cc-target" oninput="initCC()">
+      <span id="cc-target-val" style="font-size:14px;font-weight:500;min-width:24px">8</span>
+      <div class="stat" style="display:inline-flex;flex-direction:column;gap:2px;padding:8px 12px">
+        <span class="stat-label">Answer</span>
+        <strong id="cc-answer" style="font-size:17px;font-weight:500">—</strong>
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:6px">Coins available:</div>
+    <div class="coin-row" id="coin-row"></div>
+    <div class="step-info" id="step-info" role="status" aria-live="polite">Press "Step" to watch the table fill one cell at a time.</div>
+    <div class="btn-row">
+      <button type="button" onclick="stepCC()">Step →</button>
+      <button type="button" onclick="autoPlayCC()">Auto-play ▶</button>
+      <button type="button" onclick="initCC()">Reset</button>
+    </div>
+    <div style="overflow-x:auto;margin-top:12px"><div id="cc-table-wrap"></div></div>
+    <div class="legend" style="margin-top:14px">
+      <span><span class="legend-sq" style="background:#e1f5ee;border:1px solid #9fe1cb"></span>Source DP[i−c]</span>
+      <span><span class="legend-sq" style="background:#f5c4b3;border:1px solid #f0997b"></span>Current target DP[i]</span>
+      <span><span class="legend-sq" style="background:#ead9f5;border:1px solid #afa9ec"></span>Locked-in value</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     3. LCS TABLE
+     ════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <h2>3. Longest Common Subsequence — DP Table</h2>
+    <span class="tag">2D DP</span>
+  </div>
+  <div class="section-body">
+    <p class="desc">
+      Step through the table cell by cell to see the two rules in action: a character match triggers
+      a diagonal +1, a mismatch inherits the max of the cell above or to the left. After filling,
+      press "Show LCS path" to trace the actual subsequence.
+    </p>
+    <div class="learn-box">
+      <div><strong>Description:</strong> This grid compares two strings and fills a DP table to find their longest common subsequence.</div>
+      <div><strong>Colors:</strong> Green shows a character match, blue shows the current cell, orange shows the dependency cells, and purple highlights the final traced LCS path.</div>
+      <div><strong>Why this happens:</strong> A match extends a smaller solved subsequence diagonally, while a mismatch keeps the better partial answer from top or left.</div>
+      <div><strong>How to use:</strong> Enter two strings, step through the table fill, then press <code style="font-size:12px;background:var(--bg3);padding:1px 4px;border-radius:4px">Show LCS path</code> to trace the answer.</div>
+      <div><strong>What you learn:</strong> 2D DP compares prefixes of two strings, and the finished table can be traced backward to recover the actual subsequence.</div>
+    </div>
+    <div class="lcs-inputs">
+      <div>
+        <label for="lcs-x">String X</label>
+        <input type="text" id="lcs-x" value="ABCB" maxlength="8" oninput="initLCS()">
+      </div>
+      <div>
+        <label for="lcs-y">String Y</label>
+        <input type="text" id="lcs-y" value="BDCAB" maxlength="8" oninput="initLCS()">
+      </div>
+    </div>
+    <div class="lcs-info" id="lcs-info" role="status" aria-live="polite">Press "Step" to fill the table cell by cell.</div>
+    <div class="btn-row">
+      <button type="button" onclick="stepLCS()">Step →</button>
+      <button type="button" onclick="autoLCS()">Auto-play ▶</button>
+      <button type="button" onclick="showPath()">Show LCS path</button>
+      <button type="button" onclick="initLCS()">Reset</button>
+    </div>
+    <div class="lcs-result" id="lcs-result"></div>
+    <div style="overflow-x:auto"><div id="lcs-table-wrap"></div></div>
+    <div class="legend" style="margin-top:14px">
+      <span><span class="legend-sq" style="background:#c0dd97"></span>Match (diagonal +1)</span>
+      <span><span class="legend-sq" style="background:#b5d4f4"></span>Current cell</span>
+      <span><span class="legend-sq" style="background:#fac775"></span>Dependencies</span>
+      <span><span class="legend-sq" style="background:#afa9ec"></span>LCS path</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SCRIPTS
+     ════════════════════════════════════════════ -->
+<script>
+/* ──────────── 1. FIBONACCI TREE ──────────── */
+const FIB_W = 680;
+const NODE_R = 18;
+const V_GAP = 62;
+
+function countNaive(n) {
+  if (n <= 1) return 1;
+  return 1 + countNaive(n-1) + countNaive(n-2);
+}
+
+function buildFibTree(n) {
+  const nodes = [], edges = [];
+  let id = 0;
+  const firstSeen = new Set();
+
+  function recurse(val, depth, x, xMin, xMax) {
+    const nid = id++;
+    const isFirst = !firstSeen.has(val);
+    if (isFirst) firstSeen.add(val);
+    nodes.push({ id: nid, val, depth, x, isFirst });
+    if (val <= 1) return nid;
+
+    const mid = (xMin + xMax) / 2;
+    const lx = (xMin + mid) / 2;
+    const rx = (mid + xMax) / 2;
+
+    const lid = recurse(val-1, depth+1, lx, xMin, mid);
+    const rid = recurse(val-2, depth+1, rx, mid, xMax);
+    edges.push({ from: nid, to: lid });
+    edges.push({ from: nid, to: rid });
+    return nid;
+  }
+
+  recurse(n, 0, FIB_W/2, 40, FIB_W-40);
+  return { nodes, edges };
+}
+
+function redrawFib(n) {
+  document.getElementById('fib-n-val').textContent = n;
+  document.getElementById('naive-count').textContent = countNaive(n).toLocaleString();
+  document.getElementById('dp-count').textContent = (n + 1).toLocaleString();
+
+  const { nodes, edges } = buildFibTree(n);
+  const maxDepth = Math.max(...nodes.map(nd => nd.depth));
+  const svgH = (maxDepth + 1) * V_GAP + NODE_R * 2 + 50;
+  const byId = {};
+  nodes.forEach(nd => byId[nd.id] = nd);
+
+  const cx = nd => nd.x;
+  const cy = nd => 40 + nd.depth * V_GAP;
+
+  let s = `<svg id="tree-svg" width="100%" viewBox="0 0 ${FIB_W} ${svgH}" xmlns="http://www.w3.org/2000/svg">`;
+  s += `<defs><marker id="farr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>`;
+
+  // Edges
+  edges.forEach(e => {
+    const a = byId[e.from], b = byId[e.to];
+    const dx = cx(b)-cx(a), dy = cy(b)-cy(a);
+    const len = Math.sqrt(dx*dx+dy*dy);
+    const x1 = cx(a)+dx/len*NODE_R, y1 = cy(a)+dy/len*NODE_R;
+    const x2 = cx(b)-dx/len*NODE_R, y2 = cy(b)-dy/len*NODE_R;
+    s += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#b4b2a9" stroke-width="1" marker-end="url(#farr)" fill="none"/>`;
+  });
+
+  // Nodes
+  nodes.forEach(nd => {
+    const x = cx(nd).toFixed(1), y = cy(nd).toFixed(1);
+    const fill = nd.isFirst ? '#c04ebb' : '#b4b2a9';
+    const op = nd.isFirst ? '1' : '0.55';
+    s += `<circle cx="${x}" cy="${y}" r="${NODE_R}" fill="${fill}" opacity="${op}"/>`;
+    s += `<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="500" fill="white" font-family="-apple-system,sans-serif">F${nd.val}</text>`;
+  });
+
+  s += '</svg>';
+  document.getElementById('tree-svg').outerHTML = s;
+}
+
+redrawFib(5);
+
+
+/* ──────────── 2. COIN CHANGE ──────────── */
+const COINS = [1, 2, 5];
+let ccDP = [], ccSteps = [], ccIdx = 0, ccTimer = null;
+
+function initCC() {
+  if (ccTimer) { clearInterval(ccTimer); ccTimer = null; }
+  const n = +document.getElementById('cc-target').value;
+  document.getElementById('cc-target-val').textContent = n;
+
+  document.getElementById('coin-row').innerHTML =
+    COINS.map(c => `<span class="coin-badge">${c}</span>`).join('');
+
+  ccDP = new Array(n+1).fill(Infinity);
+  ccDP[0] = 0;
+  ccSteps = [];
+
+  for (let i = 1; i <= n; i++) {
+    for (const c of COINS) {
+      if (c <= i) {
+        ccSteps.push({ i, c, prevDP: [...ccDP] });
+        if (ccDP[i-c] + 1 < ccDP[i]) ccDP[i] = ccDP[i-c] + 1;
+      }
+    }
+    ccSteps.push({ i, c: null, final: ccDP[i], prevDP: [...ccDP], snapshot: true });
+  }
+
+  ccIdx = 0;
+  renderCCTable(new Array(n+1).fill(null), n, -1, -1);
+  document.getElementById('step-info').textContent = 'Press "Step" to watch the table fill one cell at a time.';
+  document.getElementById('cc-answer').textContent = '—';
+}
+
+function renderCCTable(dp, n, activeI, sourceI) {
+  const hdr = Array.from({length: n+1}, (_,i) => `<th>${i}</th>`).join('');
+  const cells = dp.map((v, i) => {
+    let cls = '';
+    if (i === activeI) cls = 'cell-target';
+    else if (i === sourceI) cls = 'cell-source';
+    else if (v !== null) cls = 'cell-active';
+    const d = v === null ? '' : v === Infinity ? '∞' : v;
+    return `<td class="${cls}">${d}</td>`;
+  }).join('');
+  document.getElementById('cc-table-wrap').innerHTML =
+    `<table class="dp-table"><thead><tr><th>amount</th>${hdr}</tr></thead><tbody><tr>` +
+    `<td style="font-size:11px;color:var(--text2)">DP[i]</td>${cells}</tr></tbody></table>`;
+}
+
+function stepCC() {
+  const n = +document.getElementById('cc-target').value;
+  if (ccIdx >= ccSteps.length) {
+    document.getElementById('step-info').textContent = 'Table complete!';
+    return;
+  }
+  const s = ccSteps[ccIdx++];
+  const displayed = [...s.prevDP];
+
+  if (s.snapshot) {
+    displayed[s.i] = s.final;
+    const v = s.final === Infinity ? '∞' : s.final;
+    document.getElementById('step-info').textContent = `DP[${s.i}] = ${v} (best locked in)`;
+    renderCCTable(displayed.map((x,i) => i <= s.i ? (x === Infinity ? Infinity : x) : null), n, s.i, -1);
+    if (s.i === n) document.getElementById('cc-answer').textContent = s.final === Infinity ? '∞' : s.final;
+  } else {
+    const cand = s.prevDP[s.i-s.c] === Infinity ? '∞' : s.prevDP[s.i-s.c]+1;
+    const cur  = s.prevDP[s.i]      === Infinity ? '∞' : s.prevDP[s.i];
+    document.getElementById('step-info').textContent =
+      `Trying coin ${s.c}: DP[${s.i}−${s.c}]+1 = ${cand}. Current best for DP[${s.i}]: ${cur}.`;
+    const partial = s.prevDP.map((x,i) => i <= s.i ? (x===Infinity?Infinity:x) : null);
+    renderCCTable(partial, n, s.i, s.i - s.c);
+  }
+}
+
+function autoPlayCC() {
+  if (ccTimer) { clearInterval(ccTimer); ccTimer = null; return; }
+  ccTimer = setInterval(() => {
+    const n = +document.getElementById('cc-target').value;
+    if (ccIdx >= ccSteps.length) { clearInterval(ccTimer); ccTimer = null; return; }
+    stepCC();
+  }, 550);
+}
+
+initCC();
+
+
+/* ──────────── 3. LCS ──────────── */
+let lcsX='', lcsY='', lcsDP=[], lcsI=1, lcsJ=1, lcsDone=false, lcsTimer=null, lcsMatches=new Set();
+
+function initLCS() {
+  if (lcsTimer) { clearInterval(lcsTimer); lcsTimer = null; }
+  lcsX = document.getElementById('lcs-x').value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,8);
+  lcsY = document.getElementById('lcs-y').value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,8);
+  document.getElementById('lcs-x').value = lcsX;
+  document.getElementById('lcs-y').value = lcsY;
+  const m = lcsX.length, n = lcsY.length;
+  lcsDP = Array.from({length: m+1}, () => new Array(n+1).fill(null));
+  for (let i=0;i<=m;i++) lcsDP[i][0]=0;
+  for (let j=0;j<=n;j++) lcsDP[0][j]=0;
+  lcsMatches = new Set();
+  lcsI=1; lcsJ=1; lcsDone=false;
+  document.getElementById('lcs-info').textContent = 'Press "Step" to fill the table cell by cell.';
+  document.getElementById('lcs-result').textContent = '';
+  renderLCSTable(-1, -1, []);
+}
+
+function renderLCSTable(ci, cj, pathSet) {
+  const m=lcsX.length, n=lcsY.length;
+  let h = '<table class="lcs-table"><thead><tr><th></th><th style="font-size:11px;color:var(--text3)">ε</th>';
+  for (let j=0;j<n;j++) h+=`<th>${lcsY[j]}</th>`;
+  h += '</tr></thead><tbody>';
+
+  for (let i=0;i<=m;i++) {
+    const rl = i===0 ? 'ε' : lcsX[i-1];
+    h += `<tr><th>${rl}</th>`;
+    for (let j=0;j<=n;j++) {
+      const inPath = pathSet.some(p=>p[0]===i&&p[1]===j);
+      const isMatch = lcsMatches.has(`${i},${j}`);
+      let cls = '';
+      if (inPath) cls='lcs-path';
+      else if (i===ci&&j===cj) cls='lcs-active';
+      else if (ci>0&&cj>0 &&
+        (i===ci-1&&j===cj-1||i===ci-1&&j===cj||i===ci&&j===cj-1) && !inPath) cls='lcs-dep';
+      else if (isMatch) cls='lcs-match';
+      const v = lcsDP[i][j];
+      h += `<td class="${cls}">${v===null?'':v}</td>`;
+    }
+    h += '</tr>';
+  }
+  h += '</tbody></table>';
+  document.getElementById('lcs-table-wrap').innerHTML = h;
+}
+
+function finalizeLCS() {
+  const m = lcsX.length, n = lcsY.length;
+  lcsDone = true;
+  document.getElementById('lcs-info').textContent =
+    `Done! LCS length = ${lcsDP[m][n]}. Press "Show LCS path" to trace it.`;
+  document.getElementById('lcs-result').textContent = `LCS length = ${lcsDP[m][n]}`;
+  renderLCSTable(-1, -1, []);
+}
+
+function stepLCS() {
+  const m=lcsX.length, n=lcsY.length;
+  if (lcsDone || lcsI>m) {
+    finalizeLCS();
+    return;
+  }
+  const i=lcsI, j=lcsJ;
+  if (lcsX[i-1]===lcsY[j-1]) {
+    lcsDP[i][j] = lcsDP[i-1][j-1]+1;
+    lcsMatches.add(`${i},${j}`);
+    document.getElementById('lcs-info').textContent =
+      `X[${i}]="${lcsX[i-1]}" = Y[${j}]="${lcsY[j-1]}" — match! DP[${i}][${j}] = DP[${i-1}][${j-1}] + 1 = ${lcsDP[i][j]}`;
+  } else {
+    lcsDP[i][j] = Math.max(lcsDP[i-1][j], lcsDP[i][j-1]);
+    document.getElementById('lcs-info').textContent =
+      `X[${i}]="${lcsX[i-1]}" ≠ Y[${j}]="${lcsY[j-1]}" — no match. max(DP[${i-1}][${j}], DP[${i}][${j-1}]) = max(${lcsDP[i-1][j]}, ${lcsDP[i][j-1]}) = ${lcsDP[i][j]}`;
+  }
+  renderLCSTable(i, j, []);
+  lcsJ++;
+  if (lcsJ>n) { lcsJ=1; lcsI++; }
+  if (lcsI>m) finalizeLCS();
+}
+
+function autoLCS() {
+  if (lcsTimer) { clearInterval(lcsTimer); lcsTimer=null; return; }
+  lcsTimer = setInterval(() => {
+    stepLCS();
+    if (lcsDone) { clearInterval(lcsTimer); lcsTimer=null; }
+  }, 480);
+}
+
+function showPath() {
+  const m=lcsX.length, n=lcsY.length;
+  if (lcsDP[m][n]===null) return;
+  const path=[];
+  let i=m, j=n;
+  while (i>0&&j>0) {
+    if (lcsX[i-1]===lcsY[j-1]) { path.push([i,j]); i--; j--; }
+    else if (lcsDP[i-1][j]>=lcsDP[i][j-1]) i--;
+    else j--;
+  }
+  path.reverse();
+  const lcsStr = path.map(([pi])=>lcsX[pi-1]).join('');
+  document.getElementById('lcs-result').textContent = `LCS = "${lcsStr}" (length ${path.length})`;
+  renderLCSTable(-1,-1,path);
+}
+
+initLCS();
+</script>
+</body>
+</html>

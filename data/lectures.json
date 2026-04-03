@@ -314,6 +314,11 @@
       "date": "2026-03-25",
       "title": "Hw5",
       "link": "https://amessbee.github.io/310S26/resources/hw/hw5.pdf"
+    },
+    {
+      "date": "2026-03-09",
+      "title": "Dynamic Programming Visualization",
+      "link": "resources/visualizations/dynamic-programming.html"
     }
   ]
 }
