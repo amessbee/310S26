@@ -167,19 +167,19 @@ Write the recurrence for an interior cell $(i,j)$ where $i>1$ and $j>1$.
 \end{itemize}
 \fi
 
-% \item \textbf{Recover one optimal path}
+\item \textbf{Recover one optimal path}
 
-% Starting from the bottom-right cell, explain how to reconstruct one optimal path after the DP table has been filled.
+Starting from the bottom-right cell, explain how to reconstruct one optimal path after the DP table has been filled.
 
-% \vspace{2.3cm}
+\vspace{2.3cm}
 
-% \ifanswers
-% \textbf{Sample answer:}
-% \begin{itemize}
-% 	\item Start at $(m,n)$ and repeatedly move to the neighbor, either $(i-1,j)$ or $(i,j-1)$, whose DP value was used in the minimum.
-% 	\item Continue until reaching $(1,1)$, then reverse the sequence of cells.
-% \end{itemize}
-% \fi
+\ifanswers
+\textbf{Sample answer:}
+\begin{itemize}
+	\item Start at $(m,n)$ and repeatedly move to the neighbor, either $(i-1,j)$ or $(i,j-1)$, whose DP value was used in the minimum.
+	\item Continue until reaching $(1,1)$, then reverse the sequence of cells.
+\end{itemize}
+\fi
 
 \item \textbf{Complexity}
 
