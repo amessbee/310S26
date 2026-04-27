@@ -6,75 +6,17 @@
 \setlength{\textheight}{9in}
 \usepackage{enumitem}
 \usepackage{tikz}
-\usetikzlibrary{graphs, positioning, arrows.meta}
-
 \usepackage{amsmath, amssymb}
-\usepackage{algorithm}
 \usepackage{url, color, epsfig, amsmath, amssymb}
 \usepackage{graphicx}
 \usepackage{amsmath, amsthm, amssymb}
-\usepackage{algpseudocode}
-
 \usepackage{algorithm}
-\usepackage{url, color, epsfig, amsmath, amsthm, amssymb}
-\usepackage{amsthm}
-\usepackage{graphicx}
+\usepackage{algpseudocode}
 \usepackage{mathtools}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 \DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
 
 \newcommand{\remove}[1]{}
-
-\newcommand{\Do}{{\small\bf do}\ }
-\newcommand{\Proc}[1]{#1\+}
-\newcommand{\Returns}{{\small\bf returns}}
-\newcommand{\Procbegin}{{\small\bf begin}}
-\newcommand{\Then}{{\small\bf then}\ \=\+}
-\newcommand{\Elseif}{\<{\small\bf elseif}\ }
-\newcommand{\Endif}{\<{\small\bf end\ if\ }\-\-}
-\newcommand{\Endproc}[1]{{\small\bf end} #1\-}
-\newcommand{\Endfor}{{\small\bf end\ for}\ \-}
-\newcommand{\Endloop}{{\bf end\ loop}\ \-}
-\newenvironment{program}{
-    \begin{minipage}{\textwidth}
-        \begin{tabbing}
-            \ \ \ \ \=\kill
-        }{
-        \end{tabbing}
-    \end{minipage}
-}
-
-\def\blankline{\hbox{}}
-
-\newcommand{\lecture}[5]{
-    \pagestyle{headings}
-    \thispagestyle{plain}
-    \newpage
-    \setcounter{chapter}{#1}
-    \setcounter{page}{#2}
-    \noindent
-    \begin{center}
-        \framebox{
-            \vbox{
-                \hbox to 6.28in { {\bf Algorithms
-                        \hfill Spring Semester, 2026} }
-                \vspace{4mm}
-                \hbox to 6.28in { {\Large \hfill Homework 6 (NOT Graded) \hfill} }
-                \vspace{2mm}
-                \hbox to 6.28in { {\it Professor: #4 \hfill Deadline: N/A.} }
-            }
-        }
-    \end{center}
-    \vspace*{4mm}
-}
-
-\newcommand{\topic}[2]{\section{#1} \index{#2} \markright{#1}}
-\newcommand{\subtopic}[2]{\subsection{#1} \index{#2}}
-\newcommand{\subsubtopic}[2]{\subsubsection{#1} \index{#2}}
-
-\renewcommand{\cite}[1]{[#1]}
-\renewcommand{\thefootnote}{\arabic{footnote}}
-
 \newcommand{\bi}{\begin{itemize}}
 \newcommand{\ei}{\end{itemize}}
 \newcommand{\be}{\begin{enumerate}}
@@ -84,962 +26,517 @@
 \newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{claim}[theorem]{Claim}
-\newtheorem{digress}[theorem]{Digression}
 \newtheorem{corollary}[theorem]{Corollary}
 
-\newenvironment{dfn}{{\vspace*{1ex} \noindent \bf Definition }}{\vspace*{1ex}}
-\newcommand{\bigdef}[2]{\index{#1}\begin{dfn} {\rm #2} \end{dfn}}
-\newcommand{\smalldef}[1]{\index{#1} {\em #1}}
-
 \begin{document}
-    \lecture{0}{1}{\today}{Dr. Mudassir Shabbir}{180 mins.}
 
-    This homework contains a set of practice problems and \textbf{no submission is required}.
+\pagestyle{headings}
+\thispagestyle{plain}
+\setcounter{chapter}{0}
+\setcounter{page}{1}
+\noindent
+\begin{center}
+  \framebox{
+    \vbox{
+      \hbox to 6.28in { {\bf Algorithms \hfill Spring Semester, 2026} }
+      \vspace{4mm}
+      \hbox to 6.28in { {\Large \hfill Homework 6 (Practice / Ungraded) \hfill} }
+      \vspace{2mm}
+      \hbox to 6.28in { {\it Professor: Dr.\ Mudassir Shabbir
+          \hfill No submission required.} }
+    }
+  }
+\end{center}
+\vspace*{4mm}
+
+\textbf{Instructions.}
+For each problem below, \textbf{first determine} whether it is solvable in polynomial time or is NP-complete.
+No labels are given --- part of the exercise is making the right call.
+Then:
+\begin{itemize}
+  \item \textbf{If the problem is in P:} give an explicit polynomial-time algorithm, prove its correctness, and state its asymptotic running time.
+  \item \textbf{If the problem is NP-complete:} prove (i) the problem is in NP by describing a concise certificate and a polynomial-time verifier, and (ii) it is NP-hard by giving a polynomial-time reduction from a known NP-complete problem, proving correctness in both directions, and analysing the reduction's running time.
+\end{itemize}
+You may use any problem proved NP-complete in lecture as a source for reductions.
+
+\bigskip
 
 \begin{enumerate}[label=\arabic*.]
 
-% ---------------------------------------------------------------
-% PART I: NP, CERTIFICATES, AND THE P vs NP LANDSCAPE
-% ---------------------------------------------------------------
-
-\item \textit{Certificates are the formal bridge between ``I claim a solution exists'' and ``I can verify one efficiently.'' Getting this definition exactly right is essential before any NP-hardness proof.}
-
-\begin{enumerate}
-    \item Formally define the complexity class $\mathbf{NP}$ using the notion of a polynomial-time \emph{verifier}. Your definition should specify: what a certificate is, what the verifier receives, and what polynomial means in terms of the input length.
-
-    \item For each of the following problems, either (i) give a polynomial-time certificate and verifier, or (ii) explain why no short certificate is apparent. For each, state whether the problem is in $\mathbf{NP}$ (and justify briefly).
-    \begin{enumerate}[label=(\roman*)]
-        \item \textsc{3-Coloring}: Given a graph $G$, does it have a proper 3-coloring?
-        \item \textsc{Non-3-Coloring}: Given a graph $G$, is it true that $G$ has \emph{no} proper 3-coloring?
-        \item \textsc{Subset Sum}: Given integers $a_1,\ldots,a_n$ and target $T$, does some subset sum to $T$?
-        \item \textsc{Shortest Path}: Given a weighted graph $G$, vertices $s,t$, and integer $k$, is the shortest path from $s$ to $t$ at most $k$?
-    \end{enumerate}
-
-    \item The class $\mathbf{co\text{-}NP}$ consists of all problems whose \emph{complements} are in $\mathbf{NP}$. Identify which problems from part (b) are in $\mathbf{co\text{-}NP}$, and explain what a co-certificate would look like for \textsc{Non-3-Coloring}.
-
-    \item Prove that if $\mathbf{P} = \mathbf{NP}$, then $\mathbf{NP} = \mathbf{co\text{-}NP}$. (\textit{Hint: $\mathbf{P}$ is closed under complement.})
-\end{enumerate}
+% 1  -- P
+\item \textbf{2SAT.}
+Given a CNF formula $\varphi$ in which every clause contains at most two literals, decide whether $\varphi$ has a satisfying assignment.
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{Polynomial-time reductions are the formal tool for comparing problem difficulty. Getting the direction right is the most common source of confusion.}
-
-\begin{enumerate}
-    \item State the formal definition of a polynomial-time many-one reduction $A \leq_p B$. What does it mean for the reduction to be \emph{correct}? What does $A \leq_p B$ imply about the relative difficulty of $A$ and $B$?
-
-    \item Suppose you want to show that problem $X$ is NP-hard. Your friend claims: ``I reduced $X$ to \textsc{3-SAT} in polynomial time, so $X$ is NP-hard.'' Is your friend correct? Explain precisely what went wrong (or right) with their reasoning.
-
-    \item We know \textsc{3-SAT} $\leq_p$ \textsc{Independent Set} and \textsc{Independent Set} $\leq_p$ \textsc{Vertex Cover}. Using these facts, prove that if \textsc{Vertex Cover} $\in \mathbf{P}$, then $\mathbf{P} = \mathbf{NP}$.
-
-    \item True or false (with proof or counterexample): If $A \leq_p B$ and $B \leq_p A$, then $A \in \mathbf{P}$ if and only if $B \in \mathbf{P}$. Can both $A$ and $B$ be NP-complete?
-\end{enumerate}
+% 2  -- NPC
+\item \textbf{3-CNF Satisfiability (3SAT).}
+Given a CNF formula $\varphi$ in which every clause contains exactly three literals (from distinct variables), decide whether $\varphi$ has a satisfying assignment.
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{This problem asks you to construct a concrete NP-completeness proof from scratch for a problem that looks deceptively simple.}
-
-Define the \textsc{Exact Cover by 3-Sets (X3C)} problem: Given a universe $U = \{u_1,\ldots,u_{3k}\}$ and a collection $\mathcal{S}$ of subsets of $U$ each of size exactly 3, does $\mathcal{S}$ contain $k$ pairwise disjoint subsets that together cover $U$?
-
-\begin{enumerate}
-    \item Show that \textsc{X3C} $\in \mathbf{NP}$ by describing a polynomial-time verifier.
-
-    \item We will reduce from \textsc{3-SAT}. Given a 3-CNF formula $\varphi$ with variables $x_1,\ldots,x_n$ and clauses $C_1,\ldots,C_m$, construct a universe and collection of 3-element sets encoding $\varphi$ such that an exact cover exists if and only if $\varphi$ is satisfiable. Explicitly describe your variable gadgets and clause gadgets, and prove correctness (both directions of the if-and-only-if).
-
-    \item Conclude that \textsc{X3C} is NP-complete.
-
-    \item Give a polynomial-time algorithm for \textsc{X3C} when $k \leq 3$ (i.e., at most 9 elements in $U$). Does this contradict NP-completeness?
-\end{enumerate}
+% 3  -- NPC
+\item \textbf{Boolean Satisfiability (SAT).}
+Given a Boolean formula $\varphi$ over variables $x_1,\ldots,x_n$ using $\land,\lor,\lnot$, decide whether there exists a satisfying truth assignment.
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{Sometimes a problem looks hard but collapses to polynomial time under a small change. Identifying the exact boundary is a key skill.}
-
-Consider the \textsc{Balanced Partition} problem: given $n$ positive integers $a_1, \ldots, a_n$ with $\sum a_i = 2S$, decide whether they can be split into two groups each summing to exactly $S$.
-
-\begin{enumerate}
-    \item Show \textsc{Balanced Partition} is NP-complete by reducing from \textsc{Subset Sum}.\footnote{Given a \textsc{Subset Sum} instance $(a_1,\ldots,a_n, T)$ with $\sum a_i = W$, add a single carefully chosen element to reduce to \textsc{Balanced Partition}.}
-
-    \item Now consider the \textsc{3-Way Balanced Partition} problem: split $n$ integers summing to $3S$ into three groups each summing to $S$. Is this NP-complete? Prove or argue carefully.
-
-    \item Suppose all integers are at most $K$. Give a dynamic programming algorithm running in time $O(n \cdot S)$ for \textsc{Balanced Partition}. Is this a polynomial-time algorithm? What goes wrong when $S$ is exponentially large in $n$?
-
-    \item Explain the distinction between \emph{weakly} NP-complete and \emph{strongly} NP-complete. Which category does \textsc{Balanced Partition} fall into, and why?
-\end{enumerate}
+% 4  -- P
+\item \textbf{Horn-SAT.}
+Given a CNF formula $\varphi$ in which every clause contains at most one positive literal, decide whether $\varphi$ has a satisfying assignment.
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{The relationship between Independent Set, Clique, and Vertex Cover is one of the most elegant structures in NP-completeness theory.}
-
-Recall:
-\begin{itemize}
-    \item \textsc{Independent Set}: Given $G=(V,E)$ and $k$, does $G$ have an independent set of size $\geq k$?
-    \item \textsc{Clique}: Given $G=(V,E)$ and $k$, does $G$ have a clique of size $\geq k$?
-    \item \textsc{Vertex Cover}: Given $G=(V,E)$ and $k$, does $G$ have a vertex cover of size $\leq k$?
-\end{itemize}
-
-\begin{enumerate}
-    \item Prove: $S \subseteq V$ is an independent set of $G$ if and only if $S$ is a clique in the complement graph $\bar{G}$. Use this to give a polynomial-time reduction from \textsc{Independent Set} to \textsc{Clique}.
-
-    \item Prove: $S \subseteq V$ is an independent set if and only if $V \setminus S$ is a vertex cover. Use this to give a polynomial-time reduction from \textsc{Independent Set} to \textsc{Vertex Cover}.
-
-    \item Give the graph $G$ below. Find (i) the maximum independent set, (ii) the minimum vertex cover, and (iii) the maximum clique in $\bar G$. Verify that your answers are consistent with the relationships above.
-    \[
-    G: \quad \text{vertices } \{1,2,3,4,5,6\},\quad \text{edges } \{12,13,23,34,45,56,16\}.
-    \]
-
-    \item The \textsc{Dominating Set} problem asks: given $G$ and $k$, does there exist $S \subseteq V$ with $|S| \leq k$ such that every $v \notin S$ has a neighbor in $S$? Is \textsc{Dominating Set} the same as \textsc{Vertex Cover}? Prove or give a counterexample.
-\end{enumerate}
+% 5  -- NPC
+\item \textbf{Independent Set.}
+Given an undirected graph $G=(V,E)$ and integer $k$, decide whether $G$ contains an independent set of size $\geq k$ (a set $S\subseteq V$ with no two vertices adjacent).
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{This problem develops intuition for why 3-SAT is hard but 2-SAT is easy---a boundary that is both practically and theoretically important.}
-
-\begin{enumerate}
-    \item Give a polynomial-time algorithm for \textsc{2-SAT} (each clause has at most 2 literals). \textit{Hint: model each implication $(\neg x \vee y) \equiv (x \Rightarrow y)$ as a directed edge in an ``implication graph,'' and use strongly connected components.}
-
-    \item Explain why the same SCC-based approach fails for \textsc{3-SAT}. Specifically, what property of 2-clauses does the implication graph exploit, and why can it not capture 3-clauses?
-
-    \item Consider \textsc{Monotone 3-SAT}: every clause contains only positive literals (no negations). Show that \textsc{Monotone 3-SAT} is NP-complete by giving a polynomial-time reduction from \textsc{3-SAT}. (\textit{Hint: replace each negated literal $\neg x_i$ with a new variable $y_i$ and add clauses enforcing $x_i \neq y_i$.})
-
-    \item Now consider \textsc{Exactly-One 3-SAT}: given a 3-CNF formula, does it have a satisfying assignment in which \emph{exactly one} literal per clause is true? Show this problem is NP-complete.\footnote{Reduce from ordinary 3-SAT by adding auxiliary variables to enforce the exactly-one constraint per clause.}
-\end{enumerate}
+% 6  -- P
+\item \textbf{Maximum Independent Set in Trees.}
+Given a tree $T=(V,E)$ and integer $k$, decide whether $T$ contains an independent set of size $\geq k$.
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{Hamiltonian path variants show how tiny structural changes can flip a problem from polynomial to NP-hard.}
-
-\begin{enumerate}
-    \item Show that \textsc{Hamiltonian Path} (does $G$ contain a simple path visiting all vertices?) is NP-complete by reducing from \textsc{Hamiltonian Cycle}. (One direction is a single-line observation; argue both directions carefully.)
-
-    \item \textsc{Hamiltonian Path in DAGs}: Given a directed acyclic graph, does it have a Hamiltonian path? Give a polynomial-time algorithm and explain why the acyclicity makes the problem tractable.
-
-    \item \textsc{Colorful Hamiltonian Path}: You are given a graph $G$ whose vertices are colored with $k$ colors ($k$ given), and you want a Hamiltonian path that uses at least one vertex of each color. Show that \textsc{Colorful Hamiltonian Path} is NP-complete for $k=2$ by reducing from standard \textsc{Hamiltonian Path}. (\textit{Hint: assign a distinct color to each vertex and set $k = n$.})
-
-    \item \textsc{Hamiltonian Path with Forbidden Pairs}: Given $G$ and a set of pairs $\{(u_1,v_1),\ldots,(u_m,v_m)\}$, does $G$ have a Hamiltonian path in which no two consecutive vertices form a forbidden pair? Show this is NP-complete.\footnote{Reduce from standard Hamiltonian Path by encoding the forbidden pairs into edge deletions---but be careful: forbidden consecutive pairs differ from forbidden edges.}
-\end{enumerate}
+% 7  -- P
+\item \textbf{Maximum Independent Set in Bipartite Graphs.}
+Given a bipartite graph $G=(A\cup B,E)$ and integer $k$, decide whether $G$ contains an independent set of size $\geq k$.
+(\textit{Hint:} Relate independent sets to maximum matchings via König's theorem.)
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{Interval graphs have special structure that makes coloring tractable in polynomial time. This problem asks you to identify and exploit that structure.}
-
-Define the \textsc{Interval Graph Coloring} problem: You are given a set of intervals $[l_1,r_1],\ldots,[l_n,r_n]$ on the real line and an integer $k$. Can you color the intervals with $k$ colors such that no two overlapping intervals share a color?
-
-\begin{enumerate}
-    \item Model interval graph coloring as a graph problem. What special structure does this graph have?
-
-    \item Give a polynomial-time algorithm for \textsc{Interval Graph Coloring}. \textit{Hint: The answer to (a) is the key.} What is the chromatic number of an interval graph in terms of a simple parameter?
-
-    \item Now consider \textsc{Weighted Interval Graph Coloring}: each interval $i$ has a weight $w_i > 0$, and you want to assign colors so that the total weight of intervals assigned to \emph{color class 1} is at least $W$. Is this problem in $\mathbf{P}$ or NP-complete? Prove your answer.
-
-    \item An interval graph is a \emph{perfect graph}: its chromatic number equals its clique number for every induced subgraph. Construct a graph $G$ on 5 vertices that is \textbf{not} an interval graph and show $\chi(G) > \omega(G)$, where $\omega(G)$ is the size of the maximum clique. This demonstrates why the greedy ``sort by left endpoint'' algorithm fails outside interval graphs.
-\end{enumerate}
+% 8  -- NPC
+\item \textbf{Subset Sum.}
+Given a multiset $\{a_1,\ldots,a_n\}$ of positive integers and a target $t$, decide whether some subset sums to exactly $t$.
 
 \bigskip
 
-% ---------------------------------------------------------------
-% PART II: NETWORK FLOWS
-% ---------------------------------------------------------------
-
-\item \textit{Before running any flow algorithm, you must understand the residual graph and augmenting paths. This problem makes sure you do.}
-
-Consider the following flow network, where each edge is labeled with capacity:
-
-\begin{center}
-\begin{tikzpicture}[
-    node distance=2.2cm,
-    every node/.style={circle, draw, minimum size=0.7cm},
-    every edge/.style={draw, -{Stealth}}
-]
-\node (s) {$s$};
-\node (a) [right of=s] {$a$};
-\node (b) [right of=a] {$b$};
-\node (t) [right of=b] {$t$};
-\node (c) [below of=a] {$c$};
-\node (d) [below of=b] {$d$};
-
-\draw[->] (s) -- node[above,draw=none]{10} (a);
-\draw[->] (s) -- node[left,draw=none]{8}  (c);
-\draw[->] (a) -- node[above,draw=none]{6}  (b);
-\draw[->] (a) -- node[right,draw=none]{4}  (c);
-\draw[->] (a) -- node[above,draw=none]{3}  (d);
-\draw[->] (c) -- node[below,draw=none]{9}  (d);
-\draw[->] (b) -- node[above,draw=none]{7}  (t);
-\draw[->] (d) -- node[right,draw=none]{10} (t);
-\draw[->] (b) -- node[right,draw=none]{5}  (d);
-\end{tikzpicture}
-\end{center}
-
-\begin{enumerate}
-    \item Draw the initial residual graph (before any flow is sent).
-
-    \item Find an augmenting path from $s$ to $t$ and augment along it. Show the residual graph after augmentation.
-
-    \item Continue augmenting until no augmenting path exists. What is the maximum flow value?
-
-    \item Identify the minimum cut $(S, T)$ witnessing the max-flow min-cut theorem. Verify: $\text{capacity}(S,T) = \text{max flow}$.
-
-    \item How many augmenting paths did Ford-Fulkerson use in your trace? If edge capacities were integers but very large (say, $2^{30}$), how many augmenting paths might Ford-Fulkerson use in the worst case, and why?
-\end{enumerate}
+% 9  -- P
+\item \textbf{Subset Sum with Unary Input.}
+Given a multiset $\{a_1,\ldots,a_n\}$ of positive integers, each encoded in \emph{unary}, and a target $t$, decide whether some subset sums to $t$.
+(\textit{Note:} In unary encoding the input size is $\Theta(\sum a_i)$; show the standard DP runs in time polynomial in the input size.)
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{The max-flow min-cut theorem is not just an algorithm---it is an existential duality theorem. These questions probe your understanding of it.}
-
-\begin{enumerate}
-    \item State the max-flow min-cut theorem precisely.
-
-    \item Prove the ``easy'' direction: the value of any $s$-$t$ flow is at most the capacity of any $s$-$t$ cut. \textit{(Do not use the theorem itself; derive it from the definition of flow conservation.)}
-
-    \item Prove the ``hard'' direction: if $f^*$ is a maximum flow, then the cut defined by $S = \{v : v \text{ reachable from } s \text{ in residual graph of } f^*\}$ has capacity exactly $|f^*|$.
-
-    \item Construct a graph $G$ on $n$ vertices (for any even $n \geq 4$) where the number of minimum $s$-$t$ cuts is $2^{n/2 - 1}$. (\textit{Hint: chain together $n/2$ parallel-edge gadgets in series from $s$ to $t$.}) Prove that your construction has the claimed number of minimum cuts and verify the max-flow min-cut theorem holds.
-
-    \item Suppose you increase the capacity of one edge $e$ by 1. By how much can the max flow increase? Prove your bound is tight.
-\end{enumerate}
+% 10  -- NPC
+\item \textbf{Graph Bandwidth.}
+Given an undirected graph $G=(V,E)$ and integer $k$, decide whether there exists a bijection $f:V\to\{1,\ldots,|V|\}$ such that $|f(u)-f(v)|\leq k$ for every $(u,v)\in E$.
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{Bipartite matching is one of the most beautiful reductions in all of algorithms. This problem makes you do it carefully.}
-
-\begin{enumerate}
-    \item Formally define a \emph{maximum bipartite matching} and describe the standard flow network construction that solves it. Prove that the maximum flow in your network equals the size of the maximum matching.
-
-    \item \textbf{Hall's theorem}: A bipartite graph $G = (L \cup R, E)$ has a perfect matching (matching every vertex of $L$) if and only if for every $S \subseteq L$, $|N(S)| \geq |S|$, where $N(S)$ is the neighborhood of $S$ in $R$. Prove the ``only if'' direction (easy). For the ``if'' direction, use the max-flow min-cut theorem to argue the contrapositive.
-
-    \item Consider $n$ students and $n$ courses. Student $i$ is qualified for a subset $Q_i \subseteq \{1,\ldots,n\}$ of courses. Each course can admit at most 2 students, and each student can take at most 1 course. Formulate the problem of maximizing the number of admitted students as a max-flow problem (describe the graph and capacities carefully).
-
-    \item \textbf{Non-bipartite matching}: Consider matching in a general (non-bipartite) graph. Give a graph on 5 vertices where the maximum matching found by the bipartite flow approach (applied to some bipartition) gives a sub-optimal result. What structure causes the flow approach to fail?
-\end{enumerate}
+% 11  -- P
+\item \textbf{Bandwidth-1 Graphs.}
+Given a graph $G=(V,E)$, decide whether $G$ has bandwidth $\leq 1$ (i.e., vertices can be labelled so that every edge connects consecutive labels).
+(\textit{Hint:} Characterise which graphs have bandwidth exactly 1.)
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{Lower bounds on flow create a richer and more realistic model. This problem asks you to think about feasibility before optimality.}
-
-A \emph{flow network with lower bounds} has each edge $e$ annotated with $[\ell(e), u(e)]$ meaning the flow on $e$ must satisfy $\ell(e) \leq f(e) \leq u(e)$.
-
-\begin{enumerate}
-    \item Give a small example (6 nodes, 7 edges) of a flow network with lower bounds that has no feasible flow, and prove that it has none.
-
-    \item Describe the standard reduction from \emph{feasibility} of a flow with lower bounds to an ordinary max-flow problem (without lower bounds). Your reduction should add a super-source $s'$ and super-sink $t'$ and adjust capacities appropriately.
-
-    \item Once you have a feasible flow $f_0$, how do you find the \emph{maximum} $s$-$t$ flow that also satisfies all lower bounds? Describe the algorithm in terms of residual graphs.
-
-    \item \textbf{Application -- Task Scheduling}: You have $n$ tasks to schedule over a single day. Each task $i$ must run for at least $\ell_i$ minutes and at most $u_i$ minutes. At each minute, at most $k$ tasks can run simultaneously. Model this as a feasibility problem with lower bounds and describe how to check whether a valid schedule exists.
-\end{enumerate}
+% 12  -- NPC
+\item \textbf{Not-All-Equal 3SAT (NAE-3SAT).}
+Given a 3-CNF formula $\varphi$, decide whether there exists an assignment such that in every clause at least one literal is true \emph{and} at least one is false.
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{Edge-disjoint paths connect network flow to fault-tolerant routing and are one of the cleanest applications of max-flow.}
-
-\begin{enumerate}
-    \item Prove: the maximum number of edge-disjoint $s$-$t$ paths in a directed graph equals the minimum number of edges whose removal disconnects $s$ from $t$ (i.e., an $s$-$t$ edge cut). \textit{(Derive this as a corollary of max-flow min-cut.)}
-
-    \item Give a directed graph on 6 vertices where there are 3 edge-disjoint $s$-$t$ paths but only 2 \emph{vertex}-disjoint $s$-$t$ paths. Use this to explain the difference between edge-disjoint and vertex-disjoint path counts.
-
-    \item Formulate the problem of finding the maximum number of vertex-disjoint $s$-$t$ paths as a max-flow problem. \textit{(Hint: split each internal vertex $v$ into $v_{\text{in}}$ and $v_{\text{out}}$ with a capacity-1 edge between them.)}
-
-    \item A network is called $k$-edge-connected if removing any $k-1$ edges leaves it connected. Describe an algorithm to find the edge-connectivity of an undirected graph using $O(n)$ max-flow computations. Can you do it with fewer? \textit{Hint: One endpoint of any minimum cut is fixed by picking an arbitrary vertex.}
-\end{enumerate}
+% 13  -- P
+\item \textbf{NAE-2SAT.}
+Given a formula $\varphi$ in which every clause contains exactly two literals, decide whether there exists an assignment such that in every clause at least one literal is true and at least one is false.
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{Project selection is a canonical application of network flows to a combinatorial optimization problem with dependencies.}
-
-You are an entrepreneur selecting which of $n$ projects to undertake. Each project $i$ has a profit $p_i$ (which may be negative, representing a cost). Some projects depend on others: undertaking project $i$ requires that you also undertake project $j$ (a ``prerequisite'' constraint). You want to maximize total profit.
-
-\begin{enumerate}
-    \item Model the maximum-weight closure problem: define a directed graph $G$ and explain how finding a minimum $s$-$t$ cut in a related flow network solves the project selection problem.
-
-    \item Prove that the maximum profit equals $\sum_{p_i > 0} p_i - \text{(min cut value)}$ in your flow network.
-
-    \item Apply your model to the following instance and find the optimal selection:
-
-    \medskip
-    \begin{center}
-    \begin{tabular}{c|c|l}
-        Project & Profit & Prerequisites \\
-        \hline
-        $A$ & $+10$ & none \\
-        $B$ & $+5$ & $C$ \\
-        $C$ & $-3$ & none \\
-        $D$ & $+8$ & $A, C$ \\
-        $E$ & $-6$ & $B$ \\
-    \end{tabular}
-    \end{center}
-    \medskip
-
-    \item How does your formulation change if a project can be ``partially completed'' (fractional profits and costs)? Does the max-flow approach still give an optimal fractional solution, and is it integral?
-\end{enumerate}
+% 14  -- NPC
+\item \textbf{Bin Packing.}
+Given $n$ items with sizes $s_1,\ldots,s_n\in(0,1]$, bin capacity 1, and integer $k$, decide whether all items fit into $k$ bins.
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{This problem introduces circulations, which generalize flows and unify several seemingly different problems.}
-
-A \emph{circulation} in a directed graph $G=(V,E)$ with capacities $c: E \to \mathbb{Z}_{\geq 0}$ is a function $f: E \to \mathbb{Z}_{\geq 0}$ such that:
-\begin{itemize}
-    \item \textbf{Capacity}: $0 \leq f(e) \leq c(e)$ for all $e$.
-    \item \textbf{Conservation}: $\sum_{e \text{ into } v} f(e) = \sum_{e \text{ out of } v} f(e)$ for every $v \in V$.
-\end{itemize}
-
-\begin{enumerate}
-    \item Show that any $s$-$t$ max-flow instance can be converted to a circulation problem by adding an edge from $t$ to $s$ with capacity $\infty$. What is the correspondence between maximum circulation on $e = (t,s)$ and maximum $s$-$t$ flow?
-
-    \item \textbf{Feasibility of a circulation}: Prove that a feasible circulation exists in $G$ if and only if for every subset $S \subseteq V$,
-    \[
-        \sum_{e \text{ from } S \text{ to } V \setminus S} c(e) \geq 0.
-    \]
-    (This is trivially true when all capacities are nonnegative. What does it say for lower-bounded circulations?)
-
-    \item \textbf{Decomposition theorem}: Prove that any feasible integer circulation can be decomposed into a set of directed cycles, each carrying a positive integer amount of flow, such that no edge's capacity is exceeded. \textit{(Hint: while the flow is nonzero, find a cycle in the support of $f$ and subtract it.)}
-
-    \item Design a flow network to solve the following scheduling problem: a factory runs 24 hours a day. At each hour $h$ ($h = 1, \ldots, 24$), it needs at least $d_h$ workers on shift. Each worker works a consecutive 8-hour block starting at some hour. Minimize the total number of workers hired using a circulation with lower bounds.
-\end{enumerate}
+% 15  -- P
+\item \textbf{Bin Packing with Uniform Item Size.}
+Given $n$ items each of size $s = 1/m$ for some integer $m$, bins of capacity 1, and integer $k$, decide whether all items fit into $k$ bins.
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{Baseball elimination is a classic application of max-flow with a surprising certificate of infeasibility.}
-
-In a round-robin sports league with teams $\{1, 2, \ldots, n\}$, team $i$ has won $w_i$ games so far and teams $i$ and $j$ have $r_{ij}$ games remaining against each other. Team $n$ (the ``query team'') has won $w_n$ games so far and has $R_n$ total games remaining. Team $n$ is \emph{eliminated} if no matter how the remaining games are played, it cannot finish with the most wins.
-
-\begin{enumerate}
-    \item Give a \emph{trivial} condition under which team $n$ is immediately eliminated (no flow computation needed).
-
-    \item Suppose team $n$'s maximum possible wins is $W^* = w_n + R_n$. Construct a flow network on teams $T = \{1,\ldots,n-1\}$ and game nodes $\{(i,j) : i < j,\; i,j \in T\}$ such that team $n$ is \emph{not} eliminated if and only if the max flow in your network equals $\sum_{i < j,\; i,j \in T} r_{ij}$.
-
-    \item Apply your algorithm to the following 4-team league to determine if team 4 is eliminated:
-
-    \medskip
-    \begin{center}
-    \begin{tabular}{c|c|cccc}
-        Team & Wins & vs.\ 1 & vs.\ 2 & vs.\ 3 & vs.\ 4 \\
-        \hline
-        1 & 83 & --- & 1 & 6 & 1 \\
-        2 & 80 & 1 & --- & 0 & 2 \\
-        3 & 78 & 6 & 0 & --- & 0 \\
-        4 & 76 & 1 & 2 & 0 & --- \\
-    \end{tabular}
-    \end{center}
-    \medskip
-
-    \item If the max flow is less than $\sum r_{ij}$, the min cut gives a \emph{certificate of elimination}: a subset $S \subseteq T$ such that $w_n + R_n < \frac{1}{|S|}\left(\sum_{i \in S} w_i + \sum_{i,j \in S} r_{ij}\right)$. Interpret this certificate in words: what does it mean for team $n$ to be eliminated by the group $S$?
-\end{enumerate}
+% 16  -- NPC
+\item \textbf{Hamiltonian Path.}
+Given an undirected graph $G=(V,E)$, decide whether $G$ contains a simple path visiting every vertex exactly once.
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{This problem probes the boundary between NP-hardness and polynomial-time solvability using flows.}
-
-For each of the following problems, determine whether it is solvable in polynomial time (possibly via a flow reduction) or is NP-hard. In each case, prove your answer.
-
-\begin{enumerate}
-    \item \textbf{Maximum flow with minimum number of edges}: among all maximum flows in a network, find one that uses the fewest edges with strictly positive flow. (An edge is ``used'' if $f(e) > 0$.)
-
-    \item \textbf{$k$-commodity flow}: You have a single graph with two source-sink pairs $(s_1,t_1)$ and $(s_2,t_2)$, and each edge has a shared capacity $c(e)$. You want to route $d_1$ units from $s_1$ to $t_1$ and $d_2$ units from $s_2$ to $t_2$ simultaneously without exceeding any edge capacity. Is this in $\mathbf{P}$?
-
-    \item \textbf{Integer multicommodity flow}: Same as (b), but you require the flows to be integer-valued. Does integrality change the complexity? Prove or give a hardness reduction.
-
-    \item \textbf{Unsplittable flow}: Route a set of demands $\{(s_i, t_i, d_i)\}$ such that each demand is routed along a \emph{single} path (not split across multiple paths), subject to edge capacities. Is this in $\mathbf{P}$?
-\end{enumerate}
+% 17  -- P
+\item \textbf{Hamiltonian Path in Tournaments.}
+A \emph{tournament} is a complete directed graph (every pair of vertices connected by exactly one directed edge).
+Given a tournament $T=(V,E)$, decide whether $T$ contains a directed Hamiltonian path.
+(\textit{Hint:} Every tournament has a Hamiltonian path; give an algorithm to find one.)
 
 \bigskip
 
-% ---------------------------------------------------------------
-% PART III: SYNTHESIS AND HARDER PROBLEMS
-% ---------------------------------------------------------------
-
-\item \textit{This synthesis problem connects NP-hardness to approximability---a topic that tells you not just that a problem is hard, but \emph{how hard} it is to approximate.}
-
-\begin{enumerate}
-    \item Define a \emph{$\rho$-approximation algorithm} for a minimization problem.
-
-    \item The \textsc{Vertex Cover} problem has a simple 2-approximation: repeatedly pick any uncovered edge $(u,v)$, add \emph{both} $u$ and $v$ to the cover, and remove all edges incident to $u$ or $v$. Prove this is a 2-approximation. \textit{(Show that the edges you pick form a matching, and that any vertex cover must include at least one endpoint of each matching edge.)}
-
-    \item \textsc{Maximum Independent Set} is the complement of \textsc{Vertex Cover} (on the same graph). Does the 2-approximation for \textsc{Vertex Cover} immediately give a 2-approximation for \textsc{Max Independent Set}? Explain carefully why or why not.
-
-    \item It is known (under standard complexity assumptions) that \textsc{Max Independent Set} cannot be approximated to within a factor of $n^{1-\varepsilon}$ for any $\varepsilon > 0$. Intuitively, what does this say about the ``shape'' of the optimal independent set in hard instances?
-
-    \item Give a graph on $n$ vertices where the 2-approximation for \textsc{Vertex Cover} returns a cover of size $n-1$ but the optimal cover has size $n/2$.
-\end{enumerate}
+% 18  -- NPC
+\item \textbf{Maximum Cut (Max Cut).}
+Given an undirected graph $G=(V,E)$ and integer $k$, decide whether there exists a partition $(S,V\setminus S)$ with at least $k$ edges crossing the cut.
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{This problem analyzes the complexity of the Rainbow Independent Set problem, where the goal is to find an independent set that hits every color class.}
-
-Define the \textsc{Rainbow Independent Set} problem as follows. You are given a graph $G = (V, E)$ where each vertex is assigned one of $c$ colors. You are given an integer $k \leq c$. You want to find an independent set $S \subseteq V$ such that $S$ contains at least one vertex of each of the $c$ colors, and $|S| = c$.
-
-\begin{enumerate}
-    \item Show that \textsc{Rainbow Independent Set} is in \textbf{NP}.
-
-    \item Show that when $c = 1$ (all vertices the same color), \textsc{Rainbow Independent Set} reduces to the question ``does $G$ have any vertex?'' and hence is trivially in \textbf{P}. What does this tell us about the hardness depending on parameters?
-
-    \item Prove that \textsc{Rainbow Independent Set} is NP-complete for general $c$ by reducing from \textsc{Independent Set}. \textit{(Hint: Given a \textsc{Independent Set} instance $(G, k)$, assign a distinct color to each vertex---how many colors are there? Now what does a rainbow independent set of size $k$ mean?)}
-
-    \item Now consider the variant where $c$ is fixed (a constant, not part of the input). Is \textsc{Rainbow Independent Set} still NP-hard for fixed $c$? Does your reduction from (c) work when $c$ is a constant? What changes?
-
-    \item (Challenge, optional) What if each vertex can have \emph{multiple} colors (a vertex may belong to several color classes), and you want an independent set $S$ that hits each color class? Show that this variant is NP-complete by reducing from standard \textsc{Independent Set}. Specify your reduction precisely and prove both directions.
-\end{enumerate}
+% 19  -- P
+\item \textbf{Maximum Cut in Bipartite Graphs.}
+Given a bipartite graph $G=(A\cup B,E)$ and integer $k$, decide whether a cut of size $\geq k$ exists.
+(\textit{Hint:} What is the size of the maximum cut in any bipartite graph?)
 
 \bigskip
 
-% ---------------------------------------------------------------
-
-\item \textit{A flow network can also be used to reason about NP-hardness. This problem links the two halves of the homework.}
-
-\begin{enumerate}
-    \item Show that \textsc{3-Dimensional Matching (3DM)} is NP-complete. \textit{(You may use the fact that X3C is NP-complete from Problem 3; reduce X3C to 3DM.)}
-
-    \item \textsc{3DM} generalizes bipartite matching. Explain why the flow approach for bipartite matching does not extend to 3DM (i.e., what structural property of bipartite graphs makes flow work, and what is absent in 3DM?).
-
-    \item Consider the following \textbf{planar} flow problem: the flow network $G$ is planar (can be drawn in the plane without crossing edges). Is max-flow in planar graphs harder or easier than general max-flow? Give an algorithm that beats the general-purpose bound for planar graphs, or argue that no improvement is possible.
-
-    \item Show that the following problem is solvable in polynomial time via a flow reduction: \textit{Given a bipartite graph $G = (L \cup R, E)$ and integers $d_\ell$ for each $\ell \in L$ and $d_r$ for each $r \in R$, does $G$ have a subgraph where each left vertex $\ell$ has degree exactly $d_\ell$ and each right vertex $r$ has degree exactly $d_r$?}
-\end{enumerate}
+% 20  -- NPC
+\item \textbf{Integer Linear Programming (ILP).}
+Given an integer matrix $A$, vectors $b,c$, and integer $k$, decide whether an integer vector $x$ satisfying $Ax\leq b$ and $c^\top x\geq k$ exists.
 
 \bigskip
 
-% ---------------------------------------------------------------
+% 21  -- P
+\item \textbf{Linear Programming (LP).}
+Given a rational matrix $A$, rational vectors $b,c$, and rational $k$, decide whether a \emph{real} vector $x\in\mathbb{R}^n$ with $Ax\leq b$ and $c^\top x\geq k$ exists.
+(\textit{Note:} State the relevant polynomial-time algorithm and its complexity; you need not derive it from scratch.)
 
-\item \textit{The following ``thought experiment'' problems require careful reasoning. There are no computations---only arguments.}
+\bigskip
 
-\begin{enumerate}
-    \item Suppose someone shows you a polynomial-time algorithm for \textsc{3-SAT}. Describe, step by step, how you would use it to find (not just decide) a satisfying assignment in polynomial time.
+% 22  -- P
+% \item \textbf{0-1 ILP on Totally Unimodular Matrices.}
+% A matrix $A$ is \emph{totally unimodular} (TU) if every square submatrix has determinant $0,{+}1,$ or ${-}1$.
+% Given a TU matrix $A$, integer vectors $b,c$, and integer $k$, decide whether an integer vector $x$ with $Ax\leq b$ and $c^\top x\geq k$ exists.
+% (\textit{Hint:} Show the LP relaxation always has an integer optimum when $A$ is TU.)
 
-    \item Suppose $\mathbf{P} = \mathbf{NP}$. Does it follow that the \textsc{Traveling Salesman Problem (TSP)} has a polynomial-time exact algorithm? Does it follow that \textsc{TSP} has a polynomial-time 2-approximation? Justify both answers carefully.
+% \bigskip
 
-    \item A student proposes the following: ``I can solve \textsc{3-SAT} in polynomial time on all instances except those of size exactly $n_0$ for some particular $n_0$.'' Does this prove $\mathbf{P} = \mathbf{NP}$? Why or why not?
+% 23  -- NPC
+\item \textbf{Vertex Cover.}
+Given an undirected graph $G=(V,E)$ and integer $k$, decide whether $G$ has a vertex cover of size $\leq k$ (a set $C\subseteq V$ such that every edge has at least one endpoint in $C$).
 
-    \item A \emph{promise problem} is one where the input is guaranteed to satisfy some property. Consider \textsc{Unique-SAT}: given a 3-CNF formula $\varphi$ promised to have either 0 or exactly 1 satisfying assignment, decide which. Show that \textsc{Unique-SAT} $\in \mathbf{NP} \cap \mathbf{co\text{-}NP}$ by explicitly describing a polynomial-time certificate for the YES case (unique satisfying assignment exists) and a polynomial-time certificate for the NO case (no satisfying assignment exists).
+\bigskip
 
-    \item True or false: ``If $A \leq_p B$ and $A$ is NP-complete, then $B$ is NP-complete.'' Justify. What additional condition would make this true?
-\end{enumerate}
+% 24  -- P
+\item \textbf{Minimum Vertex Cover in Trees.}
+Given a tree $T=(V,E)$ and integer $k$, decide whether $T$ has a vertex cover of size $\leq k$.
 
-\end{enumerate}
+\bigskip
 
+% 25  -- P
+\item \textbf{Minimum Vertex Cover in Bipartite Graphs.}
+Given a bipartite graph $G=(A\cup B,E)$ and integer $k$, decide whether $G$ has a vertex cover of size $\leq k$.
+(\textit{Hint:} König's theorem states that in bipartite graphs, minimum vertex cover equals maximum matching.)
 
-\begin{enumerate}
+\bigskip
 
-\item 
-Give a formal definition of the class \textbf{NP} using the notion of a polynomial-time verifier. 
-\begin{itemize}
-    \item Clearly define what a \emph{certificate} is.
-    \item Clearly define what it means for a verifier to run in polynomial time.
-\end{itemize}
-Then explain in 2--3 lines why every problem in \textbf{P} is also in \textbf{NP}.
+% 26  -- NPC
+\item \textbf{Travelling Salesman Problem (TSP).}
+Given a complete weighted graph on $n$ cities and a budget $B$, decide whether a Hamiltonian cycle of total weight $\leq B$ exists.
 
-\vspace{0.5em}
+\bigskip
 
-\item 
-Suppose a decision problem has a \emph{randomized} polynomial-time verifier, i.e., the verifier may flip coins and accepts correct certificates with probability at least $2/3$. 
+% 27  -- P
+\item \textbf{TSP with Cities on a Line.}
+Given $n$ cities at real positions $x_1,\ldots,x_n$ on a straight line, with distances $d_{ij}=|x_i-x_j|$ and budget $B$, decide whether a tour of total length $\leq B$ exists.
+(\textit{Hint:} Show that the optimal tour visits cities in sorted order, traversing the line twice.)
 
-Does this imply the problem is in NP (as traditionally defined)?  
-Give a precise justification.
+\bigskip
 
-\vspace{0.5em}
+% 28  -- NPC
+\item \textbf{Exact Cover.}
+Given a universe $U$ and a collection $\mathcal{S}$ of subsets of $U$, decide whether some subcollection $\mathcal{C}\subseteq\mathcal{S}$ partitions $U$ (every element appears in exactly one set in $\mathcal{C}$).
 
-\item 
-You are told that problem $A$ reduces to problem $B$ via a polynomial-time reduction.
+\bigskip
 
-A student claims:
-\begin{quote}
-“If $A$ is easy (in P), then $B$ must also be easy.”
-\end{quote}
+% 29  -- P
+\item \textbf{Exact Cover with Pairwise-Disjoint Collection.}
+Given a universe $U$ and a collection $\mathcal{S}$ of pairwise-disjoint subsets of $U$, decide whether some subcollection in $\mathcal{S}$ covers all of $U$.
 
-Is this statement always true? If not, give a clear counter-argument or example.
+\bigskip
 
-\vspace{0.5em}
+% 30  -- P
+\item \textbf{Exact Cover with Sets of Size $\leq 2$.}
+Given a universe $U$ and a collection $\mathcal{S}$ of subsets each of size at most 2, decide whether some subcollection exactly covers $U$.
 
-\item 
-Define:
-\begin{itemize}
-    \item NP-hard
-    \item NP-complete
-\end{itemize}
+\bigskip
 
-Give one example of each and justify (in 2--3 lines each) why your examples satisfy the definitions.
+% 31  -- P
+\item \textbf{XOR-SAT.}
+Given a system of equations of the form $x_{i_1}\oplus x_{i_2}\oplus\cdots\oplus x_{i_k}=b$ over $\mathbb{F}_2$, decide whether a satisfying assignment exists.
 
-\vspace{0.5em}
+\bigskip
 
-\item 
-Assume that \textbf{SAT} can be solved in polynomial time.
+% 32  -- NPC
+\item \textbf{Clique.}
+Given an undirected graph $G=(V,E)$ and integer $k$, decide whether $G$ contains a clique of size $\geq k$ (a set of $k$ mutually adjacent vertices).
 
-Explain the consequences for:
-\begin{itemize}
-    \item The class NP
-    \item All NP-complete problems
-    \item Optimization problems such as minimum vertex cover
-\end{itemize}
+\bigskip
 
-Keep your answer concise but logically complete.
+% 33  -- P
+\item \textbf{Maximum Clique in Planar Graphs.}
+Given a planar graph $G=(V,E)$ and integer $k$, decide whether $G$ contains a clique of size $\geq k$.
+(\textit{Hint:} Use the four-colour theorem to bound the chromatic number and therefore the clique number of any planar graph.)
 
-\vspace{1em}
+\bigskip
 
-\item 
-Describe a polynomial-time reduction from \textbf{3SAT} to \textbf{CLIQUE}.  
+% 34  -- NPC
+\item \textbf{Graph $k$-Coloring.}
+Given an undirected graph $G=(V,E)$ and integer $k\geq 3$, decide whether the vertices can be properly colored with $k$ colors (no two adjacent vertices share a color).
 
-You do not need to prove correctness formally, but you must:
-\begin{itemize}
-    \item Describe how vertices are constructed
-    \item Describe how edges are added
-    \item State the value of $k$
-\end{itemize}
+\bigskip
 
-\vspace{0.5em}
+% 35  -- P
+\item \textbf{1-Coloring.}
+Given a graph $G=(V,E)$, decide whether $G$ is 1-colorable (every vertex receives the same color).
 
-\item 
-In the standard 3SAT $\rightarrow$ CLIQUE reduction, triangles may appear in the constructed graph.
+\bigskip
 
-Modify the construction so that the resulting graph contains \textbf{no triangles}.  
+% 36  -- P
+\item \textbf{2-Coloring (Bipartiteness Testing).}
+Given an undirected graph $G=(V,E)$, decide whether $G$ is 2-colorable.
 
-\textbf{Question:} Does your modified reduction still correctly encode 3SAT?  
-Justify your answer carefully.
+\bigskip
 
-\vspace{0.5em}
+% 37  -- P
+\item \textbf{Coloring of Interval Graphs.}
+An \emph{interval graph} is defined by a set of real intervals: vertices correspond to intervals, edges connect overlapping pairs.
+Given an interval graph $G$ and integer $k$, decide whether $G$ is $k$-colorable.
+(\textit{Hint:} The chromatic number of an interval graph equals its clique number $\omega(G)$.)
 
-\item 
-Show that \textbf{VERTEX COVER} is NP-complete by giving a reduction from \textbf{CLIQUE}.  
+\bigskip
 
-You must:
-\begin{itemize}
-    \item Specify how the graph is transformed
-    \item Specify how $k$ changes
-\end{itemize}
+% 38  -- NPC
+\item \textbf{Job Scheduling — Makespan.}
+Given $n$ jobs with processing times $p_1,\ldots,p_n$, $m$ identical parallel machines, and target makespan $T$, decide whether all jobs can be assigned to machines so that every machine finishes by time $T$.
 
-\vspace{0.5em}
+\bigskip
 
-\item 
-Define the problem:
+% 39  -- P
+\item \textbf{Single-Machine Scheduling.}
+Given $n$ jobs with processing times $p_1,\ldots,p_n$, one machine, and deadline $T$, decide whether all $n$ jobs complete by time $T$.
 
-\begin{quote}
-\textbf{EXACT-CLIQUE:} Given a graph $G$ and integer $k$, does $G$ contain a clique of size \emph{exactly} $k$?
-\end{quote}
+\bigskip
 
-Determine whether EXACT-CLIQUE is:
-\begin{itemize}
-    \item in P
-    \item NP-complete
-    \item or neither (based on current knowledge)
-\end{itemize}
+% 40  -- P
+\item \textbf{Unit-Time Job Scheduling.}
+Given $n$ unit-length jobs ($p_i=1$ for all $i$), $m$ identical machines, and deadline $T$, decide whether all jobs finish by time $T$.
 
-Give a justification.
+\bigskip
 
-\vspace{0.5em}
+% 41  -- NPC
+\item \textbf{Dominating Set.}
+Given an undirected graph $G=(V,E)$ and integer $k$, decide whether $G$ has a dominating set of size $\leq k$ (a set $D\subseteq V$ such that every vertex not in $D$ is adjacent to some vertex in $D$).
 
-\item 
-A reduction from problem $A$ to $B$ runs in time $n^{\log n}$.
+\bigskip
 
-\begin{itemize}
-    \item Is this considered a polynomial-time reduction?
-    \item What does this imply about using it to prove NP-hardness?
-\end{itemize}
+% 42  -- P
+\item \textbf{Minimum Dominating Set in Trees.}
+Given a tree $T=(V,E)$ and integer $k$, decide whether $T$ has a dominating set of size $\leq k$.
 
-Explain clearly.
+\bigskip
 
-\vspace{1em}
+% 43  -- P
+\item \textbf{Minimum Dominating Set in Interval Graphs.}
+Given an interval graph $G$ (intervals on a real line) and integer $k$, decide whether $G$ has a dominating set of size $\leq k$.
+(\textit{Hint:} A greedy left-to-right sweep over the intervals works.)
 
-\item 
-Suppose you are given a weighted optimization problem (e.g., shortest path or MST), and you transform all edge weights by squaring them:
-\[
-w(e) \rightarrow w(e)^2
-\]
+\bigskip
 
-\begin{itemize}
-    \item Does this preserve the set of optimal solutions?
-    \item Give reasoning or a counterexample.
-\end{itemize}
+% 44  -- NPC
+\item \textbf{Longest Path.}
+Given an undirected graph $G=(V,E)$ (possibly weighted) and integer $k$, decide whether $G$ contains a simple path of length $\geq k$.
 
-\vspace{0.5em}
+\bigskip
 
-\item 
-\textbf{Encoding matters.}
+% 45  -- P
+\item \textbf{Longest Path in DAGs.}
+Given a directed acyclic graph (DAG) $G=(V,E)$ with edge weights and integer $k$, decide whether $G$ contains a directed simple path of total weight $\geq k$.
 
-In binary encoding, numbers are written in base 2. For example:
-\[
-5 = 101_2
-\]
+\bigskip
 
-In unary encoding, a number $n$ is represented by $n$ copies of a symbol. For example:
-\[
-5 = 11111
-\]
+% 46  -- P
+\item \textbf{Diameter of a Tree.}
+Given a tree $T=(V,E)$ (unweighted) and integer $k$, decide whether $T$ contains a simple path of length $\geq k$.
+(\textit{Hint:} Two BFS/DFS traversals suffice to find the diameter.)
 
-\begin{itemize}
-    \item Explain how input size differs between binary and unary encoding.
-    \item Can a problem that is NP-complete under binary encoding become polynomial-time solvable under unary encoding?
-\end{itemize}
+\bigskip
 
-Give an example or clear argument.
+% 47  -- NPC
+\item \textbf{Exact Cover by 3-Sets (X3C).}
+Given a universe $U$ with $|U|=3q$ and a collection $\mathcal{C}$ of 3-element subsets of $U$, decide whether $q$ pairwise disjoint sets from $\mathcal{C}$ cover all of $U$.
 
-\vspace{0.5em}
+\bigskip
 
-\item 
-Consider a problem where a certificate can be verified in polynomial time \emph{only after sorting the certificate}.  
+% 48  -- P
+\item \textbf{X3C with Pairwise-Disjoint 3-Sets.}
+Given a universe $U$ with $|U|=3q$ and a collection $\mathcal{C}$ of pairwise-disjoint 3-element subsets of $U$, decide whether some $q$ sets from $\mathcal{C}$ cover all of $U$.
 
-\begin{itemize}
-    \item Does this problem belong to NP?
-\end{itemize}
+\bigskip
 
-Note: Sorting takes $O(n \log n)$ time.
+% 49  -- NPC
+\item \textbf{Partition.}
+Given a multiset $\{a_1,\ldots,a_n\}$ of positive integers, decide whether it can be partitioned into two subsets with equal sum.
 
-\vspace{0.5em}
+\bigskip
 
-\item 
-Explain why proving
-\[
-B \leq_p A
-\]
-does \textbf{not} show that $A$ is NP-hard.
+% 50  -- P
+\item \textbf{Partition of Identical Elements.}
+Given a multiset of $n$ copies of the same positive integer $c$, decide whether the multiset can be partitioned into two subsets with equal sum.
 
-Give a concrete example involving known problems.
+\bigskip
 
-\vspace{0.5em}
+% 51  -- NPC
+\item \textbf{0-1 Knapsack.}
+Given $n$ items with weights $w_i$ and values $v_i$, a capacity $W$, and a value target $V$, decide whether a subset of items exists with total weight $\leq W$ and total value $\geq V$.
 
-\item 
-Define a modified version of any decision problem where the input is inflated by repeating each bit 100 times.
+\bigskip
 
-Example:  
-Binary string $101$ becomes $1111111111\;0000000000\;1111111111$.
+% 52  -- P
+\item \textbf{Fractional Knapsack.}
+Given $n$ items with weights $w_i>0$ and values $v_i>0$, and a capacity $W$, find a selection (fractions of items allowed) that maximises total value subject to total weight $\leq W$.
+(\textit{Note:} This is an optimisation problem; give a polynomial-time algorithm achieving the optimum and prove it is optimal.)
 
-\begin{itemize}
-    \item Does this change the problem's membership in NP?
-    \item Does it affect NP-completeness?
-\end{itemize}
+\bigskip
 
-Explain carefully.
+% 53  -- NPC
+\item \textbf{Set Cover.}
+Given a universe $U$, a collection $\mathcal{S}$ of subsets of $U$, and integer $k$, decide whether $k$ sets from $\mathcal{S}$ cover all of $U$.
 
-\vspace{1em}
+\bigskip
 
-\item 
-Design a reduction from \textbf{3-SAT} to \textbf{HAMILTONIAN CYCLE}.
+% 54  -- P
+\item \textbf{Set Cover with One Set Allowed.}
+Given a universe $U$ and a collection $\mathcal{S}$ of subsets, decide whether a single set in $\mathcal{S}$ covers all of $U$.
 
-You must:
-\begin{itemize}
-    \item Describe the gadgets used for variables and clauses
-    \item Prove that the formula is satisfiable if and only if the constructed graph has a Hamiltonian cycle
-\end{itemize}
+\bigskip
 
-\vspace{0.5em}
+% 55  -- P
+\item \textbf{Set Cover with Sets of Size $\leq 2$.}
+Given a universe $U$, a collection $\mathcal{S}$ of subsets each of size at most 2, and integer $k$, decide whether $k$ sets from $\mathcal{S}$ cover $U$.
 
-\item 
-Show that 3SAT remains NP-complete even if each variable appears at most 3 times.
+\bigskip
 
-\textbf{Hint:} You may duplicate variables and enforce consistency using additional clauses.
+% 56  -- P
+\item \textbf{Interval Set Cover.}
+Given a universe $U=[0,L]$ and a collection of sub-intervals $\mathcal{S}$, and integer $k$, decide whether $k$ intervals from $\mathcal{S}$ cover $[0,L]$.
 
-\vspace{0.5em}
+\bigskip
 
-\item 
-Define:
+% 57  -- NPC
+\item \textbf{Directed Hamiltonian Path.}
+Given a directed graph $G=(V,E)$, decide whether $G$ contains a directed simple path visiting every vertex exactly once.
 
-\begin{quote}
-\textbf{BALANCED-CLIQUE:} Given a graph $G$ and integer $k$, does $G$ contain a clique of size $k$ such that exactly half of its vertices have even degree (in $G$)?
-\end{quote}
+\bigskip
 
-Classify the problem (P / NP-complete / unknown) and justify your answer.
+% 58  -- P
+\item \textbf{Directed Hamiltonian Path in DAGs.}
+Given a directed acyclic graph (DAG) $G=(V,E)$, decide whether $G$ contains a directed Hamiltonian path.
+(\textit{Hint:} A DAG has a Hamiltonian path if and only if its topological sort is unique.)
 
-\vspace{1em}
+\bigskip
 
-\item 
-State the \textbf{Max-Flow Min-Cut Theorem} formally.  
+% 59  -- P
+\item \textbf{Directed Hamiltonian Path in Tournaments.}
+Given a tournament $T=(V,E)$, decide whether $T$ has a directed Hamiltonian path.
 
-Then explain in a short paragraph why it is important.
+\bigskip
 
-\vspace{0.5em}
+% 60  -- NPC
+\item \textbf{Feedback Vertex Set (FVS).}
+Given an undirected graph $G=(V,E)$ and integer $k$, decide whether there exists a set $F\subseteq V$ with $|F|\leq k$ whose removal makes $G$ a forest.
 
-\item 
-Explain why the Ford--Fulkerson algorithm may fail to terminate if edge capacities are irrational.
+\bigskip
 
-\vspace{0.5em}
+% 61  -- P
+\item \textbf{Acyclicity Testing ($k=0$ FVS).}
+Given a graph $G=(V,E)$, decide whether $G$ is acyclic (i.e., it has a feedback vertex set of size 0).
 
-\item 
-Suppose all capacities in a flow network are equal to 1.
+\bigskip
 
-\begin{itemize}
-    \item What combinatorial problem does maximum flow reduce to in this case?
-\end{itemize}
+% 62  -- P
+\item \textbf{Feedback Vertex Set in Tournaments.}
+Given a tournament $T=(V,E)$ and integer $k$, decide whether $T$ has a feedback vertex set of size $\leq k$.
 
-Explain briefly.
+\bigskip
 
-\vspace{1em}
+% 63  -- NPC
+\item \textbf{Set Packing.}
+Given a universe $U$, a collection $\mathcal{S}$ of subsets of $U$, and integer $k$, decide whether $k$ pairwise disjoint sets from $\mathcal{S}$ exist.
 
-\item 
-You are given:
-\begin{itemize}
-    \item A set of students
-    \item A set of projects
-    \item Each student lists at most 2 acceptable projects
-    \item Each project has a capacity
-\end{itemize}
+\bigskip
 
-\begin{itemize}
-    \item Model this as a max-flow problem.
-\end{itemize}
+% 64  -- P
+\item \textbf{Set Packing with Sets of Size $\leq 2$.}
+Given a universe $U$, a collection $\mathcal{S}$ of subsets each of size at most 2, and integer $k$, decide whether $k$ pairwise disjoint sets from $\mathcal{S}$ exist.
+(\textit{Hint:} Model as a maximum matching problem.)
 
-Now modify your construction so that:
-\begin{itemize}
-    \item Each student is assigned \textbf{at most one} project (or none)
-\end{itemize}
+\bigskip
 
-Explain the changes clearly.
+% 65  -- P
+\item \textbf{Interval Scheduling.}
+Given a set of intervals $\{[s_i,f_i]\}$ on the real line and integer $k$, decide whether $k$ pairwise non-overlapping intervals can be selected.
 
-\vspace{0.5em}
+\bigskip
 
-\item 
-Given a directed graph, design a flow-based algorithm to compute the maximum number of \textbf{edge-disjoint} $s$-$t$ paths.
+% 66  -- NPC
+\item \textbf{3-Dimensional Matching (3DM).}
+Given disjoint sets $B,G,P$ each of size $n$ and a set $T\subseteq B\times G\times P$ of triples, decide whether $T$ contains $n$ pairwise disjoint triples that together cover every element of $B\cup G\cup P$.
 
-Explain:
-\begin{itemize}
-    \item How you construct the flow network
-    \item Why the solution corresponds to edge-disjoint paths
-\end{itemize}
+\bigskip
 
-\vspace{0.5em}
+% 67  -- P
+\item \textbf{Bipartite Perfect Matching.}
+Given a bipartite graph $G=(A\cup B,E)$ with $|A|=|B|=n$, decide whether $G$ has a perfect matching.
 
-\item 
-You are given a directed graph and a subset of nodes $S$.
+\bigskip
 
-We want to ensure that any $s$-$t$ flow must pass through \textbf{at least one node in $S$}.
+% 68  -- NPC
+\item \textbf{Hamiltonian Cycle.}
+Given an undirected graph $G=(V,E)$, decide whether $G$ contains a simple cycle visiting every vertex exactly once.
 
-\begin{itemize}
-    \item Modify the graph using standard flow techniques (node splitting, capacities, etc.) to enforce this constraint.
-\end{itemize}
+\bigskip
 
-\vspace{1em}
+% 69  -- P
+\item \textbf{Hamiltonian Cycle in Complete Graphs.}
+Given the complete graph $K_n$ on $n\geq 3$ vertices, decide whether it has a Hamiltonian cycle.
 
-\item \textbf{(Bonus)}
+\bigskip
 
-Define the problem:
+% 70  -- P
+\item \textbf{Hamiltonian Cycle in Complete Bipartite Graphs.}
+Given the complete bipartite graph $K_{n,n}$ for $n\geq 2$, decide whether it has a Hamiltonian cycle.
 
-\begin{quote}
-Given an undirected graph, can we assign directions to edges so that there exists an $s$-$t$ flow of value at least $k$?
-\end{quote}
+\bigskip
 
-\begin{itemize}
-    \item Show this problem is in NP by describing a polynomial-time certificate and verifier.
-    \item Show this problem is in P by reducing it to a standard undirected max-flow computation. (\textit{Hint: replace each undirected edge $\{u,v\}$ with two directed edges $(u,v)$ and $(v,u)$ of the same capacity.})
-\end{itemize}
+% 71  -- NPC
+\item \textbf{Steiner Tree.}
+Given an undirected weighted graph $G=(V,E,w)$, a set of terminals $R\subseteq V$, and integer $k$, decide whether a subtree of $G$ spanning all vertices in $R$ exists with total weight $\leq k$.
 
-\end{enumerate}
+\bigskip
 
+% 72  -- P
+\item \textbf{Steiner Tree with Two Terminals.}
+Given a weighted graph $G=(V,E,w)$, two terminal vertices $s,t\in V$, and integer $k$, decide whether a path from $s$ to $t$ of total weight $\leq k$ exists.
 
-\begin{enumerate}
+\bigskip
 
-\item 
-Give a formal definition of NP using polynomial-time verifiers.
+% 73  -- P
+\item \textbf{Steiner Tree with All Terminals.}
+Given a weighted graph $G=(V,E,w)$ where every vertex is a terminal and integer $k$, decide whether a spanning tree of total weight $\leq k$ exists.
 
-\textbf{Answer:}  
-A language $L$ is in NP if there exists a polynomial-time algorithm $V(x, y)$ (verifier) and a polynomial $p(n)$ such that:
-\[
-x \in L \iff \exists y \text{ with } |y| \le p(|x|) \text{ and } V(x,y)=1.
-\]
-Here, $y$ is called a certificate. The verifier runs in time polynomial in $|x|$.
+\bigskip
 
-\vspace{0.5em}
+% 74  -- NPC
+\item \textbf{Directed Hamiltonian Cycle.}
+Given a directed graph $G=(V,E)$, decide whether $G$ contains a directed simple cycle visiting every vertex exactly once.
 
-\item 
-Explain why every problem in P is also in NP.
+\bigskip
 
-\textbf{Answer:}  
-If a problem is in P, we can solve it in polynomial time without any certificate. The verifier can ignore $y$ and simply compute the answer directly in polynomial time.
+% 75  -- P
+\item \textbf{Directed Hamiltonian Cycle in Strongly Connected Tournaments.}
+Given a strongly connected tournament $T=(V,E)$, decide whether $T$ has a directed Hamiltonian cycle.
+(\textit{Fact:} Every strongly connected tournament has a Hamiltonian cycle; give an algorithm to find one.)
 
-\vspace{0.5em}
+\bigskip
 
-\item 
-If $A \leq_p B$ and $B \in P$, what can you conclude about $A$?
-
-\textbf{Answer:}  
-$A \in P$. We can reduce $A$ to $B$ in polynomial time and then solve $B$ in polynomial time, giving a polynomial-time algorithm for $A$.
-
-\vspace{0.5em}
-
-\item 
-If $A \leq_p B$ and $A$ is NP-complete, what can you conclude about $B$?
-
-\textbf{Answer:}  
-$B$ is NP-hard. If additionally $B \in NP$, then $B$ is NP-complete.
-
-\vspace{0.5em}
-
-\item 
-Define NP-hard and NP-complete.
-
-\textbf{Answer:}  
-NP-hard: A problem $B$ is NP-hard if for every $A \in NP$, $A \leq_p B$.  
-NP-complete: A problem is NP-complete if it is both NP-hard and in NP.
-
-\vspace{0.5em}
-
-\item 
-What happens if SAT is in P?
-
-\textbf{Answer:}  
-Then $P = NP$. All NP-complete problems become solvable in polynomial time, and many optimization problems become efficiently solvable via decision versions.
-
-\vspace{0.5em}
-
-\item 
-Describe the key idea of the 3SAT $\rightarrow$ CLIQUE reduction.
-
-\textbf{Answer:}  
-Create one vertex per literal per clause. Connect vertices from different clauses if they are not contradictory. A $k$-clique corresponds to selecting one consistent literal per clause.
-
-\vspace{0.5em}
-
-\item 
-Is EXACT-CLIQUE NP-complete?
-
-\textbf{Answer:}  
-Yes. It is in NP (certificate = set of vertices). It is NP-hard since CLIQUE reduces to it by asking if there is a clique of size at least $k$, which can be converted to exactly $k$ by minor adjustments or checking all sizes.
-
-\vspace{0.5em}
-
-\item 
-Is $n^{\log n}$ polynomial?
-
-\textbf{Answer:}  
-No. Polynomial time is $n^c$ for constant $c$. Since $\log n$ is not constant, $n^{\log n}$ is superpolynomial.
-
-\vspace{0.5em}
-
-\item 
-Does squaring weights preserve shortest paths?
-
-\textbf{Answer:}  
-Not necessarily. Squaring is not a linear transformation and can change relative differences. A path with smaller edges may become worse after squaring.
-
-\vspace{0.5em}
-
-\item 
-Explain unary vs binary encoding.
-
-\textbf{Answer:}  
-Binary encoding represents a number $n$ in $\log n$ bits. Unary uses $n$ bits. Thus unary encoding increases input size significantly and can make some problems easier.
-
-\vspace{0.5em}
-
-\item 
-Does unary encoding affect NP-completeness?
-
-\textbf{Answer:}  
-Yes. Some problems (e.g., Knapsack) become solvable in polynomial time with unary encoding because the input size becomes large relative to numeric values.
-
-\vspace{0.5em}
-
-\item 
-If a certificate needs sorting before verification, is the problem in NP?
-
-\textbf{Answer:}  
-Yes. Sorting takes $O(n \log n)$, which is polynomial, so the verifier still runs in polynomial time.
-
-\vspace{0.5em}
-
-\item 
-Why does $B \leq_p A$ not imply $A$ is NP-hard?
-
-\textbf{Answer:}  
-Because this only shows $A$ is at least as easy as $B$. To prove NP-hardness, all NP problems must reduce to $A$, not just one.
-
-\vspace{0.5em}
-
-\item 
-Does repeating each bit 100 times change NP-completeness?
-
-\textbf{Answer:}  
-No. The transformation only increases input size by a constant factor, which preserves polynomial-time reductions and NP-completeness.
-
-\vspace{0.5em}
-
-\item 
-What is the max-flow min-cut theorem?
-
-\textbf{Answer:}  
-The maximum value of an $s$-$t$ flow equals the minimum capacity of an $s$-$t$ cut.
-
-\vspace{0.5em}
-
-\item 
-Why can Ford--Fulkerson fail with irrational capacities?
-
-\textbf{Answer:}  
-Because augmenting paths may add arbitrarily small flow increments, leading to non-termination.
-
-\vspace{0.5em}
-
-\item 
-What happens when all capacities are 1?
-
-\textbf{Answer:}  
-The problem reduces to finding the maximum number of edge-disjoint paths.
-
-\vspace{0.5em}
-
-\item 
-How do you find edge-disjoint paths using flow?
-
-\textbf{Answer:}  
-Set all edge capacities to 1 and compute max-flow. Each unit of flow corresponds to one edge-disjoint path.
-
-\vspace{0.5em}
-
-\item 
-How do you enforce vertex capacity in flow?
-
-\textbf{Answer:}  
-Split each vertex into $v_{in}$ and $v_{out}$ with an edge between them having the desired capacity.
-
-\vspace{0.5em}
-
-\item 
-How do you ensure flow passes through a node in set $S$?
-
-\textbf{Answer:}  
-One method: remove all paths that bypass $S$ by splitting nodes and restricting edges so that any $s$-$t$ path must pass through nodes in $S$ (e.g., connect through a super-node representing $S$).
-
-\vspace{0.5em}
-
-\item 
-Is the following problem in NP?  
-“Assign directions to edges so that flow $\ge k$ exists.”
-
-\textbf{Answer:}  
-Yes. Certificate: direction assignment + flow. Verification: check flow feasibility in polynomial time.
-
-\vspace{0.5em}
-
-\item 
-Give an argument that the above problem may be NP-hard.
-
-\textbf{Answer:}  
-It resembles choosing orientations to satisfy constraints, similar to reductions from SAT or cut problems, suggesting NP-hardness though a full reduction is needed.
+% 76  -- P
+\item \textbf{Graph Bandwidth of Caterpillar Trees.}
+A \emph{caterpillar} is a tree in which every vertex is within distance 1 of a central path.
+Given a caterpillar $T$ and integer $k$, decide whether the bandwidth of $T$ is $\leq k$.
 
 \end{enumerate}
 
