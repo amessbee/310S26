@@ -48,7 +48,7 @@
     const autoLink = (text) => {
       if (!text) return "";
       const url = /(https?:\/\/[^\s]+)/g;
-      return text.replace(url, (m) => `<a href="${m}">${m}</a>`);
+      return text.replace(url, (m) => `<a target="_blank" href="${m}">${m}</a>`);
     };
     const items = (data.items || [])
       .slice()
@@ -227,7 +227,7 @@
             ? item.notesLinks
                 .map(
                   (l, idx) =>
-                    `<a href="${l}">Notes${item.notesLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
+                    `<a target="_blank" href="${l}">Notes${item.notesLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
                 )
                 .join(", ")
             : "";
@@ -235,7 +235,7 @@
             ? item.slidesLinks
                 .map(
                   (l, idx) =>
-                    `<a href="${l}">Slides${item.slidesLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
+                    `<a target="_blank" href="${l}">Slides${item.slidesLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
                 )
                 .join(", ")
             : "";
@@ -243,7 +243,7 @@
             ? item.worksheetsLinks
                 .map(
                   (l, idx) =>
-                    `<a href="${l}">Worksheet${item.worksheetsLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
+                    `<a target="_blank" href="${l}">Worksheet${item.worksheetsLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
                 )
                 .join(", ")
             : "";
@@ -251,13 +251,13 @@
             ? item.recordingLinks
                 .map(
                   (l, idx) =>
-                    `<a href="${l}">Recording${item.recordingLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
+                    `<a target="_blank" href="${l}">Recording${item.recordingLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
                 )
                 .join(", ")
             : "";
           const miscPart = item.miscLinks.length
             ? item.miscLinks
-                .map((m) => `<a href="${m.href}">${m.label}</a>`)
+                .map((m) => `<a target="_blank" href="${m.href}">${m.label}</a>`)
                 .join(", ")
             : "";
           const materialsParts = [
