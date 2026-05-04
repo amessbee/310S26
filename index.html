@@ -4,24 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>CS310/5102 — Spring 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
   <body>
     <header class="header">
       <nav class="nav container">
-        <div class="brand">CS310/5102 • Spring 2026</div>
-        <div style="display: flex; align-items: center; gap: 0.5rem">
-          <button
-            id="theme-toggle"
-            class="theme-toggle"
-            aria-label="Toggle theme"
-          >
-            ☀️ Light
-          </button>
-          <button id="nav-toggle" class="toggle" aria-label="Toggle navigation">
-            Menu ▾
-          </button>
-        </div>
+        <div class="brand">CS310/5102 <em>•</em> Spring 2026</div>
         <ul>
           <li><a href="#announcements">Announcements</a></li>
           <li><a href="#lectures">Lectures</a></li>
@@ -31,19 +21,30 @@
           <li><a href="#contact">Contact</a></li>
           <li><a href="#misc">Misc</a></li>
         </ul>
+        <div class="nav-actions">
+          <button
+            id="theme-toggle"
+            class="theme-toggle"
+            aria-label="Toggle theme"
+          >☀️ Light</button>
+          <button id="nav-toggle" class="toggle" aria-label="Toggle navigation">
+            Menu ▾
+          </button>
+        </div>
       </nav>
     </header>
 
     <section class="hero">
-      <div class="container">
+      <div class="container hero-content">
+        <div class="hero-eyebrow">CS310 / 5102 &nbsp;·&nbsp; Spring 2026 &nbsp;·&nbsp; LUMS</div>
         <h1>Algorithms</h1>
-        <p class="small">
-          Instructor: Dr. Mudassir Shabbir • Office Hours: MW 12:00–1:00 •
-          Office: SSE 9-G47A
-        </p>
-        <p class="small">
-          Slack: http://tiny.cc/slack310 • LMS: Check announcements regularly
-        </p>
+        <div class="hero-meta">
+          <span class="hero-chip"><strong>Instructor</strong> Dr. Mudassir Shabbir</span>
+          <span class="hero-chip"><strong>Office Hours</strong> MW 12:00–1:00</span>
+          <span class="hero-chip"><strong>Office</strong> SSE 9-G47A</span>
+          <span class="hero-chip"><strong>Slack</strong> <a href="http://tiny.cc/slack310" target="_blank">tiny.cc/slack310</a></span>
+          <span class="hero-chip"><strong>LMS</strong> Check announcements regularly</span>
+        </div>
       </div>
     </section>
 
@@ -53,7 +54,7 @@
         <p class="small">
           Stay current via LMS and <a href="http://tiny.cc/slack310">Slack</a>.
         </p>
-        <div id="announcements-list" class="card-grid"></div>
+        <div id="announcements-list"></div>
       </section>
 
       <section id="lectures" class="view">
@@ -99,70 +100,44 @@
 
       <section id="syllabus" class="view">
         <h2 class="section-title">Grading</h2>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Component</th>
-              <th>Weight</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Exams</td>
-              <td>20% + 25% + 30% = 75%</td>
-            </tr>
-            <tr>
-              <td>Homework Assignments</td>
-              <td>10%</td>
-            </tr>
-            <tr>
-              <td>Classroom Worksheets</td>
-              <td>10%</td>
-            </tr>
-            <tr>
-              <td>Slack/GitHub Participation</td>
-              <td>5% (2+2+1)</td>
-            </tr>
-            <tr>
-              <td>Total</td>
-              <td>100%</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Weight</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Exams</td><td>20% + 25% + 30% = 75%</td></tr>
+              <tr><td>Homework Assignments</td><td>10%</td></tr>
+              <tr><td>Classroom Worksheets</td><td>10%</td></tr>
+              <tr><td>Slack/GitHub Participation</td><td>5% (2+2+1)</td></tr>
+              <tr><td><strong>Total</strong></td><td><strong>100%</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
         <h2 class="section-title">Grading Scale</h2>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Average</th>
-              <th>Assigned Grade</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>≥ 90</td>
-              <td>A category</td>
-            </tr>
-            <tr>
-              <td>80 — 89.9</td>
-              <td>B category</td>
-            </tr>
-            <tr>
-              <td>70 — 79.9</td>
-              <td>C category</td>
-            </tr>
-            <tr>
-              <td>60 — 69.9</td>
-              <td>D category</td>
-            </tr>
-            <tr>
-              <td>&lt; 60</td>
-              <td>F</td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="small notice">
-          Final cutoffs determined via relative grading at semester end.
-        </p>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Average</th>
+                <th>Assigned Grade</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>≥ 90</td><td>A category</td></tr>
+              <tr><td>80 — 89.9</td><td>B category</td></tr>
+              <tr><td>70 — 79.9</td><td>C category</td></tr>
+              <tr><td>60 — 69.9</td><td>D category</td></tr>
+              <tr><td>&lt; 60</td><td>F</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="notice" style="margin-bottom: 1.5rem;">
+          <span class="small">Final cutoffs determined via relative grading at semester end.</span>
+        </div>
         <div class="grid-2">
           <div class="card">
             <h3>Exams</h3>
@@ -397,7 +372,7 @@
         </div>
 
         <h2 class="section-title">Recommended Books</h2>
-        <div class="grid-2">
+        <div class="card-grid">
           <div class="card">
             <h3>Introduction to Algorithms (CLRS)</h3>
             <p class="small">
@@ -424,7 +399,7 @@
     </main>
 
     <footer class="footer container">
-      © 2026 CS310/5102 • LUMS • Built for course sharing
+      © 2026 CS310/5102 &nbsp;·&nbsp; LUMS &nbsp;·&nbsp; Built for course sharing
     </footer>
 
     <script src="assets/js/main.js"></script>

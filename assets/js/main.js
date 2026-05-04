@@ -55,16 +55,15 @@
       .sort((a, b) => {
         const da = new Date(a.date);
         const db = new Date(b.date);
-        if (!isNaN(db) && !isNaN(da)) return db - da; // newest first
-        // Fallback: reverse lexicographic if date parse fails
+        if (!isNaN(db) && !isNaN(da)) return db - da;
         return String(b.date).localeCompare(String(a.date));
       })
       .map(
         (a) =>
-          `<li><span class="kicker">${a.date}</span> — <strong>${a.title}</strong>: <span class="small">${autoLink(a.body)}</span></li>`,
+          `<div class="ann-item"><span class="ann-date">${a.date}</span><span class="ann-title">${a.title}</span><span class="ann-body">${autoLink(a.body)}</span></div>`,
       )
       .join("");
-    el.innerHTML = `<ul class="list">${items}</ul>`;
+    el.innerHTML = `<div class="ann-list">${items}</div>`;
   }
 
   async function renderStaff() {
@@ -93,12 +92,14 @@
     const data = await loadJSON("data/schedule.json");
     if (!data) return;
     el.innerHTML = `
-      <table class="table">
-        <thead><tr><th>Weeks 1–7</th><th>Weeks 8–14</th></tr></thead>
-        <tbody>
-          ${data.rows.map((r) => `<tr><td>${r.left}</td><td>${r.right}</td></tr>`).join("")}
-        </tbody>
-      </table>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Weeks 1–7</th><th>Weeks 8–14</th></tr></thead>
+          <tbody>
+            ${data.rows.map((r) => `<tr><td>${r.left}</td><td>${r.right}</td></tr>`).join("")}
+          </tbody>
+        </table>
+      </div>
     `;
   }
 
@@ -219,59 +220,43 @@
         }
       }
       const combined = Array.from(byDate.values()).sort((a, b) =>
-        a.date > b.date ? 1 : -1,
+        a.date > b.date ? -1 : 1,
       );
       materialsEl.innerHTML = combined
         .map((item) => {
-          const notesPart = item.notesLinks.length
-            ? item.notesLinks
-                .map(
-                  (l, idx) =>
-                    `<a target="_blank" href="${l}">Notes${item.notesLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
-                )
-                .join(", ")
-            : "";
-          const slidesPart = item.slidesLinks.length
-            ? item.slidesLinks
-                .map(
-                  (l, idx) =>
-                    `<a target="_blank" href="${l}">Slides${item.slidesLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
-                )
-                .join(", ")
-            : "";
-          const worksheetsPart = item.worksheetsLinks.length
-            ? item.worksheetsLinks
-                .map(
-                  (l, idx) =>
-                    `<a target="_blank" href="${l}">Worksheet${item.worksheetsLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
-                )
-                .join(", ")
-            : "";
-          const recordingsPart = item.recordingLinks.length
-            ? item.recordingLinks
-                .map(
-                  (l, idx) =>
-                    `<a target="_blank" href="${l}">Recording${item.recordingLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
-                )
-                .join(", ")
-            : "";
-          const miscPart = item.miscLinks.length
-            ? item.miscLinks
-                .map((m) => `<a target="_blank" href="${m.href}">${m.label}</a>`)
-                .join(", ")
-            : "";
-          const materialsParts = [
-            notesPart,
-            slidesPart,
-            worksheetsPart,
-            recordingsPart,
-            miscPart,
-          ].filter(Boolean);
+          const notesChips = item.notesLinks
+            .map(
+              (l, idx) =>
+                `<a class="chip chip-notes" target="_blank" href="${l}">📄 Notes${item.notesLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
+            )
+            .join("");
+          const slidesChips = item.slidesLinks
+            .map(
+              (l, idx) =>
+                `<a class="chip chip-slides" target="_blank" href="${l}">📊 Slides${item.slidesLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
+            )
+            .join("");
+          const wsChips = item.worksheetsLinks
+            .map(
+              (l, idx) =>
+                `<a class="chip chip-ws" target="_blank" href="${l}">📝 Worksheet${item.worksheetsLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
+            )
+            .join("");
+          const recChips = item.recordingLinks
+            .map(
+              (l, idx) =>
+                `<a class="chip chip-rec" target="_blank" href="${l}">🎥 Recording${item.recordingLinks.length > 1 ? " " + (idx + 1) : ""}</a>`,
+            )
+            .join("");
+          const miscChips = item.miscLinks
+            .map((m) => `<a class="chip chip-misc" target="_blank" href="${m.href}">${m.label}</a>`)
+            .join("");
+          const chips = [notesChips, slidesChips, wsChips, recChips, miscChips].filter(Boolean).join("");
           return `
         <div class="card">
           <div class="kicker">${item.date}</div>
           <h3>${item.title}</h3>
-          ${materialsParts.length ? `<p class="small">${materialsParts.join(" • ")}</p>` : ""}
+          ${chips ? `<div class="chip-row">${chips}</div>` : ""}
         </div>`;
         })
         .join("");
