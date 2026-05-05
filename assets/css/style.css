@@ -134,7 +134,7 @@ a:hover { text-decoration: underline; opacity: 0.85; }
 /* ── HERO ── */
 .hero {
   margin-top: var(--header-height);
-  padding: 3.5rem 0 2.5rem;
+  padding: 1.0rem 0 0.5rem;
   background: var(--panel);
   border-bottom: 1px solid var(--border);
   position: relative;
@@ -163,7 +163,7 @@ a:hover { text-decoration: underline; opacity: 0.85; }
   letter-spacing: -0.04em;
   line-height: 1.1;
   color: var(--text);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.0rem;
 }
 .hero-meta {
   display: flex;
@@ -186,7 +186,7 @@ a:hover { text-decoration: underline; opacity: 0.85; }
 .hero-chip a { color: var(--accent); }
 
 /* ── MAIN ── */
-.main { padding: 2.5rem 0 3rem; }
+.main { padding: 1.5rem 0 3rem; }
 section.view + section.view { margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 3rem; }
 
 /* ── SECTION TITLE ── */
@@ -202,7 +202,7 @@ section.view + section.view { margin-top: 3rem; border-top: 1px solid var(--bord
   padding-left: 0.75rem;
   border-left: 3px solid var(--accent);
 }
-h2.section-title + h2.section-title { margin-top: 2rem; }
+h2.section-title + h2.section-title { margin-top: 1rem; }
 .subtitle { color: var(--muted); margin-bottom: 0.75rem; font-size: 0.875rem; }
 
 /* ── LECTURE MATERIALS GRID ── */
