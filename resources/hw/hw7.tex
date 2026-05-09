@@ -1,0 +1,403 @@
+\documentclass[9pt]{book}
+\setlength{\oddsidemargin}{-.5 in}
+\setlength{\evensidemargin}{-.5 in}
+\addtolength{\topmargin}{-1in}
+\setlength{\textwidth}{7.5in}
+\setlength{\textheight}{9in}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{amsmath, amssymb}
+\usepackage{url, color, epsfig, amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\newcommand{\remove}[1]{}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\blank}{\vspace{1ex}}
+
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\begin{document}
+
+\pagestyle{headings}
+\thispagestyle{plain}
+\setcounter{chapter}{0}
+\setcounter{page}{1}
+\noindent
+\begin{center}
+  \framebox{
+    \vbox{
+      \hbox to 6.28in { {\bf Algorithms \hfill Spring Semester, 2026} }
+      \vspace{4mm}
+      \hbox to 6.28in { {\Large \hfill Homework 7 (Practice / Ungraded) \hfill} }
+      \vspace{2mm}
+      \hbox to 6.28in { {\it Professor: Dr.\ Mudassir Shabbir
+          \hfill No submission required.} }
+    }
+  }
+\end{center}
+\vspace*{4mm}
+
+\textbf{Topics.} Network flows and approximation algorithms.
+
+\bigskip
+
+% \textbf{Instructions.}
+% This homework covers two topics.
+% \begin{itemize}
+%   \item \textbf{Network flow problems:} model the problem as a flow network, apply or analyze the relevant algorithm, and prove correctness and running time.
+%   \item \textbf{Approximation algorithm problems:} describe the algorithm (clear pseudocode or prose), prove the approximation ratio with a matching lower-bound or tight example, and state the running time.
+% \end{itemize}
+% Several problems are identified by name only. \textbf{You are expected to know these problem definitions by name.}
+% On the exam, such problems will be stated by name only---no full problem statement will be provided.
+
+% \bigskip
+
+\begin{enumerate}[label=\arabic*.]
+
+% ================================================================
+% NETWORK FLOWS
+% ================================================================
+
+% 1
+\item \textbf{Maximum Flow by Example.}
+Consider the flow network $G=(V,E,c)$ with $V=\{s,a,b,c,d,t\}$ and the following directed edges and capacities:
+\[
+  s\!\to\!a\ (10),\quad
+  s\!\to\!c\ (10),\quad
+  a\!\to\!b\ (\ 4),\quad
+  a\!\to\!d\ (\ 8),\quad
+  c\!\to\!d\ (\ 9),\quad
+  b\!\to\!t\ (10),\quad
+  d\!\to\!b\ (\ 6),\quad
+  d\!\to\!t\ (10).
+\]
+\begin{enumerate}[label=(\alph*)]
+  \item Find a maximum $s$--$t$ flow by tracing Ford-Fulkerson.  Show each augmenting path and the
+        resulting residual graph.
+  \item Identify a minimum $s$--$t$ cut $(S, V\setminus S)$ and verify that its capacity equals
+        the max-flow value.
+\end{enumerate}
+
+\bigskip
+
+% 2
+\item \textbf{Ford-Fulkerson: Termination and Running Time.}
+\begin{enumerate}[label=(\alph*)]
+  \item Prove that when all edge capacities are positive integers, Ford-Fulkerson terminates and
+        correctly computes a maximum flow.  Show that the number of augmenting-path iterations
+        is $O(f^*)$, where $f^*$ is the max-flow value.
+  \item Construct an explicit graph (the ``bad example'') with 4 vertices and integer capacities
+        in which some sequence of augmenting-path choices forces $\Theta(f^*)$ iterations, showing
+        the bound above is tight.
+  \item Explain how replacing DFS/arbitrary search with BFS (Edmonds-Karp) improves the
+        running time to $O(VE^2)$, independent of capacity values.
+        (You need not re-derive the bound; state and briefly explain it.)
+\end{enumerate}
+
+\bigskip
+
+% 3
+% \item \textbf{Bipartite Matching via Max Flow.}
+% Let $G=(A\cup B,E)$ be a bipartite graph.
+% We will build a flow network $H$ step by step and show that a maximum flow in $H$ solves
+% maximum bipartite matching in $G$.
+
+% \begin{enumerate}[label=(\alph*)]
+%   \item \textit{Modeling a single matching decision.}
+%         Consider an edge $(u,v)\in E$ with $u\in A$, $v\in B$.
+%         You want to model the binary decision ``is $(u,v)$ in the matching?''
+%         as an integer flow of 0 or 1 on a directed edge $u\to v$.
+%         What capacity should you assign to this edge?
+
+%   \item \textit{Enforcing the degree constraint at vertices in $A$.}
+%         A valid matching uses each vertex at most once.
+%         If $u\in A$ has degree $d$, what is the maximum total flow that should be
+%         allowed to leave $u$?
+%         How do you enforce this with edge capacities, given that the edges $u\to v$
+%         already have capacity 1?
+
+%   \item \textit{Enforcing the degree constraint at vertices in $B$.}
+%         By the same reasoning, what constraint does matching impose on flow
+%         \emph{entering} each $v\in B$?
+%         Is this automatically satisfied by the capacities you have set so far?
+
+%   \item \textit{Adding a source and a sink.}
+%         Max-flow requires a single source $s$ and sink $t$.
+%         Describe the edges (and their capacities) you add between $s$ and $A$,
+%         and between $B$ and $t$, so that routing one unit of flow through the
+%         network corresponds exactly to choosing one matched edge.
+
+%   \item \textit{The complete network.}
+%         Write out the auxiliary flow network $H$ in full:
+%         vertex set, every directed edge, and its capacity.
+
+%   \item \textit{Matching $\Rightarrow$ flow.}
+%         Given any matching $M$ in $G$, describe an explicit integer $s$-$t$ flow $f$ in $H$
+%         of value $|M|$.
+%         Verify that $f$ satisfies capacity constraints and flow conservation at every
+%         internal vertex.
+
+%   \item \textit{Flow $\Rightarrow$ matching.}
+%         Given any integer-valued $s$-$t$ flow $f$ in $H$ of value $k$, describe how to
+%         extract a matching $M$ in $G$ with $|M|=k$.
+%         Why is it important that $f$ is integer-valued?
+%         (\textit{Hint:} Ford-Fulkerson on integer-capacity networks always yields an
+%         integer-valued max flow.)
+
+%   \item \textit{Conclusion and running time.}
+%         Using parts (f) and (g), argue that
+%         $\max\text{-flow in }H = \text{size of max matching in }G$.
+%         State the running time of the full matching algorithm using Edmonds-Karp.
+% \end{enumerate}
+
+\bigskip
+
+% ================================================================
+% APPROXIMATION ALGORITHMS
+% ================================================================
+
+% 4
+\item \textbf{2-Approximation for Vertex Cover.}
+In the \textbf{Minimum Vertex Cover} problem, given an undirected graph $G=(V,E)$, find a
+smallest set $C\subseteq V$ such that every edge has at least one endpoint in $C$.
+{\bf The maximal-matching 2-approximation algorithm}: find any maximal matching $M$
+        and include both endpoints of each matched edge.
+\begin{enumerate}[label=(\alph*)]
+  \item Prove the output is a valid vertex cover.
+  \item Prove the approximation ratio: $|C_{\mathrm{ALG}}|\le 2\,|C_{\mathrm{OPT}}|$.
+  \item Give a family of graphs on which the algorithm outputs a cover of size exactly
+        $2\,|C_{\mathrm{OPT}}|$, showing the factor of 2 is tight.
+\end{enumerate}
+
+\bigskip
+
+% 5
+\item \textbf{2-Approximation for Metric TSP.}
+
+In the \textbf{Metric Traveling Salesman Problem (Metric TSP)}, we are given a complete
+undirected graph $K_n$ with edge weights $d:V\times V\to\mathbb{R}_{\ge 0}$ satisfying the
+\emph{triangle inequality}: $d(u,w)\le d(u,v)+d(v,w)$ for all $u,v,w\in V$.
+The goal is to find a minimum-weight Hamiltonian cycle (tour).
+
+\begin{enumerate}[label=(\alph*)]
+  \item Describe the MST-based 2-approximation algorithm for Metric TSP.
+  \item Prove the algorithm produces a valid tour.
+  \item Prove the approximation ratio: $\mathrm{cost}(\mathrm{ALG})\le 2\cdot\mathrm{OPT}$.
+        (\textit{Hint:} Lower-bound OPT by the MST cost, then argue that the pre-order DFS
+        walk can be shortcut using the triangle inequality.)
+  \item Explain why the triangle inequality is crucial: show that for general TSP (no metric
+        assumption), no polynomial-time $\rho$-approximation exists for any constant $\rho\ge 1$
+        unless $P=NP$.  (\textit{Hint:} Give a gap-preserving reduction from Hamiltonian Cycle.)
+  \item (\textit{Challenge}) Briefly describe the Christofides--Serdyukov algorithm and state
+        why it achieves a $\frac{3}{2}$-approximation.  Explain why matching the odd-degree
+        vertices in the MST reduces the factor from 2 to $\frac{3}{2}$.
+\end{enumerate}
+
+\bigskip
+
+% 6
+\item \textbf{2-Approximation for Max Cut.}
+
+
+In the \textbf{Maximum Cut} problem, given an undirected graph $G=(V,E)$, find a partition
+$(S, V\setminus S)$ that maximizes the number of edges crossing the cut.
+
+{\bf A simple greedy algorithm}: processe vertices one at a time and places each
+        vertex on the side (S or $\bar{S}$) that maximizes the number of new crossing edges.
+  
+\begin{enumerate}[label=(\alph*)]
+  \item Prove that the greedy algorithm always produces a cut with at least $|E|/2$ crossing
+        edges.
+  \item Conclude that this is a 2-approximation: $\mathrm{ALG}\ge\mathrm{OPT}/2$.
+        (\textit{Note:} Since $\mathrm{OPT}\le|E|$, the bound follows directly.)
+  \item Show that a \emph{random} partition---each vertex placed independently in $S$ with
+        probability $\tfrac{1}{2}$---also yields an expected $|E|/2$ crossing edges.
+        Is this also a 2-approximation?  Justify your answer.
+  \item (\textit{Challenge}) Explain at a high level how the Goemans--Williamson
+        semidefinite-programming rounding algorithm improves the ratio to approximately
+        $0.878$ (i.e., $\mathrm{ALG}\ge 0.878\cdot\mathrm{OPT}$).
+\end{enumerate}
+
+\bigskip
+
+% 7
+\item \textbf{Makespan Minimization: List Scheduling.}
+
+
+In \textbf{Makespan Minimization} ($P\|C_{\max}$), we assign $n$ jobs with processing times
+$p_1,\ldots,p_n\ge 0$ to $m$ identical parallel machines.
+The \emph{makespan} is $\max_i(\text{total load on machine }i)$; the goal is to minimize it.
+
+The \textbf{List Scheduling} algorithm (Graham's LS rule): assign each job in
+        arbitrary order to the currently least-loaded machine.
+  
+\begin{enumerate}[label=(\alph*)]
+  \item Let $C_{\max}^{\mathrm{LS}}$ be the List Scheduling makespan and $C_{\max}^*$ the
+        optimum.  Prove:
+        \[
+          C_{\max}^{\mathrm{LS}} \;\le\; \Bigl(2-\tfrac{1}{m}\Bigr)\,C_{\max}^*.
+        \]
+        (\textit{Hint:} Let $j^*$ be the last job to finish.  Lower-bound $C_{\max}^*$ by
+        (i) $p_{j^*}$ and (ii) $\frac{1}{m}\sum_i p_i$.  Combine these to get the ratio.)
+  \item Construct a family of instances (parameterized by $m$) showing the bound
+        $2-\tfrac{1}{m}$ is tight.
+\end{enumerate}
+
+\bigskip
+
+% 8
+\item \textbf{Makespan Minimization: Longest Processing Time.}
+The \textbf{LPT rule} sorts jobs in non-increasing order of processing time
+($p_1\ge p_2\ge\cdots\ge p_n$) and then applies List Scheduling.
+\begin{enumerate}[label=(\alph*)]
+  \item Give an example where List Scheduling performs worse than LPT.  Explain intuitively
+        why sorting helps.
+  \item State (without full proof) that LPT achieves a
+        $\bigl(\frac{4}{3}-\frac{1}{3m}\bigr)$-approximation.
+  \item Prove the $\frac{4}{3}$ bound for the special case $m=2$:
+        show that on two machines, LPT achieves a $\frac{4}{3}$-approximation.
+        (\textit{Hint:} If there are at most 3 jobs the claim is immediate.
+        Otherwise argue about the processing time of the last job to finish relative to $C_{\max}^*$,
+        using the sorted order.)
+\end{enumerate}
+
+\bigskip
+
+% 9
+\item \textbf{Greedy Set Cover ($\ln n$-Approximation).}
+Recall that in \textbf{Set Cover}, given a universe $U$ with $|U|=n$ and a collection
+$\mathcal{S}=\{S_1,\ldots,S_m\}$ of subsets of $U$, we seek the fewest sets covering $U$.
+
+{\bf The greedy algorithm}: repeatedly add the set covering the most uncovered
+        elements until $U$ is covered.
+  
+\begin{enumerate}[label=(\alph*)]
+  \item Prove that the greedy algorithm returns a cover of size at most
+        $H_n\cdot|\mathrm{OPT}|$, where $H_n=1+\tfrac{1}{2}+\cdots+\tfrac{1}{n}=\ln n+O(1)$.
+        (\textit{Hint:} After OPT sets cover $U$, some set must cover at least $1/|\mathrm{OPT}|$
+        of the remaining elements; use this to bound the potential function drop.)
+  \item Exhibit an instance showing the $\ln n$ factor is essentially tight for the greedy
+        algorithm.
+  \item State (without proof) the inapproximability result: Set Cover cannot be approximated
+        within $(1-\varepsilon)\ln n$ for any $\varepsilon>0$ unless $P=NP$.
+        Conclude that the greedy algorithm is essentially optimal.
+\end{enumerate}
+
+\bigskip
+
+% 10
+% \item \textbf{LP Relaxation and Rounding for Vertex Cover.}
+% \begin{enumerate}[label=(\alph*)]
+%   \item Formulate Minimum Vertex Cover as the following ILP:
+%         \[
+%           \text{minimize}\;\sum_{v\in V} x_v
+%           \quad\text{subject to}\quad
+%           x_u+x_v\ge 1\;\;\forall\,(u,v)\in E,\qquad
+%           x_v\in\{0,1\}\;\;\forall\,v\in V.
+%         \]
+%   \item Write the LP relaxation (replace $x_v\in\{0,1\}$ with $0\le x_v\le 1$).
+%         Argue that $\mathrm{OPT_{LP}}\le\mathrm{OPT_{ILP}}$.
+%   \item Show that the rounding rule ``include $v$ in the cover iff $x_v^*\ge\tfrac{1}{2}$''
+%         yields a feasible vertex cover.
+%   \item Prove this rounded cover has size at most $2\,\mathrm{OPT}$.
+%   \item Why does a similar LP-rounding approach fail for general Set Cover while achieving
+%         an $O(\log n)$ ratio? (Brief intuition only.)
+% \end{enumerate}
+
+% \bigskip
+
+% 11
+\item \textbf{2-Approximation for Bin Packing.}
+In the \textbf{Bin Packing} problem, given $n$ items with sizes $s_1,\ldots,s_n\in(0,1]$ and
+bins of capacity 1, find the minimum number of bins needed to pack all items.
+
+The \textbf{Next Fit (NF)} algorithm: maintain a single ``current'' bin;
+        place item $i$ into the current bin if it fits, otherwise close that bin, open a new one,
+        and place item $i$ there.
+  
+\begin{enumerate}[label=(\alph*)]
+  \item Let $\mathrm{NF}(I)$ denote the number of bins used by Next Fit on instance $I$, and
+        let $S = \sum_{i=1}^n s_i$ be the total item size.
+        Prove that $\mathrm{NF}(I) \le 2\lceil S \rceil \le 2\,\mathrm{OPT}(I)$.
+        (\textit{Hint:} Consider any two consecutive bins opened by NF.
+        Argue that the combined size of items in those two bins exceeds 1,
+        so $2\,S > \mathrm{NF}(I) - 1$.)
+  \item Conclude that Next Fit is a 2-approximation for Bin Packing.
+  \item Show the factor of 2 is essentially tight: construct a family of instances
+        on which $\mathrm{NF}(I) = 2\,\mathrm{OPT}(I) - 2$.
+        (\textit{Hint:} Alternate items of size $\tfrac{1}{2}+\varepsilon$ and $\tfrac{1}{2}-\varepsilon$
+        for small $\varepsilon>0$.)
+  \item (Optional) State without proof that \textbf{First Fit Decreasing (FFD)}---sort items
+        in non-increasing order, then greedily place each item in the first bin it fits---achieves
+        an asymptotic ratio of $\tfrac{11}{9}$.
+\end{enumerate}
+
+\bigskip
+
+% 12
+\item \textbf{2-Approximation for Subset Sum.}
+In the optimization version of \textbf{Subset Sum}, given positive integers $a_1,\ldots,a_n$
+and a target $T$, find a subset $S\subseteq\{1,\ldots,n\}$ that maximizes
+$\sum_{i\in S} a_i$ subject to $\sum_{i\in S} a_i \le T$.
+
+The greedy algorithm:
+        \begin{enumerate}[label=(\roman*)]
+          \item Remove all items with $a_i > T$.
+          \item Sort the remaining items in non-increasing order: $a_1 \ge a_2 \ge \cdots \ge a_n$.
+          \item Maintain a running sum $S \gets 0$; for each $i$, if $S + a_i \le T$ then set $S \gets S + a_i$.
+          \item Return $S$.
+        \end{enumerate}
+  
+\begin{enumerate}[label=(\alph*)]
+  \item Prove that the greedy achieves $\mathrm{ALG} \ge T/2$ whenever at least one item
+        satisfies $a_i \le T$.
+        (\textit{Hint:} Split into two cases: (i) the largest item $a_1 \ge T/2$---the first
+        item added immediately gives $\mathrm{ALG} \ge T/2$; (ii) all items $< T/2$---suppose for
+        contradiction that $\mathrm{ALG} < T/2$ and show that no item was ever skipped, so the
+        greedy sum equals the sum of all items, which is at most $T$, giving $\mathrm{ALG}=\mathrm{OPT}$.)
+  \item Conclude this is a 2-approximation: $\mathrm{ALG} \ge \mathrm{OPT}/2$.
+        (\textit{Note:} $\mathrm{OPT} \le T$ always, so $T/2 \ge \mathrm{OPT}/2$.)
+  \item Give an example showing the ratio can be close to 2.
+  \item Explain why the exact problem is NP-hard yet the greedy gives a clean
+        polynomial-time 2-approximation.  What structural property does the greedy exploit?
+\end{enumerate}
+
+\bigskip
+
+% 13
+\item \textbf{Approximation for the Partition Problem.}
+In the optimization version of the \textbf{Partition Problem}, given positive integers
+$a_1,\ldots,a_n$ with sum $W = \sum_{i=1}^n a_i$, find a partition into two subsets
+$A$ and $B = \{1,\ldots,n\}\setminus A$ that minimizes $\max\!\left(\sum_{i\in A} a_i,\,\sum_{i\in B} a_i\right)$.
+\begin{enumerate}[label=(\alph*)]
+  \item Observe that $\mathrm{OPT} \ge W/2$ (the larger half is at least half the total)
+        and $\mathrm{OPT} \ge \max_i a_i$ (the item alone lower-bounds the max).
+        Combine these into a single lower bound.
+  \item Show that the Partition Problem is a special case of Makespan Minimization
+        ($P\|C_{\max}$) with $m=2$ machines.
+  \item Applying the List Scheduling bound from Problem~7, conclude directly that the
+        greedy ``assign each item to the lighter pile'' achieves a
+        $\bigl(2-\tfrac{1}{2}\bigr) = \tfrac{3}{2}$-approximation for Partition.
+  \item Using the LPT bound from Problem~8 with $m=2$, show that sorting items in
+        non-increasing order before the greedy assignment achieves a
+        $\tfrac{4}{3}$-approximation.
+  \item Give a concrete instance with 4 items on which the unsorted greedy achieves
+        makespan $\tfrac{3}{2}\,\mathrm{OPT}$ but LPT achieves the optimum.
+\end{enumerate}
+
+
+\end{enumerate}
+
+\end{document}

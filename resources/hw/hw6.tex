@@ -65,50 +65,60 @@ You may use any problem proved NP-complete in lecture as a source for reductions
 
 % 1  -- P
 \item \textbf{2SAT.}
-Given a CNF formula $\varphi$ in which every clause contains at most two literals, decide whether $\varphi$ has a satisfying assignment.
+Given a CNF formula $\varphi$ in which every clause contains at most two literals, 
+decide whether $\varphi$ has a satisfying assignment.
 
 \bigskip
 
 % 2  -- NPC
 \item \textbf{3-CNF Satisfiability (3SAT).}
-Given a CNF formula $\varphi$ in which every clause contains exactly three literals (from distinct variables), decide whether $\varphi$ has a satisfying assignment.
+Given a CNF formula $\varphi$ in which every clause contains exactly three 
+literals (from distinct variables), decide whether $\varphi$ has a satisfying 
+assignment.
 
 \bigskip
 
 % 3  -- NPC
 \item \textbf{Boolean Satisfiability (SAT).}
-Given a Boolean formula $\varphi$ over variables $x_1,\ldots,x_n$ using $\land,\lor,\lnot$, decide whether there exists a satisfying truth assignment.
+Given a Boolean formula $\varphi$ over variables $x_1,\ldots,x_n$ using 
+$\land,\lor,\lnot$, decide whether there exists a satisfying truth assignment.
 
 \bigskip
 
 % 4  -- P
 \item \textbf{Horn-SAT.}
-Given a CNF formula $\varphi$ in which every clause contains at most one positive literal, decide whether $\varphi$ has a satisfying assignment.
+Given a CNF formula $\varphi$ in which every clause contains at most one 
+positive literal, decide whether $\varphi$ has a satisfying assignment.
 
 \bigskip
 
 % 5  -- NPC
 \item \textbf{Independent Set.}
-Given an undirected graph $G=(V,E)$ and integer $k$, decide whether $G$ contains an independent set of size $\geq k$ (a set $S\subseteq V$ with no two vertices adjacent).
+Given an undirected graph $G=(V,E)$ and integer $k$, 
+decide whether $G$ contains an independent set of size 
+$\geq k$ (a set $S\subseteq V$ with no two vertices adjacent).
 
 \bigskip
 
 % 6  -- P
 \item \textbf{Maximum Independent Set in Trees.}
-Given a tree $T=(V,E)$ and integer $k$, decide whether $T$ contains an independent set of size $\geq k$.
+Given a tree $T=(V,E)$ and integer $k$, decide whether $T$ contains an 
+independent set of size $\geq k$.
 
 \bigskip
 
 % 7  -- P
 \item \textbf{Maximum Independent Set in Bipartite Graphs.}
-Given a bipartite graph $G=(A\cup B,E)$ and integer $k$, decide whether $G$ contains an independent set of size $\geq k$.
-(\textit{Hint:} Relate independent sets to maximum matchings via König's theorem.)
+Given a bipartite graph $G=(A\cup B,E)$ and integer $k$, decide whether $G$ contains 
+an independent set of size $\geq k$.
+(\textit{Hint:} Relate independent sets to maximum matchings via Konig's theorem.)
 
 \bigskip
 
 % 8  -- NPC
 \item \textbf{Subset Sum.}
-Given a multiset $\{a_1,\ldots,a_n\}$ of positive integers and a target $t$, decide whether some subset sums to exactly $t$.
+Given a multiset $\{a_1,\ldots,a_n\}$ of positive integers and a target $t$, 
+decide whether some subset sums to exactly $t$.
 
 \bigskip
 
@@ -121,50 +131,61 @@ Given a multiset $\{a_1,\ldots,a_n\}$ of positive integers, each encoded in \emp
 
 % 10  -- NPC
 \item \textbf{Graph Bandwidth.}
-Given an undirected graph $G=(V,E)$ and integer $k$, decide whether there exists a bijection $f:V\to\{1,\ldots,|V|\}$ such that $|f(u)-f(v)|\leq k$ for every $(u,v)\in E$.
+Given an undirected graph $G=(V,E)$ and integer $k$, 
+decide whether there exists a bijection $f:V\to\{1,\ldots,|V|\}$ 
+such that $|f(u)-f(v)|\leq k$ for every $(u,v)\in E$.
 
 \bigskip
 
 % 11  -- P
 \item \textbf{Bandwidth-1 Graphs.}
-Given a graph $G=(V,E)$, decide whether $G$ has bandwidth $\leq 1$ (i.e., vertices can be labelled so that every edge connects consecutive labels).
+Given a graph $G=(V,E)$, decide whether $G$ has bandwidth $\leq 1$ 
+(i.e., vertices can be labelled so that every edge connects consecutive labels).
 (\textit{Hint:} Characterise which graphs have bandwidth exactly 1.)
 
 \bigskip
 
 % 12  -- NPC
 \item \textbf{Not-All-Equal 3SAT (NAE-3SAT).}
-Given a 3-CNF formula $\varphi$, decide whether there exists an assignment such that in every clause at least one literal is true \emph{and} at least one is false.
+Given a 3-CNF formula $\varphi$, decide whether there exists an 
+assignment such that in every clause at least one literal is 
+true \emph{and} at least one is false.
 
 \bigskip
 
 % 13  -- P
 \item \textbf{NAE-2SAT.}
-Given a formula $\varphi$ in which every clause contains exactly two literals, decide whether there exists an assignment such that in every clause at least one literal is true and at least one is false.
+Given a formula $\varphi$ in which every clause contains exactly 
+two literals, decide whether there exists an assignment such that 
+in every clause at least one literal is true and at least one is false.
 
 \bigskip
 
 % 14  -- NPC
 \item \textbf{Bin Packing.}
-Given $n$ items with sizes $s_1,\ldots,s_n\in(0,1]$, bin capacity 1, and integer $k$, decide whether all items fit into $k$ bins.
+Given $n$ items with sizes $s_1,\ldots,s_n\in(0,1]$, bin capacity 1, 
+and integer $k$, decide whether all items fit into $k$ bins.
 
 \bigskip
 
 % 15  -- P
 \item \textbf{Bin Packing with Uniform Item Size.}
-Given $n$ items each of size $s = 1/m$ for some integer $m$, bins of capacity 1, and integer $k$, decide whether all items fit into $k$ bins.
+Given $n$ items each of size $s = 1/m$ for some integer $m$, 
+bins of capacity 1, and integer $k$, decide whether all items fit into $k$ bins.
 
 \bigskip
 
 % 16  -- NPC
 \item \textbf{Hamiltonian Path.}
-Given an undirected graph $G=(V,E)$, decide whether $G$ contains a simple path visiting every vertex exactly once.
+Given an undirected graph $G=(V,E)$, decide whether $G$ 
+contains a simple path visiting every vertex exactly once.
 
 \bigskip
 
 % 17  -- P
 \item \textbf{Hamiltonian Path in Tournaments.}
-A \emph{tournament} is a complete directed graph (every pair of vertices connected by exactly one directed edge).
+A \emph{tournament} is a complete directed graph (every pair of vertices connected by 
+exactly one directed edge).
 Given a tournament $T=(V,E)$, decide whether $T$ contains a directed Hamiltonian path.
 (\textit{Hint:} Every tournament has a Hamiltonian path; give an algorithm to find one.)
 
@@ -172,27 +193,32 @@ Given a tournament $T=(V,E)$, decide whether $T$ contains a directed Hamiltonian
 
 % 18  -- NPC
 \item \textbf{Maximum Cut (Max Cut).}
-Given an undirected graph $G=(V,E)$ and integer $k$, decide whether there exists a partition $(S,V\setminus S)$ with at least $k$ edges crossing the cut.
+Given an undirected graph $G=(V,E)$ and integer $k$, decide whether there 
+exists a partition $(S,V\setminus S)$ with at least $k$ edges crossing the cut.
 
 \bigskip
 
 % 19  -- P
 \item \textbf{Maximum Cut in Bipartite Graphs.}
-Given a bipartite graph $G=(A\cup B,E)$ and integer $k$, decide whether a cut of size $\geq k$ exists.
+Given a bipartite graph $G=(A\cup B,E)$ and integer $k$, decide whether a cut of 
+size $\geq k$ exists.
 (\textit{Hint:} What is the size of the maximum cut in any bipartite graph?)
 
 \bigskip
 
 % 20  -- NPC
 \item \textbf{Integer Linear Programming (ILP).}
-Given an integer matrix $A$, vectors $b,c$, and integer $k$, decide whether an integer vector $x$ satisfying $Ax\leq b$ and $c^\top x\geq k$ exists.
+Given an integer matrix $A$, vectors $b,c$, and integer $k$, decide whether an 
+integer vector $x$ satisfying $Ax\leq b$ and $c^\top x\geq k$ exists.
 
 \bigskip
 
 % 21  -- P
 \item \textbf{Linear Programming (LP).}
-Given a rational matrix $A$, rational vectors $b,c$, and rational $k$, decide whether a \emph{real} vector $x\in\mathbb{R}^n$ with $Ax\leq b$ and $c^\top x\geq k$ exists.
-(\textit{Note:} State the relevant polynomial-time algorithm and its complexity; you need not derive it from scratch.)
+Given a rational matrix $A$, rational vectors $b,c$, and rational $k$, decide whether 
+a \emph{real} vector $x\in\mathbb{R}^n$ with $Ax\leq b$ and $c^\top x\geq k$ exists.
+(\textit{Note:} State the relevant polynomial-time algorithm and its complexity; 
+you need not derive it from scratch.)
 
 \bigskip
 
@@ -206,26 +232,32 @@ Given a rational matrix $A$, rational vectors $b,c$, and rational $k$, decide wh
 
 % 23  -- NPC
 \item \textbf{Vertex Cover.}
-Given an undirected graph $G=(V,E)$ and integer $k$, decide whether $G$ has a vertex cover of size $\leq k$ (a set $C\subseteq V$ such that every edge has at least one endpoint in $C$).
+Given an undirected graph $G=(V,E)$ and integer $k$, decide whether $G$ has a 
+vertex cover of size $\leq k$ (a set $C\subseteq V$ such that every edge has at 
+least one endpoint in $C$).
 
 \bigskip
 
 % 24  -- P
 \item \textbf{Minimum Vertex Cover in Trees.}
-Given a tree $T=(V,E)$ and integer $k$, decide whether $T$ has a vertex cover of size $\leq k$.
+Given a tree $T=(V,E)$ and integer $k$, decide whether $T$ has a vertex cover 
+of size $\leq k$.
 
 \bigskip
 
 % 25  -- P
 \item \textbf{Minimum Vertex Cover in Bipartite Graphs.}
-Given a bipartite graph $G=(A\cup B,E)$ and integer $k$, decide whether $G$ has a vertex cover of size $\leq k$.
-(\textit{Hint:} König's theorem states that in bipartite graphs, minimum vertex cover equals maximum matching.)
+Given a bipartite graph $G=(A\cup B,E)$ and integer $k$, decide whether $G$ has a
+ vertex cover of size $\leq k$.
+(\textit{Hint:} Konig's theorem states that in bipartite graphs, minimum vertex 
+cover equals maximum matching.)
 
 \bigskip
 
 % 26  -- NPC
 \item \textbf{Travelling Salesman Problem (TSP).}
-Given a complete weighted graph on $n$ cities and a budget $B$, decide whether a Hamiltonian cycle of total weight $\leq B$ exists.
+Given a complete weighted graph on $n$ cities and a budget $B$, decide whether 
+a Hamiltonian cycle of total weight $\leq B$ exists.
 
 \bigskip
 
@@ -244,44 +276,53 @@ Given a universe $U$ and a collection $\mathcal{S}$ of subsets of $U$, decide wh
 
 % 29  -- P
 \item \textbf{Exact Cover with Pairwise-Disjoint Collection.}
-Given a universe $U$ and a collection $\mathcal{S}$ of pairwise-disjoint subsets of $U$, decide whether some subcollection in $\mathcal{S}$ covers all of $U$.
+Given a universe $U$ and a collection $\mathcal{S}$ of pairwise-disjoint
+ subsets of $U$, decide whether some subcollection in $\mathcal{S}$ covers all of $U$.
 
 \bigskip
 
 % 30  -- P
 \item \textbf{Exact Cover with Sets of Size $\leq 2$.}
-Given a universe $U$ and a collection $\mathcal{S}$ of subsets each of size at most 2, decide whether some subcollection exactly covers $U$.
+Given a universe $U$ and a collection $\mathcal{S}$ of subsets each of 
+size at most 2, decide whether some subcollection exactly covers $U$.
 
 \bigskip
 
 % 31  -- P
 \item \textbf{XOR-SAT.}
-Given a system of equations of the form $x_{i_1}\oplus x_{i_2}\oplus\cdots\oplus x_{i_k}=b$ over $\mathbb{F}_2$, decide whether a satisfying assignment exists.
+Given a system of equations of the form 
+$x_{i_1}\oplus x_{i_2}\oplus\cdots\oplus x_{i_k}=b$ over $\mathbb{F}_2$, 
+decide whether a satisfying assignment exists.
 
 \bigskip
 
 % 32  -- NPC
 \item \textbf{Clique.}
-Given an undirected graph $G=(V,E)$ and integer $k$, decide whether $G$ contains a clique of size $\geq k$ (a set of $k$ mutually adjacent vertices).
+Given an undirected graph $G=(V,E)$ and integer $k$, decide whether $G$ contains a 
+clique of size $\geq k$ (a set of $k$ mutually adjacent vertices).
 
 \bigskip
 
 % 33  -- P
 \item \textbf{Maximum Clique in Planar Graphs.}
-Given a planar graph $G=(V,E)$ and integer $k$, decide whether $G$ contains a clique of size $\geq k$.
-(\textit{Hint:} Use the four-colour theorem to bound the chromatic number and therefore the clique number of any planar graph.)
+Given a planar graph $G=(V,E)$ and integer $k$, decide whether $G$ contains a clique of 
+size $\geq k$.
+(\textit{Hint:} Use the four-colour theorem to bound the chromatic number and therefore 
+the clique number of any planar graph.)
 
 \bigskip
 
 % 34  -- NPC
 \item \textbf{Graph $k$-Coloring.}
-Given an undirected graph $G=(V,E)$ and integer $k\geq 3$, decide whether the vertices can be properly colored with $k$ colors (no two adjacent vertices share a color).
+Given an undirected graph $G=(V,E)$ and integer $k\geq 3$, decide whether the vertices 
+can be properly colored with $k$ colors (no two adjacent vertices share a color).
 
 \bigskip
 
 % 35  -- P
 \item \textbf{1-Coloring.}
-Given a graph $G=(V,E)$, decide whether $G$ is 1-colorable (every vertex receives the same color).
+Given a graph $G=(V,E)$, decide whether $G$ is 1-colorable (every vertex receives the 
+same color).
 
 \bigskip
 
@@ -301,50 +342,60 @@ Given an interval graph $G$ and integer $k$, decide whether $G$ is $k$-colorable
 
 % 38  -- NPC
 \item \textbf{Job Scheduling — Makespan.}
-Given $n$ jobs with processing times $p_1,\ldots,p_n$, $m$ identical parallel machines, and target makespan $T$, decide whether all jobs can be assigned to machines so that every machine finishes by time $T$.
+Given $n$ jobs with processing times $p_1,\ldots,p_n$, $m$ identical parallel machines, 
+and target makespan $T$, decide whether all jobs can be assigned to machines so that 
+every machine finishes by time $T$.
 
 \bigskip
 
 % 39  -- P
 \item \textbf{Single-Machine Scheduling.}
-Given $n$ jobs with processing times $p_1,\ldots,p_n$, one machine, and deadline $T$, decide whether all $n$ jobs complete by time $T$.
+Given $n$ jobs with processing times $p_1,\ldots,p_n$, one machine, and deadline 
+$T$, decide whether all $n$ jobs complete by time $T$.
 
 \bigskip
 
 % 40  -- P
 \item \textbf{Unit-Time Job Scheduling.}
-Given $n$ unit-length jobs ($p_i=1$ for all $i$), $m$ identical machines, and deadline $T$, decide whether all jobs finish by time $T$.
+Given $n$ unit-length jobs ($p_i=1$ for all $i$), $m$ identical machines, and 
+deadline $T$, decide whether all jobs finish by time $T$.
 
 \bigskip
 
 % 41  -- NPC
 \item \textbf{Dominating Set.}
-Given an undirected graph $G=(V,E)$ and integer $k$, decide whether $G$ has a dominating set of size $\leq k$ (a set $D\subseteq V$ such that every vertex not in $D$ is adjacent to some vertex in $D$).
+Given an undirected graph $G=(V,E)$ and integer $k$, decide whether $G$ has 
+a dominating set of size $\leq k$ (a set $D\subseteq V$ such that every vertex 
+not in $D$ is adjacent to some vertex in $D$).
 
 \bigskip
 
 % 42  -- P
 \item \textbf{Minimum Dominating Set in Trees.}
-Given a tree $T=(V,E)$ and integer $k$, decide whether $T$ has a dominating set of size $\leq k$.
+Given a tree $T=(V,E)$ and integer $k$, decide whether $T$ has a dominating 
+set of size $\leq k$.
 
 \bigskip
 
 % 43  -- P
 \item \textbf{Minimum Dominating Set in Interval Graphs.}
-Given an interval graph $G$ (intervals on a real line) and integer $k$, decide whether $G$ has a dominating set of size $\leq k$.
+Given an interval graph $G$ (intervals on a real line) and integer $k$, 
+decide whether $G$ has a dominating set of size $\leq k$.
 (\textit{Hint:} A greedy left-to-right sweep over the intervals works.)
 
 \bigskip
 
 % 44  -- NPC
 \item \textbf{Longest Path.}
-Given an undirected graph $G=(V,E)$ (possibly weighted) and integer $k$, decide whether $G$ contains a simple path of length $\geq k$.
+Given an undirected graph $G=(V,E)$ (possibly weighted) and integer $k$, decide 
+whether $G$ contains a simple path of length $\geq k$.
 
 \bigskip
 
 % 45  -- P
 \item \textbf{Longest Path in DAGs.}
-Given a directed acyclic graph (DAG) $G=(V,E)$ with edge weights and integer $k$, decide whether $G$ contains a directed simple path of total weight $\geq k$.
+Given a directed acyclic graph (DAG) $G=(V,E)$ with edge weights and integer 
+$k$, decide whether $G$ contains a directed simple path of total weight $\geq k$.
 
 \bigskip
 
