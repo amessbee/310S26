@@ -53,21 +53,21 @@ Consider the flow network below. Each edge is labeled with its capacity.
 
 \begin{center}
 \begin{tikzpicture}[
-    every node/.style={circle, draw, minimum size=0.7cm, font=\small},
+    vertex/.style={circle, draw, minimum size=0.7cm, font=\small},
     >=stealth,
     xscale=1.4, yscale=1.1
 ]
-  \node (s) at (0,0)   {$s$};
-  \node (a) at (2,1.5) {$a$};
-  \node (b) at (2,-1.5){$b$};
-  \node (c) at (4,0)   {$c$};
-  \node (t) at (6,0)   {$t$};
+  \node[vertex] (s) at (0,0)   {$s$};
+  \node[vertex] (a) at (2,1.5) {$a$};
+  \node[vertex] (b) at (2,-1.5){$b$};
+  \node[vertex] (c) at (4,0)   {$c$};
+  \node[vertex] (t) at (6,0)   {$t$};
 
   \draw[->] (s) -- node[above left]  {6} (a);
   \draw[->] (s) -- node[below left]  {4} (b);
   \draw[->] (a) -- node[right]       {2} (b);
   \draw[->] (a) -- node[above right] {3} (c);
-  \draw[->] (b) -- node[below right] {5} (c);
+  \draw[->] (b) -- node[below right] {2} (c);
   \draw[->] (c) -- node[above]       {4} (t);
 \end{tikzpicture}
 \end{center}
@@ -76,7 +76,7 @@ Consider the flow network below. Each edge is labeled with its capacity.
 
   \item Perform one Ford-Fulkerson augmentation using the path:
   \[
-    s \to a \to c \to t
+    s \to a \to b \to c \to t
   \]
   Find:
   \begin{itemize}
@@ -89,11 +89,11 @@ Consider the flow network below. Each edge is labeled with its capacity.
   \ifanswers
   \textbf{Sample answer:}
   \begin{itemize}
-    \item Bottleneck: $\min(\mathrm{cap}(s,a),\,\mathrm{cap}(a,c),\,\mathrm{cap}(c,t)) = \min(6,3,4) = 3$.
+    \item Bottleneck: $\min(\mathrm{cap}(s,a),\,\mathrm{cap}(a,b),\,\mathrm{cap}(b,c),\,\mathrm{cap}(c,t)) = \min(6,2,2,4) = 2$.
     \item Updated flows (flow\,/\,capacity):
     \begin{itemize}
-      \item $s \to a$: $3/6$\quad $s \to b$: $0/4$\quad $a \to b$: $0/2$
-      \item $a \to c$: $3/3$ (saturated)\quad $b \to c$: $0/5$\quad $c \to t$: $3/4$
+      \item $s \to a$: $2/6$\quad $s \to b$: $0/4$\quad $a \to c$: $0/3$
+      \item $a \to b$: $2/2$ (saturated)\quad $b \to c$: $2/2$ (saturated)\quad $c \to t$: $2/4$
     \end{itemize}
   \end{itemize}
   \fi
@@ -109,34 +109,34 @@ Consider the flow network below. Each edge is labeled with its capacity.
   \noindent
   Residual capacities (forward / backward where non-zero):
   \begin{itemize}
-    \item $s \xrightarrow{3} a$, $a \xrightarrow{3} s$
+    \item $s \xrightarrow{4} a$, $a \xrightarrow{2} s$
     \item $s \xrightarrow{4} b$
-    \item $a \xrightarrow{2} b$
-    \item $c \xrightarrow{3} a$ \quad (backward only; forward is saturated)
-    \item $b \xrightarrow{5} c$
-    \item $c \xrightarrow{1} t$, $t \xrightarrow{3} c$
+    \item $a \xrightarrow{3} c$
+    \item $b \xrightarrow{2} a$ \quad (backward only; $a \to b$ is saturated)
+    \item $c \xrightarrow{2} b$ \quad (backward only; $b \to c$ is saturated)
+    \item $c \xrightarrow{2} t$, $t \xrightarrow{2} c$
   \end{itemize}
 
   \begin{center}
   \begin{tikzpicture}[
-      every node/.style={circle, draw, minimum size=0.7cm, font=\small},
+      vertex/.style={circle, draw, minimum size=0.7cm, font=\small},
       >=stealth,
       xscale=1.4, yscale=1.1
   ]
-    \node (s) at (0,0)   {$s$};
-    \node (a) at (2,1.5) {$a$};
-    \node (b) at (2,-1.5){$b$};
-    \node (c) at (4,0)   {$c$};
-    \node (t) at (6,0)   {$t$};
+    \node[vertex] (s) at (0,0)   {$s$};
+    \node[vertex] (a) at (2,1.5) {$a$};
+    \node[vertex] (b) at (2,-1.5){$b$};
+    \node[vertex] (c) at (4,0)   {$c$};
+    \node[vertex] (t) at (6,0)   {$t$};
 
-    \draw[->] (s) to[bend left=15]  node[above left]  {3} (a);
-    \draw[->] (a) to[bend left=15]  node[below right] {3} (s);
+    \draw[->] (s) to[bend left=15]  node[above left]  {4} (a);
+    \draw[->] (a) to[bend left=15]  node[below right] {2} (s);
     \draw[->] (s) --                node[below left]  {4} (b);
-    \draw[->] (a) --                node[right]       {2} (b);
-    \draw[->] (c) --                node[above left]  {3} (a);
-    \draw[->] (b) --                node[below right] {5} (c);
-    \draw[->] (c) to[bend left=15]  node[above]       {1} (t);
-    \draw[->] (t) to[bend left=15]  node[below]       {3} (c);
+    \draw[->] (a) --                node[above right] {3} (c);
+    \draw[->] (b) --                node[left]        {2} (a);
+    \draw[->] (c) --                node[below left]  {2} (b);
+    \draw[->] (c) to[bend left=15]  node[above]       {2} (t);
+    \draw[->] (t) to[bend left=15]  node[below]       {2} (c);
   \end{tikzpicture}
   \end{center}
   \fi
@@ -153,9 +153,9 @@ Consider the flow network below. Each edge is labeled with its capacity.
   \ifanswers
   \textbf{Sample answer:}
   \begin{itemize}
-    \item Path: $s \to a \to b \to c \to t$ (uses forward edge $a \to b$).
-    \item Residual capacities along this path: $3,\;2,\;5,\;1$.
-    \item Bottleneck: $\min(3,2,5,1) = 1$.
+    \item Path: $s \to b \to a \to c \to t$ (uses backward residual edge $b \to a$, i.e.\ undoing flow on $a \to b$).
+    \item Residual capacities along this path: $\mathrm{cap}_R(s,b)=4,\;\mathrm{cap}_R(b,a)=2,\;\mathrm{cap}_R(a,c)=3,\;\mathrm{cap}_R(c,t)=2$.
+    \item Bottleneck: $\min(4,2,3,2) = 2$.
   \end{itemize}
   \fi
 
@@ -166,8 +166,8 @@ Consider the flow network below. Each edge is labeled with its capacity.
   \ifanswers
   \textbf{Sample answer:}
   \begin{itemize}
-    \item Augmentation 1 sends 3 units; Augmentation 2 sends 1 unit.
-    \item Total flow $= 3 + 1 = 4$.
+    \item Augmentation 1 sends 2 units; Augmentation 2 sends 2 units.
+    \item Total flow $= 2 + 2 = 4$.
     \item This equals the capacity of the minimum cut $\{c \to t\}$ (capacity 4), confirming it is the maximum flow. \qed
   \end{itemize}
   \fi
